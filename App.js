@@ -8,6 +8,7 @@ import Home from './src/screens/Home.js'; //HOME.JS HACE LA CONEXIÓN DEL MENÚ 
 import CrearClase from './src/screens/CrearClase.js'; 
 import Clase from './src/screens/Listado.js'; 
 import Listado from './src/screens/Listado.js'; 
+import ScannQR from './src/screens/ScannQR.js'; 
 import { ClasesProvider } from "./src/screens/ClasesContext";
 
 const Stack = createStackNavigator();
@@ -23,6 +24,7 @@ const App = () => {
           <Stack.Screen name="CrearClase" component={CrearClase} options={{ headerShown: false}}/>
           <Stack.Screen name="Listado" component={Listado} options={{ headerShown: false}}/>
           <Stack.Screen name="Clase" component={Clase} options={{ headerShown: false}}/> 
+          <Stack.Screen name="ScannQR" component={ScannQR} options={{ headerShown: false}}/> 
         </Stack.Navigator>
       </ClasesProvider>
     </NavigationContainer>

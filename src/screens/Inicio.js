@@ -26,6 +26,10 @@ const Inicio = () => {
     }
   };
 
+  const handlePressCamara = () => {
+    navigation.push("ScannQR");
+  };
+
   const handleClase = (item) => {
     navigation.push('Listado');
   };
@@ -70,11 +74,14 @@ const Inicio = () => {
           </TouchableOpacity>
         )}
       />
+      <TouchableOpacity onPress={handlePressLogOut} style={styles.icono_cerrar_sesion_container}>
+        <Image source={require("../../img/log_out.png")} style={styles.icono_cerrar_sesion} />
+      </TouchableOpacity>
       <TouchableOpacity onPress={handlePress} style={styles.icono_agregar_clase_container}>
         <Image source={require("../../img/agregar.png")} style={styles.icono_agregar_clase} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={handlePressLogOut} style={styles.icono_cerrar_sesion_container}>
-        <Image source={require("../../img/log_out.png")} style={styles.icono_cerrar_sesion} />
+      <TouchableOpacity onPress={handlePressCamara} style={styles.icono_camera_container}>
+        <Image source={require("../../img/camara.png")} style={styles.icono_camera} />
       </TouchableOpacity>
 
       <Modal
@@ -106,11 +113,13 @@ const styles = StyleSheet.create({
   contenido: {
     flex: 1,
     backgroundColor: '#D4BDFA',
+    position: 'relative',
   },
   icono_agregar_clase_container: {
     position: "absolute",
     bottom: height * 0.05,
     right: width * 0.05,
+    zIndex: 1,
   },
   icono_agregar_clase: {
     width: width * 0.2,
@@ -138,6 +147,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: height * 0.05,
     left: width * 0.05,
+    zIndex: 1,
   },
   iconoClase: {
     position: 'absolute',
@@ -157,6 +167,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
+  },
+  icono_camera: {
+    width: width * 0.2,
+    height: width * 0.2,
+  },
+  icono_camera_container: {
+    position: "absolute",
+    bottom: height * 0.05,
+    left: width * 0.5 - (width * 0.1),
+    zIndex: 2,
   },
 });
 
