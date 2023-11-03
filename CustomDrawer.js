@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet, ImageBackground, Image, PixelRatio } from 'react-native'
+/*import { View, Text, StyleSheet, ImageBackground, Image, PixelRatio } from 'react-native'
 import React from 'react'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-/*
+
     Se requiere obtener de la base de datos la foto de perfil del usuario
     Su usuario y apellidos para mostrarse en la navegacion
     Y utilizar su id en las diferentes vistas
-*/
+
 const CustomDrawer = (props) => {
   const { navigation } = props;
   //const DrawerPhoto = "../assets/drawerWallpaper.png";
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
         left: "15%",
         top: "125%",
     },
-});
+});*/

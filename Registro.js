@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -7,8 +7,10 @@ import {
   Button,
   Alert,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
+import { Picker } from '@react-native-picker/picker';
 
 const Registro = () => {
   const navigation = useNavigation();
@@ -18,6 +20,8 @@ const Registro = () => {
   const [Correo, setCorreo] = useState('');
   const [Codigo, setCodigo] = useState('');
   const [password, setPassword] = useState('');
+  const [Tipo_Usuario, setTipo_Usuario] = useState('');
+  const [registroCompleto, setRegistroCompleto] = useState(false);
 
   const handleRegistro = () => {
     // Guarda los datos del registro en una variable local o en un servicio de autenticación
@@ -27,6 +31,7 @@ const Registro = () => {
       Correo,
       Codigo,
       password,
+      Tipo_Usuario,
     };
 
     Alert.alert('DATOS REGISTRADOS!!');
@@ -38,6 +43,22 @@ const Registro = () => {
   const handleLogin = () => {
     navigation.push('Login');
   };
+
+  const handleTipoUsuarioChange = (value) => {
+    setTipo_Usuario(value);
+  };
+
+  const verificarRegistroCompleto = () => {
+    if (Nombre && Apellidos && Correo && Codigo && password && Tipo_Usuario) {
+      setRegistroCompleto(true);
+    } else {
+      setRegistroCompleto(false);
+    }
+  };
+
+  useEffect(() => {
+    verificarRegistroCompleto();
+  }, [Nombre, Apellidos, Correo, Codigo, password, Tipo_Usuario]);
 
   return (
     <View style={styles.container}>
@@ -59,12 +80,14 @@ const Registro = () => {
         placeholder="Código"
         value={Codigo}
         onChangeText={setCodigo}
+        keyboardType="numeric"
       />
       <TextInput
         style={styles.formulario}
         placeholder="tuCorreo@ejemplo.com"
         value={Correo}
         onChangeText={setCorreo}
+        keyboardType="email-address"
       />
       <TextInput
         style={styles.formulario}
@@ -73,7 +96,19 @@ const Registro = () => {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Registrarse" onPress={handleRegistro} color='#3D2788' />
+      <View style={styles.formulario}>
+        <Picker
+          selectedValue={Tipo_Usuario}
+          onValueChange={handleTipoUsuarioChange}
+          mode="dropdown"
+          style={pickerSelectStyles.estilo}
+        >
+          <Picker.Item label="Seleccionar tipo de usuario" value={null} />
+          <Picker.Item label="Profesor" value={'Profesor'} onChangeText={setTipo_Usuario} />
+          <Picker.Item label="Alumno" value={'Alumno'} onChangeText={setTipo_Usuario} />
+        </Picker>
+      </View>
+      <Button title="Registrar" onPress={handleRegistro} color='#3D2788' disabled={!registroCompleto} />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text>{'\n'}</Text>
         <Text style={styles.boton_registro}>¿Tienes cuenta? Inicia sesión aquí.</Text>
@@ -81,6 +116,8 @@ const Registro = () => {
     </View>
   );
 };
+
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -110,6 +147,14 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: '#3D2788',
     fontWeight: 'bold'
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  estilo: {
+    marginLeft: -15,
+    marginVertical: -9,
+    fontSize: 12,
   },
 });
 

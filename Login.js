@@ -16,7 +16,7 @@ const Login = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const [Correo, setCorreo] = useState('');
+  const [Codigo, setCodigo] = useState('');
   const [password, setPassword] = useState('');
 
   const [registroData, setRegistroData] = useState(null);
@@ -29,24 +29,33 @@ const Login = () => {
     }
   }, [route.params]);
 
-  //const handleLogin = () => {
-    //if (registroData) {
-      //if (Correo === registroData.Correo && password === registroData.password) {
-        //console.log('Credenciales correctas');
-        //navigation.push('Home');
-      //} else {
-        //Alert.alert('Correo y/o contraseña incorrecta');
-      //}
-    //} else {
-      //Alert.alert('No se encontraron datos de registro. Regístrate primero.');
-    //}
-  //};
+  /*const handleLogin = () => {
+    if (registroData) {
+      if (Codigo === registroData.Codigo && password === registroData.password) {
+        console.log('Credenciales correctas');
+        if (registroData.Tipo_Usuario === 'Profesor') {
+          navigation.push('HomeProfesor'); // Pantalla para el profesor
+        } else if (registroData.Tipo_Usuario === 'Alumno') {
+          navigation.push('HomeAlumno'); // Pantalla para el alumno
+        }
+      } else {
+        Alert.alert('Correo y/o contraseña incorrecta!!');
+      }
+    } else {
+      Alert.alert('No se encontraron datos de registro. Regístrate primero.');
+    }
+  };*/
 
   const handleLogin = () => {
-    if (Correo === 'admin' && password === '12345') {
+    if (Codigo === '1' && password === '1') {
       console.log('Credenciales correctas');
-      navigation.push('Home'); // Navegar a la pantalla HomeScreen
-    } else {
+      navigation.push('HomeProfesor'); // Navegar a la pantalla HomeScreen
+    }
+    else if (Codigo === '2' && password === '2') {
+      console.log('Credenciales correctas');
+      navigation.push('HomeAlumno'); // Navegar a la pantalla HomeScreen
+    }
+    else {
       Alert.alert('Correo y/o contraseña incorrecta!!');
     }
   };
@@ -65,9 +74,9 @@ const Login = () => {
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.formulario}
-        placeholder="tuCorreo@ejemplo.com"
-        value={Correo}
-        onChangeText={setCorreo}
+        placeholder="228564789"
+        value={Codigo}
+        onChangeText={setCodigo}
       />
       <TextInput
         style={styles.formulario}
@@ -100,9 +109,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   image: {
-    height: '30%',
+    height: '40%',
     aspectRatio: 1,
-    marginBottom: 20,
+    marginBottom: -20,
   },
   formulario: {
     width: '80%',

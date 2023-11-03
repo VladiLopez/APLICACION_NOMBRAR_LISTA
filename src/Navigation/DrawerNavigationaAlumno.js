@@ -2,9 +2,8 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Platform } from 'react-native';
-import Inicio from '../screens/Inicio.js';
+import Inicio from '../screens/InicioAlumno.js';
 import AcercaDe from '../screens/AcercaDeNosotros.js';
-import CerrarSesión from '../../Login.js';
 
 const Drawer = createDrawerNavigator();
 

@@ -5,7 +5,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 export default function ScannQR() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [text, setText] = useState('Not yet scanned')
+  const [text, setText] = useState('')
 
   const askForCameraPermission = () => {
     (async () => {
@@ -23,21 +23,21 @@ export default function ScannQR() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setText(data)
-    console.log('Type: ' + type + '\nData: ' + data)
+    console.log('Tipo: ' + type + '\nDato: ' + data)
   };
 
   // Check permissions and return the screens
   if (hasPermission === null) {
     return (
       <View style={styles.container}>
-        <Text>Requesting for camera permission</Text>
+        <Text>Se requiere el permiso de camara</Text>
       </View>)
   }
   if (hasPermission === false) {
     return (
       <View style={styles.container}>
-        <Text style={{ margin: 10 }}>No access to camera</Text>
-        <Button title={'Allow Camera'} onPress={() => askForCameraPermission()} />
+        <Text style={{ margin: 10 }}>No se tiene acceso a la camara</Text>
+        <Button title={'Permiso de camara'} onPress={() => askForCameraPermission()} />
       </View>)
   }
 
@@ -51,7 +51,7 @@ export default function ScannQR() {
       </View>
       <Text style={styles.maintext}>{text}</Text>
 
-      {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />}
+      {scanned && <Button title={'Escanear nuevamente?'} onPress={() => setScanned(false)} color='#3D2788' />}
     </View>
   );
 }
@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
     width: 300,
     overflow: 'hidden',
     borderRadius: 30,
-    backgroundColor: 'tomato'
+    backgroundColor: '#D3D7DB'
   }
 });

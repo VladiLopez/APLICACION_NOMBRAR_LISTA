@@ -58,7 +58,7 @@ const Inicio = () => {
         ListHeaderComponent={<HeaderSpacer />}
 
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => handleClase(item)} style={[styles.estilo_clase, { backgroundColor: colors[index % colors.length] }]}>
+          <TouchableOpacity onPress={() => handlePressCamara(item)} style={[styles.estilo_clase, { backgroundColor: colors[index % colors.length] }]}>
             <TouchableOpacity onPress={() => handleEliminarClase(item)} style={[styles.iconoClase]}>
               <Image
                 source={require('../../img/tres_puntos.png')}
@@ -79,9 +79,6 @@ const Inicio = () => {
       </TouchableOpacity>
       <TouchableOpacity onPress={handlePress} style={styles.icono_agregar_clase_container}>
         <Image source={require("../../img/agregar.png")} style={styles.icono_agregar_clase} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handlePressCamara} style={styles.icono_camera_container}>
-        <Image source={require("../../img/camara.png")} style={styles.icono_camera} />
       </TouchableOpacity>
 
       <Modal
