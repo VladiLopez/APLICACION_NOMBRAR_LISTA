@@ -1,64 +1,48 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Platform } from 'react-native';
-import Inicio from '../screens/InicioAlumno.js';
-import AcercaDe from '../screens/AcercaDeNosotros.js';
+import CustomDrawer from '../Navigation/CustomDrawer.js';
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import ProfileScreen from '../screens/InicioAlumno.js';
+import MessagesScreen from '../screens/AcercaDeNosotros.js';
 
 const Drawer = createDrawerNavigator();
 
-// Definir el objeto Colors antes de utilizarlo
-const Colors = {
-  bg: '#D4BDFA',
-  active: '#fff',
-  inactive: 'black',
-  transparent: 'transparent',
-};
-
-// Configuración común para las pantallas en el cajón de navegación
-const commonScreenOptions = {
-  drawerActiveBackgroundColor: Colors.transparent,
-  drawerInactiveBackgroundColor: Colors.transparent,
-  drawerActiveTintColor: Colors.active,
-  drawerInactiveTintColor: Colors.inactive,
-  drawerHideStatusBarOnOpen: Platform.OS === 'ios' ? true : false,
-  overlayColor: Colors.transparent,
-  drawerStyle: {
-    backgroundColor: Colors.bg,
-    width: '70%',
-  },
-};
-
-export function DrawerNavigation() {
-
-  const drawerIcon = ({ focused, size }, name) => {
-    return (
-      <Icon
-        name={name}
-        size={size}
-        color={focused ? Colors.active : Colors.inactive}
-      />
-    );
-  };
-  
+const AuthStack = () => {
   return (
     <Drawer.Navigator
-      screenOptions={commonScreenOptions}
-    >
-      <Drawer.Screen name="Inicio" component={Inicio} 
+      drawerContent={props => <CustomDrawer {...props} />}
+      screenOptions={{
+        headerShown: true,
+        drawerActiveBackgroundColor: '#aa18ea',
+        drawerActiveTintColor: '#fff',
+        drawerInactiveTintColor: '#333',
+        drawerLabelStyle: {
+          marginLeft: -25,
+          fontSize: 15,
+        },
+      }}>
+      <Drawer.Screen
+        name="Inicio"
+        component={ProfileScreen}
         options={{
-          drawerIcon: options => drawerIcon(options, 'home-outline'),
-          gestureEnabled: false, // Deshabilitar el gesto para esta pantalla
+          drawerIcon: ({color}) => (
+            <Ionicons name="home-outline" size={22} color={color} />
+          ),
         }}
       />
-      <Drawer.Screen name="Acerca de nosotros" component={AcercaDe} 
+      <Drawer.Screen
+        name="Acerca de nosotros"
+        component={MessagesScreen}
         options={{
-          drawerIcon: options => drawerIcon(options, 'heart-outline'),
-          gestureEnabled: false, // Deshabilitar el gesto para esta pantalla
+          drawerIcon: ({color}) => (
+            <Ionicons name="heart-outline" size={22} color={color} />
+          ),
         }}
       />
     </Drawer.Navigator>
   );
-}
+};
 
-export default DrawerNavigation;
+export default AuthStack;

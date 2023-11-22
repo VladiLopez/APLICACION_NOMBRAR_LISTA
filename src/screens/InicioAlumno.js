@@ -17,15 +17,6 @@ const Inicio = () => {
     navigation.push("AgregarClase");
   };
 
-  const handlePressLogOut = async () => {
-    try {
-      await AsyncStorage.removeItem('token');
-      navigation.navigate("Login");
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-    }
-  };
-
   const handleClase = (item) => {
     navigation.push('Listado');
   };
@@ -70,9 +61,6 @@ const Inicio = () => {
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity onPress={handlePressLogOut} style={styles.icono_cerrar_sesion_container}>
-        <Image source={require("../../img/log_out.png")} style={styles.icono_cerrar_sesion} />
-      </TouchableOpacity>
       <TouchableOpacity onPress={handlePressAgregarClase} style={styles.icono_agregar_clase_container}>
         <Image source={require("../../img/agregar.png")} style={styles.icono_agregar_clase} />
       </TouchableOpacity>

@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import { useClases } from "./ClasesContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ModificarClase from "./ModificarClase";
 
 const Inicio = () => {
   const route = useRoute();
@@ -17,31 +18,28 @@ const Inicio = () => {
     navigation.push("CrearClase");
   };
 
-  const handlePressLogOut = async () => {
-    try {
-      await AsyncStorage.removeItem('token');
-      navigation.navigate("Login");
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-    }
-  };
-
   const handlePressCamara = () => {
     navigation.push("ScannQR");
   };
 
-  const handleClase = (item) => {
-    navigation.push('Listado');
+  const handleOpcionesClase = (item) => {
+    setModalVisible(true);
+    setSelectedClass(item);
   };
 
-  const handleEliminarClase = (item) => {
-    setSelectedClass(item);
+  const handleEliminarClase = () => {
+    navigation.push()
     setModalVisible(true);
   };
 
   const handleModificarClase = () => {
-    // Lógica para modificar la clase seleccionada (selectedClass)
-    setModalVisible(true);
+    if (selectedClass) {
+      // Navegar a la pantalla 'ModificarClase' y pasar el ID de la clase seleccionada como parámetro
+      navigation.navigate('ModificarClase', { claseId: selectedClass.id });
+      setModalVisible(false);
+    } else {
+      console.log("No se ha seleccionado ninguna clase para modificar.");
+    }
   };
 
   const HeaderSpacer = () => {
@@ -59,7 +57,7 @@ const Inicio = () => {
 
         renderItem={({ item, index }) => (
           <TouchableOpacity onPress={() => handlePressCamara(item)} style={[styles.estilo_clase, { backgroundColor: colors[index % colors.length] }]}>
-            <TouchableOpacity onPress={() => handleEliminarClase(item)} style={[styles.iconoClase]}>
+            <TouchableOpacity onPress={() => handleOpcionesClase(item)} style={[styles.iconoClase]}>
               <Image
                 source={require('../../img/tres_puntos.png')}
                 style={styles.iconoClase}
@@ -74,9 +72,6 @@ const Inicio = () => {
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity onPress={handlePressLogOut} style={styles.icono_cerrar_sesion_container}>
-        <Image source={require("../../img/log_out.png")} style={styles.icono_cerrar_sesion} />
-      </TouchableOpacity>
       <TouchableOpacity onPress={handlePress} style={styles.icono_agregar_clase_container}>
         <Image source={require("../../img/agregar.png")} style={styles.icono_agregar_clase} />
       </TouchableOpacity>
