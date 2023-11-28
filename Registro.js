@@ -62,7 +62,7 @@ const Registro = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
+      <Text style={styles.title}>Registro</Text>
       <TextInput
         style={styles.formulario}
         placeholder="Nombre"

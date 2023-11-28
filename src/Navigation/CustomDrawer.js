@@ -16,20 +16,29 @@ import * as ImagePicker from 'expo-image-picker';
 
 const CustomDrawer = props => {
  const [isAuthenticated, setIsAuthenticated] = useState(true);
- const [userImage, setUserImage] = useState(require('../../img/usuario.png'));
+ const [selectedImage, setSelectedImage] = useState(null);
+
+ let openImagePickerAsync = async () => {
+  let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
+  
+  if (permissionResult.granted === false){
+    alert('PERMISO NECESARIO');
+    return;
+  }
+
+  const pickerResult = await ImagePicker.launchImageLibraryAsync()
+  
+  if(pickerResult.canceled === true){
+    return;
+  }
+
+  setSelectedImage({ localUri: pickerResult.assets[0].uri });
+ }
 
  const handleSignOut = () => {
     // Aquí puedes borrar los datos de inicio de sesión del usuario
     setIsAuthenticated(false);
  };
-
- const changeUserImage = () => {
-  // Lógica para cambiar la imagen de usuario desde la galería
-  // Puedes usar una librería como react-native-image-picker
-  // para seleccionar imágenes desde la galería.
-  // Aquí solo actualizo la imagen de ejemplo.
-  setUserImage(require('../../img/usuario.png'));
-};
 
  useEffect(() => {
     if (!isAuthenticated) {
@@ -46,9 +55,9 @@ const CustomDrawer = props => {
         <ImageBackground
           source={require('../../img/menu-bg.jpeg')}
           style={{padding: 20}}>
-           <TouchableOpacity onPress={changeUserImage}>
+           <TouchableOpacity onPress={openImagePickerAsync}>  
             <Image
-              source={userImage}
+              source={selectedImage !== null ? { uri: selectedImage.localUri } : require('../../img/usuario.png')}
               style={{ height: 80, width: 80, borderRadius: 40, marginBottom: 10 }}
             />
           </TouchableOpacity>
@@ -59,6 +68,13 @@ const CustomDrawer = props => {
               marginBottom: 5,
             }}>
             Jared Mandujano López
+          </Text>
+          <Text
+            style={{
+              color: '#fff',
+              fontSize: 18,
+              marginBottom: 5,
+            }}>
             218556767
           </Text>
         </ImageBackground>

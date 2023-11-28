@@ -29,23 +29,6 @@ const Login = () => {
     }
   }, [route.params]);
 
-  /*const handleLogin = () => {
-    if (registroData) {
-      if (Codigo === registroData.Codigo && password === registroData.password) {
-        console.log('Credenciales correctas');
-        if (registroData.Tipo_Usuario === 'Profesor') {
-          navigation.push('HomeProfesor'); // Pantalla para el profesor
-        } else if (registroData.Tipo_Usuario === 'Alumno') {
-          navigation.push('HomeAlumno'); // Pantalla para el alumno
-        }
-      } else {
-        Alert.alert('Correo y/o contraseña incorrecta!!');
-      }
-    } else {
-      Alert.alert('No se encontraron datos de registro. Regístrate primero.');
-    }
-  };*/
-
   const handleLogin = () => {
     if (Codigo === '1' && password === '1') {
       console.log('Credenciales correctas');
@@ -71,7 +54,7 @@ const Login = () => {
         source={logo}
         style={styles.image}
       />
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Bienvenido</Text>
       <TextInput
         style={styles.formulario}
         placeholder="228564789"

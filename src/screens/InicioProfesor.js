@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, FlatList, 
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import { useClases } from "./ClasesContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModificarClase from "./ModificarClase";
 
 const Inicio = () => {

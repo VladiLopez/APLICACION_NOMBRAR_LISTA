@@ -4,8 +4,9 @@ import CustomDrawer from '../Navigation/CustomDrawer.js';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import ProfileScreen from '../screens/InicioAlumno.js';
+import HomeScreen from '../screens/InicioAlumno.js';
 import MessagesScreen from '../screens/AcercaDeNosotros.js';
+import ProfileScreen from '../screens/PerfilAlumno.js';
 
 const Drawer = createDrawerNavigator();
 
@@ -25,10 +26,19 @@ const AuthStack = () => {
       }}>
       <Drawer.Screen
         name="Inicio"
-        component={ProfileScreen}
+        component={HomeScreen}
         options={{
           drawerIcon: ({color}) => (
             <Ionicons name="home-outline" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Perfil"
+        component={ProfileScreen}
+        options={{
+          drawerIcon: ({color}) => (
+            <Ionicons name="person-outline" size={22} color={color} />
           ),
         }}
       />
