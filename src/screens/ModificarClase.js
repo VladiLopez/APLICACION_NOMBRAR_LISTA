@@ -61,7 +61,7 @@ const ModificarClase = ({ route, navigation }) => {
         onChangeText={setNRC}
         placeholder="NRC"
       />
-      <Button title="Guarda" onPress={handleModificarClase} color='#3D2788'/>
+      <Button title="Guardar" onPress={handleModificarClase} color='#3D2788'/>
     </View>
   );
 };

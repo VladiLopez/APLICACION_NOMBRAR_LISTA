@@ -1,8 +1,15 @@
 import React from "react";
-import { View, StyleSheet, Image, Text, Button } from "react-native";
+import { View, StyleSheet, Image, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const PerfilProfesor = () => {
+  const navigation = useNavigation();
+
+  const handleEditarPerfil = () => {
+    navigation.push('EditarPerfil');
+  };
+
   return (
     <View style={styles.contenido}>
       <View style={styles.header}>
@@ -22,7 +29,7 @@ const PerfilProfesor = () => {
         </Text>
       </View>
       <View style={styles.containerButton}>
-        <TouchableOpacity style={styles.Button}>
+        <TouchableOpacity style={styles.Button} onPress={handleEditarPerfil}>
           <Text style={styles.TextButton}>Editar perfil</Text>
         </TouchableOpacity>
       </View>

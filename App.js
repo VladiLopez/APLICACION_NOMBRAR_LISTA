@@ -10,7 +10,8 @@ import CrearClase from './src/screens/CrearClase.js';
 import AgregarClase from './src/screens/AgregarClase.js'; 
 import Listado from './src/screens/Listado.js'; 
 import ScannQR from './src/screens/ScannQR.js'; 
-import ModificarClase from './src/screens/ModificarClase.js'; 
+import ModificarClase from './src/screens/ModificarClase.js';
+import EditarPerfil from './src/screens/EditarPerfil.js'; 
 import { ClasesProvider } from "./src/screens/ClasesContext";
 
 const Stack = createStackNavigator();
@@ -28,7 +29,8 @@ const App = () => {
           <Stack.Screen name="Listado" component={Listado} options={{ headerShown: false}}/>
           <Stack.Screen name="AgregarClase" component={AgregarClase} options={{ headerShown: false}}/> 
           <Stack.Screen name="ScannQR" component={ScannQR} options={{ headerShown: false}}/> 
-          <Stack.Screen name="ModificarClase" component={ModificarClase} options={{ headerShown: false}}/> 
+          <Stack.Screen name="ModificarClase" component={ModificarClase} options={{ headerShown: false}}/>
+          <Stack.Screen name="EditarPerfil" component={EditarPerfil} options={{ headerShown: false}}/> 
         </Stack.Navigator>
       </ClasesProvider>
     </NavigationContainer>
