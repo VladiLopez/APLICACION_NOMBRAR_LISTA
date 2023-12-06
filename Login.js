@@ -8,6 +8,7 @@ import {
   Button,
   Alert,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import logo from './assets/LOGO.png'
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -43,37 +44,41 @@ const Login = () => {
     }
   };
 
-
   const handleRegistro = () => {
     navigation.push('Registro');
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={logo}
-        style={styles.image}
-      />
-      <Text style={styles.title}>Bienvenido</Text>
-      <TextInput
-        style={styles.formulario}
-        placeholder="228564789"
-        value={Codigo}
-        onChangeText={setCodigo}
-      />
-      <TextInput
-        style={styles.formulario}
-        placeholder="Contraseña"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <Button title="Iniciar Sesión" onPress={handleLogin} color='#3D2788' />
-      <TouchableOpacity style={styles.button} onPress={handleRegistro}>
-        <Text>{'\n'}</Text>
-        <Text style={styles.boton_registro}>¿No tienes cuenta? Regístrate aquí.</Text>
-      </TouchableOpacity>
-    </View>
+    <ImageBackground
+      source={require('./img/background.jpg')}
+      style={styles.backgroundImage}
+    >
+      <View style={styles.container}>
+        <Image
+          source={logo}
+          style={styles.image}
+        />
+        <Text style={styles.title}>Bienvenido</Text>
+        <TextInput
+          style={styles.formulario}
+          placeholder="228564789"
+          value={Codigo}
+          onChangeText={setCodigo}
+        />
+        <TextInput
+          style={styles.formulario}
+          placeholder="Contraseña"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <Button title="Iniciar Sesión" onPress={handleLogin} color='#3D2788' />
+        <TouchableOpacity style={styles.button} onPress={handleRegistro}>
+          <Text>{'\n'}</Text>
+          <Text style={styles.boton_registro}>¿No tienes cuenta? Regístrate aquí.</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -82,7 +87,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D4BDFA',
     padding: 20,
   },
   title: {
@@ -110,6 +114,11 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: '#3D2788',
     fontWeight: 'bold'
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 });
 

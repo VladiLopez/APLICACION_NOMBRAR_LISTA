@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../screens/InicioProfesor.js';
 import MessagesScreen from '../screens/AcercaDeNosotros.js';
 import ProfileScreen from '../screens/PerfilProfesor.js';
+import ListadoAsistencia from '../screens/ListadoAsistencia.js';
 
 const Drawer = createDrawerNavigator();
 
@@ -39,6 +40,15 @@ const AuthStack = () => {
         options={{
           drawerIcon: ({color}) => (
             <Ionicons name="person-outline" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Listas de asistencia"
+        component={ListadoAsistencia}
+        options={{
+          drawerIcon: ({color}) => (
+            <Ionicons name="document-outline" size={22} color={color} />
           ),
         }}
       />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, FlatList, Modal, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
@@ -8,7 +8,7 @@ import ModificarClase from "./ModificarClase";
 const Inicio = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { clases } = useClases();
+  const { clases, setClases } = useClases();
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
@@ -27,8 +27,16 @@ const Inicio = () => {
   };
 
   const handleEliminarClase = () => {
-    navigation.push()
-    setModalVisible(true);
+    if (selectedClass) {
+      // Eliminar la clase seleccionada del estado de clases
+      const nuevasClases = clases.filter((clase) => clase.id !== selectedClass.id);
+      // Actualizar el estado de clases
+      setClases(nuevasClases);
+      // Cerrar el modal
+      setModalVisible(false);
+    } else {
+      console.log("No se ha seleccionado ninguna clase para eliminar.");
+    }
   };
 
   const handleModificarClase = () => {
@@ -62,19 +70,17 @@ const Inicio = () => {
                 style={styles.iconoClase}
               />
             </TouchableOpacity>
-
-            <Text style={styles.textoClase}>Clase: {item.NombreClase}</Text>
+            <Text>{'\n'}</Text>
+            <Text style={styles.textoClase}>{item.NombreClase}</Text>
             <Text style={styles.textoClase}>Seccion: {item.Seccion}</Text>
             <Text style={styles.textoClase}>Aula: {item.Aula}</Text>
             <Text style={styles.textoClase}>NRC: {item.NRC}</Text>
-
           </TouchableOpacity>
         )}
       />
       <TouchableOpacity onPress={handlePress} style={styles.icono_agregar_clase_container}>
         <Image source={require("../../img/agregar.png")} style={styles.icono_agregar_clase} />
       </TouchableOpacity>
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -93,7 +99,6 @@ const Inicio = () => {
           </View>
         </View>
       </Modal>
-
     </View>
   );
 }
@@ -103,7 +108,6 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
-    backgroundColor: '#D4BDFA',
     position: 'relative',
   },
   icono_agregar_clase_container: {

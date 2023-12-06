@@ -8,6 +8,7 @@ import {
   Alert,
   TouchableOpacity,
   Dimensions,
+  ImageBackground,
 } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from '@react-native-picker/picker';
@@ -61,59 +62,64 @@ const Registro = () => {
   }, [Nombre, Apellidos, Correo, Codigo, password, Tipo_Usuario]);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Registro</Text>
-      <TextInput
-        style={styles.formulario}
-        placeholder="Nombre"
-        value={Nombre}
-        onChangeText={setNombre}
-      />
-      <TextInput
-        style={styles.formulario}
-        placeholder="Apellidos"
-        value={Apellidos}
-        onChangeText={setApellidos}
-      />
-      <TextInput
-        style={styles.formulario}
-        placeholder="Código"
-        value={Codigo}
-        onChangeText={setCodigo}
-        keyboardType="numeric"
-      />
-      <TextInput
-        style={styles.formulario}
-        placeholder="tuCorreo@ejemplo.com"
-        value={Correo}
-        onChangeText={setCorreo}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.formulario}
-        placeholder="Contraseña"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <View style={styles.formulario}>
-        <Picker
-          selectedValue={Tipo_Usuario}
-          onValueChange={handleTipoUsuarioChange}
-          mode="dropdown"
-          style={pickerSelectStyles.estilo}
-        >
-          <Picker.Item label="Seleccionar tipo de usuario" value={null} />
-          <Picker.Item label="Profesor" value={'Profesor'} onChangeText={setTipo_Usuario} />
-          <Picker.Item label="Alumno" value={'Alumno'} onChangeText={setTipo_Usuario} />
-        </Picker>
+    <ImageBackground
+      source={require('./img/backgroundReg.jpg')}
+      style={styles.backgroundImage}
+    >
+      <View style={styles.container}>
+        <Text style={styles.title}>Registro</Text>
+        <TextInput
+          style={styles.formulario}
+          placeholder="Nombre"
+          value={Nombre}
+          onChangeText={setNombre}
+        />
+        <TextInput
+          style={styles.formulario}
+          placeholder="Apellidos"
+          value={Apellidos}
+          onChangeText={setApellidos}
+        />
+        <TextInput
+          style={styles.formulario}
+          placeholder="Código"
+          value={Codigo}
+          onChangeText={setCodigo}
+          keyboardType="numeric"
+        />
+        <TextInput
+          style={styles.formulario}
+          placeholder="tuCorreo@ejemplo.com"
+          value={Correo}
+          onChangeText={setCorreo}
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.formulario}
+          placeholder="Contraseña"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <View style={styles.formulario}>
+          <Picker
+            selectedValue={Tipo_Usuario}
+            onValueChange={handleTipoUsuarioChange}
+            mode="dropdown"
+            style={pickerSelectStyles.estilo}
+          >
+            <Picker.Item label="Seleccionar tipo de usuario" value={null} />
+            <Picker.Item label="Profesor" value={'Profesor'} onChangeText={setTipo_Usuario} />
+            <Picker.Item label="Alumno" value={'Alumno'} onChangeText={setTipo_Usuario} />
+          </Picker>
+        </View>
+        <Button title="Registrar" onPress={handleRegistro} color='#3D2788' disabled={!registroCompleto} />
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text>{'\n'}</Text>
+          <Text style={styles.boton_registro}>¿Tienes cuenta? Inicia sesión aquí.</Text>
+        </TouchableOpacity>
       </View>
-      <Button title="Registrar" onPress={handleRegistro} color='#3D2788' disabled={!registroCompleto} />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text>{'\n'}</Text>
-        <Text style={styles.boton_registro}>¿Tienes cuenta? Inicia sesión aquí.</Text>
-      </TouchableOpacity>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -124,7 +130,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D4BDFA',
     padding: 20,
   },
   title: {
@@ -145,8 +150,13 @@ const styles = StyleSheet.create({
   },
   boton_registro: {
     fontSize: 17,
-    color: '#3D2788',
+    color: 'white',
     fontWeight: 'bold'
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 });
 

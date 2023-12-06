@@ -52,12 +52,11 @@ const Inicio = () => {
                 style={styles.iconoClase}
               />
             </TouchableOpacity>
-
+            <Text>{'\n'}</Text>
             <Text style={styles.textoClase}>Clase: {item.NombreClase}</Text>
             <Text style={styles.textoClase}>Seccion: {item.Seccion}</Text>
             <Text style={styles.textoClase}>Aula: {item.Aula}</Text>
             <Text style={styles.textoClase}>NRC: {item.NRC}</Text>
-
           </TouchableOpacity>
         )}
       />
@@ -81,7 +80,6 @@ const Inicio = () => {
           </View>
         </View>
       </Modal>
-
     </View>
   );
 }
@@ -91,7 +89,7 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
-    backgroundColor: '#D4BDFA',
+    //backgroundColor: 'white',
     position: 'relative',
   },
   icono_agregar_clase_container: {

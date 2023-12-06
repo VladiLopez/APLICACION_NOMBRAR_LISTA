@@ -5,7 +5,7 @@ import { useClases } from "./ClasesContext";
 
 const CrearClase = () => {
     const navigation = useNavigation();
-    const { setClases } = useClases();
+    const { agregarClase } = useClases();  // Cambié setClases por agregarClase
 
     const [NombreClase, setNombreClase] = useState('');
     const [Seccion, setSeccion] = useState('');
@@ -19,7 +19,7 @@ const CrearClase = () => {
 
     const handleRegistroMateria = () => {
       const nuevaClase = { NombreClase, Seccion, Aula, NRC };
-      setClases(prevClases => [...prevClases, nuevaClase]);
+      agregarClase(nuevaClase);  // Cambié setClases por agregarClase
       console.log(`\nNombre de la Clase: ${NombreClase}\nSeccion: ${Seccion}\nAula: ${Aula}\nNRC: ${NRC}\n`);
       navigation.navigate('Inicio', { NombreClase, Seccion, Aula, NRC });
     };
