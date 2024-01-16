@@ -57,13 +57,14 @@ const Alumnos = ({ route }) => {
   const students = [
     {name: 'Felipe Cisa', attendance: 'green', assignment: true},
     {name: 'Mario Rincón', attendance: 'green', assignment: true},
-    {name: 'Marcelo Rios', attendance: 'red', assignment: true},
+    {name: 'Marcelo Rios', attendance: 'red', assignment: false},
     {name: 'Laura Rios', attendance: 'green', assignment: true},
     {name: 'Ernesto Pérez', attendance: 'orange', assignment: true},
     {name: 'Fili Acuña', attendance: 'green', assignment: true},
     {name: 'Javier Martínez', attendance: 'orange', assignment: true},
     {name: 'Maritza Guerrero', attendance: 'green', assignment: true},
-    {name: 'Gustavo L.', attendance: 'red', assignment: true},
+    {name: 'Gustavo L.', attendance: 'red', assignment: false,
+  },
   ];
 
   return (
