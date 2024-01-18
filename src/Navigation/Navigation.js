@@ -1,13 +1,21 @@
-// Navigation.js
-import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import CustomDrawer from '../Navigation/CustomDrawer.js';
-import Icon from 'react-native-vector-icons/Ionicons';
-//Screens used in the navigation
-import Inicio from '../screens/Inicio.js';
-import AcercaDe from '../screens/AcercaDeNosotros.js';
-import CerrarSesión from '../../Login.js';
+// Importamos los modulos y librerias necesarias
 
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import React from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+import CustomDrawer from '../Navigation/CustomDrawer.js';
+
+// Pantallas usadas en la navegacion
+import CerrarSesión from '../../Login.js';
+import AcercaDe from '../screens/AcercaDeNosotros.js';
+import Inicio from '../screens/Inicio.js';
+
+/**
+ * Drawer Navigation Instance
+ * 
+ * Instancia del Drawer navigator creada mediante la funcion createDrawerNavigator.
+ * Se utiliza para gestionar la navegación tipo drawer en la aplicación.
+ */
 const Drawer = createDrawerNavigator();
 
 const Navigation = () => {
