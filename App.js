@@ -1,17 +1,23 @@
 /**
  *  Querido programador
  * 
- * En el momento en el que estamos programando solo 
+ * En el momento en el que estamos programando esto solo 
  * nosotros y diosito saben cómo lo hicimos, ahora solo 
  * diosito lo sabe.
  * 
  * Espero puedas programarla y mejorarla
+ * 
+ * Si no puedes incrementa el contador de horas: 1 hrs
  */
 
+
+// Importamos los modulos y las liberías necesarias
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React from 'react'; // Importamos React native para el desarrollo de la app para dispositivos moviles
 import 'react-native-gesture-handler';
+
+// Importamos las pantallas
 import Login from './Login.js';
 import Registro from './Registro.js';
 import AgregarClase from './src/screens/AgregarClase.js';

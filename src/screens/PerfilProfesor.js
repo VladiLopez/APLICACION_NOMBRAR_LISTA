@@ -1,15 +1,26 @@
-import React from "react";
-import { View, StyleSheet, Image, Text, Button } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation, useRoute } from "@react-navigation/native";
+// Importamos los componentes necesarios 
 
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
+/**
+ * @component
+ * Pantalla que muestra el perfil de un profesor.
+ */
 const PerfilProfesor = () => {
   const navigation = useNavigation();
 
+  /**
+   * Navega a la pantalla de edición de perfil cuando se presiona el botón "Editar perfil".
+   * @function
+   */
   const handleEditarPerfil = () => {
     navigation.push('EditarPerfil');
   };
 
+  // Renderiza la interfaz de usuario
   return (
     <View style={styles.contenido}>
       <View style={styles.header}>
@@ -37,6 +48,10 @@ const PerfilProfesor = () => {
   );
 };
 
+/**
+ * Estilos para la pantalla de perfil del profesor.
+ * @constant {Object}
+ */
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
@@ -98,4 +113,5 @@ const styles = StyleSheet.create({
   }
 });
 
+// Exportamos el componente para ser usado en otra parte de la aplicación
 export default PerfilProfesor;

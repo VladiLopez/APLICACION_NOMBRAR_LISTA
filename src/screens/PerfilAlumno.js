@@ -1,15 +1,23 @@
+// Liberías y modulos necesarios
+
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation, useRoute } from "@react-navigation/native";
 
 const PerfilProfesor = () => {
   const navigation = useNavigation();
 
+  /**
+   * Maneja el evento de modificar el perfil.
+   * Actualiza el estado de clases con los nuevos detalles de los perfiles modificados.
+   * Navega de nuevo a la pantalla de inicio.
+   */
   const handleEditarPerfil = () => {
     navigation.push('EditarPerfil');
   };
 
+  // Renderiza la interfaz de usuario
   return (
     <View style={styles.contenido}>
       <View style={styles.header}>
@@ -37,6 +45,7 @@ const PerfilProfesor = () => {
   );
 };
 
+// Estilos asociados al componente
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
@@ -98,4 +107,5 @@ const styles = StyleSheet.create({
   }
 });
 
+// Exportamos el componente para ser usado en otra parte de la aplicación
 export default PerfilProfesor;

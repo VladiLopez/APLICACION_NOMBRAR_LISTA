@@ -1,12 +1,13 @@
 import React from "react";
 //import DrawerNavigation from "../Navigation/DrawerNavigation.js";
-import { View, Text,StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
 
 const ListadoProfesor = () => {
   // Datos que deseas codificar en el QR
   const qrData = 'Gonzalez Monje Ivan Jared\n215698763';
 
+  // Renderiza la interfaz de usuario
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#D4BDFA',}}>
       {/* Renderiza el código QR */}
@@ -20,6 +21,7 @@ const ListadoProfesor = () => {
   );
 };
 
+// Estilos asociados al componente
 const styles = StyleSheet.create({
   datos: {
     fontSize: 25,
@@ -30,4 +32,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exportamos el componente para ser usado en otra parte de la aplicación
 export default ListadoProfesor;
