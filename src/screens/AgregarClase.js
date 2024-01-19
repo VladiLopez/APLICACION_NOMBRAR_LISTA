@@ -1,24 +1,41 @@
-import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  TextInput,
-  Button,
-  Alert,
-  TouchableOpacity,
-} from 'react-native';
-import { useNavigation, useRoute } from "@react-navigation/native";
+// Importamos librerías y componentes necesarios
 
+import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useState } from "react";
+import {
+  Alert,
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View
+} from 'react-native';
+
+/**
+ * Componente funcional "AgregarClase".
+ * 
+ * @description Este componente representa la pantalla para que un alumno pueda agregar una clase.
+ * Los alumnos ingresan un código de clase y, si es válido, son redigidos a la pantalla HomeAlumno.
+ * 
+ * @returns {JSX.Element} Elemento JSX que renderiza la pantalla de agregar clase.
+ * 
+ */
 const AgregarClase = () => {
+  // Obtener funciones de navegación de React Native
   const navigation = useNavigation();
   const route = useRoute();
 
+  // Estado local para el código ingresaso por el usuario
   const [Codigo, setCodigo] = useState('');
 
+  // Validar si el código ingresado tiene una longitud de 6 caracteres
   const isCodigoValid = Codigo.length === 6;
 
+  /**
+   * Manejador de evento para unirse a la clase
+   * Redirigiendo a la pantalla HomeAlumno si el código es válido,
+   * muestra una alerta en caso contrario
+   */
   const handleUnirse = () => {
     if (isCodigoValid) {
       navigation.push('HomeAlumno'); // Pantalla para el alumno
@@ -28,6 +45,7 @@ const AgregarClase = () => {
     }
   };
 
+  // Renderiza la interfaz de usuario
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Agregar una clase</Text>
@@ -48,6 +66,7 @@ const AgregarClase = () => {
   );
 };
 
+// Estilos asociados al componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -74,4 +93,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exportamos el componente para su uso en otras partes de la aplicación
 export default AgregarClase;

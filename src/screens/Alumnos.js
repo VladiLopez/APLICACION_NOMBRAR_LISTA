@@ -1,9 +1,12 @@
+// Importamos librerías y componentes necesarios para funcionalidades y estilos
+
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 // Un componente personalizado para mostrar un círculo de color
 const Circle = ({color}) => {
   return (
+    // Estilos asociados al componente
     <View
       style={{
         width: 20,
@@ -18,6 +21,7 @@ const Circle = ({color}) => {
 // Un componente personalizado para mostrar una casilla de verificación
 const Checkbox = ({checked}) => {
   return (
+    // Estilos asociados al componente
     <View
       style={{
         width: 20,
@@ -48,7 +52,7 @@ const Row = ({name, attendance, assignment}) => {
   );
 };
 
-// El componente principal que muestra la tabla completa
+  // El componente principal que muestra la tabla completa
 const Alumnos = ({ route }) => {
   // Recupera el nombre de la clase de los parámetros de navegación
   const { claseNombre } = route.params;
@@ -68,6 +72,7 @@ const Alumnos = ({ route }) => {
   ];
 
   return (
+    // Renderiza la interfaz del usuario
     <View style={styles.container}>
       <Text style={styles.title}>Tabla de asistencia - {claseNombre}</Text>
       <View style={styles.header}>
@@ -126,4 +131,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exportamos el componente para su uso en otras partes de la aplicación
 export default Alumnos;

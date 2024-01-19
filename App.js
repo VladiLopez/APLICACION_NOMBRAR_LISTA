@@ -1,3 +1,13 @@
+/**
+ *  Querido programador
+ * 
+ * En el momento en el que estamos programando solo 
+ * nosotros y diosito saben cómo lo hicimos, ahora solo 
+ * diosito lo sabe.
+ * 
+ * Espero puedas programarla y mejorarla
+ */
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';

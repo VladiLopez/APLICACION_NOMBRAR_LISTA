@@ -1,22 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Image } from 'react-native';
+// Importamos librerias y modulos necesarios
+
 import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { Button, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useClases } from "./ClasesContext";
 
+/**
+ * Componente funcional CrerClase.
+ * 
+ * @description Este componente representa la pantalla para que el usuario cree una nueva clase.
+ * Permite al usuario ingresar informacioón como el nombre de la clase, sección, aula y NRC.
+ * La información se guarda a través del contexto de Clases para su gestión global.
+ * 
+ * @returns {JSX.Element} Elemento JSX que renderiza la pantalla de la creación de clases.
+ */
+
 const CrearClase = () => {
+    // función de navegación proporcionada por React Navigation
     const navigation = useNavigation();
+
+    // Funciones y estado del contexto de Clases
     const { agregarClase } = useClases();  // Cambié setClases por agregarClase
 
+    // Estados locales para almacenar la información de la nueva clase
     const [NombreClase, setNombreClase] = useState('');
     const [Seccion, setSeccion] = useState('');
     const [Aula, setAula] = useState('');
     const [NRC, setNRC] = useState('');
     const [registroCompleto, setRegistroCompleto] = useState(false);
 
+    //Función para manejar el boton de "Cancelar"
     const handlePress = () => {
       navigation.navigate('Inicio');
     };
 
+    // Función ara manejar el botón "Crear"
     const handleRegistroMateria = () => {
       const nuevaClase = { NombreClase, Seccion, Aula, NRC };
       agregarClase(nuevaClase);  // Cambié setClases por agregarClase
@@ -24,6 +42,7 @@ const CrearClase = () => {
       navigation.navigate('Inicio', { NombreClase, Seccion, Aula, NRC });
     };
 
+    // Función para verificar si todos los campos estan completos
     const verificarRegistroCompleto = () => {
       if (NombreClase && Seccion && Aula && NRC) {
         setRegistroCompleto(true);
@@ -32,10 +51,12 @@ const CrearClase = () => {
       }
     };
 
+    // Efecto secundario para verificar el registro completo cuando cambian los valores.
     useEffect(() => {
       verificarRegistroCompleto();
     }, [NombreClase, Seccion, Aula, NRC]);
 
+    // Renderiza la interfaz de usuario
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -78,6 +99,7 @@ const CrearClase = () => {
     );
 };
 
+// Estilos asociados al componente.
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -127,4 +149,5 @@ const styles = StyleSheet.create({
     },
 });
 
+// Exporta el componente para su uso en otras partes de la aplicación
 export default CrearClase;
