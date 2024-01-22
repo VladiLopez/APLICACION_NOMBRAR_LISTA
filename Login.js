@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import {
-  Text,
-  View,
+  Alert,
+  Button,
   Image,
   StyleSheet,
+  Text,
   TextInput,
-  Button,
-  Alert,
   TouchableOpacity,
-  ImageBackground,
 } from 'react-native';
-import logo from './assets/LOGO.png'
-import { useNavigation, useRoute } from "@react-navigation/native";
+import logo from './assets/LOGO.png';
 
 const Login = () => {
+  // Utiliza el hook de navegación y de ruta proporcionados por React Navigation
   const navigation = useNavigation();
   const route = useRoute();
 
-  const [Codigo, setCodigo] = useState('');
+  const [Correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
 
   const [registroData, setRegistroData] = useState(null);
 
+  // Efecto secundario para obtener los datos de registro de la ruta
   useEffect(() => {
     // Obtén los datos de registro de la ruta
     const data = route.params ? route.params.registroData : null;
@@ -30,24 +30,23 @@ const Login = () => {
     }
   }, [route.params]);
 
+  // Función para manejar el evento de inicio de sesión
   const handleLogin = () => {
-    if (Codigo === '1' && password === '1') {
+    if (Correo === 'admin' && password === '12345') {
       console.log('Credenciales correctas');
-      navigation.push('HomeProfesor'); // Navegar a la pantalla HomeScreen
-    }
-    else if (Codigo === '2' && password === '2') {
-      console.log('Credenciales correctas');
-      navigation.push('HomeAlumno'); // Navegar a la pantalla HomeScreen
-    }
-    else {
+      navigation.push('Home'); // Navegar a la pantalla HomeScreen
+    } else {
       Alert.alert('Correo y/o contraseña incorrecta!!');
     }
   };
 
+  // Función para manejar el evento de registro
   const handleRegistro = () => {
+    // Navegamos a la pantalla de registro
     navigation.push('Registro');
   };
 
+  // Renderizamos la interfaz para el usuario
   return (
     <ImageBackground
       source={require('./img/background.jpg')}
@@ -82,6 +81,7 @@ const Login = () => {
   );
 };
 
+// Definición de las caracteristicas y componentes establecidos para los compoentes y su visualización
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -122,4 +122,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exportamos el componente para su uso en otras partes de la aplicación
 export default Login;

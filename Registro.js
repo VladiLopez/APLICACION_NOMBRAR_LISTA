@@ -1,21 +1,34 @@
+<<<<<<< Updated upstream
 import React, { useState, useEffect } from "react";
+=======
+// Importamos los modulos y librerías necesarias
+
+import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+>>>>>>> Stashed changes
 import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  Button,
   Alert,
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
   TouchableOpacity,
+<<<<<<< Updated upstream
   Dimensions,
   ImageBackground,
 } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from '@react-native-picker/picker';
+=======
+  View,
+} from 'react-native';
+>>>>>>> Stashed changes
 
 const Registro = () => {
+  // Utiliza el hook de navegación proporcionado por React Native
   const navigation = useNavigation();
 
+  // Estados para manejar la información del formulario
   const [Nombre, setNombre] = useState('');
   const [Apellidos, setApellidos] = useState('');
   const [Correo, setCorreo] = useState('');
@@ -24,6 +37,7 @@ const Registro = () => {
   const [Tipo_Usuario, setTipo_Usuario] = useState('');
   const [registroCompleto, setRegistroCompleto] = useState(false);
 
+  // Función para manejar el evento de registro
   const handleRegistro = () => {
     // Guarda los datos del registro en una variable local o en un servicio de autenticación
     const registroData = {
@@ -35,16 +49,21 @@ const Registro = () => {
       Tipo_Usuario,
     };
 
+    // Muestra un mensaje de alerta indicando que los datos han sido registrados.
     Alert.alert('DATOS REGISTRADOS!!');
     // Aquí puedes realizar la autenticación o guardar los datos en un servicio
 
-    navigation.push('Login', { registroData }); // Pasa los datos de registro como parámetro
+    // Navega a la pantalla de inicio de sesión y pasa los datos de registro como parametro.
+    navigation.push('Login', { registroData });
   };
 
+  // Función para manejar el evento de inicio de sesión
   const handleLogin = () => {
+    // Navegamos a la pantalla de inicio de sesión
     navigation.push('Login');
   };
 
+<<<<<<< Updated upstream
   const handleTipoUsuarioChange = (value) => {
     setTipo_Usuario(value);
   };
@@ -61,6 +80,9 @@ const Registro = () => {
     verificarRegistroCompleto();
   }, [Nombre, Apellidos, Correo, Codigo, password, Tipo_Usuario]);
 
+=======
+  // Renderizamos la interfaz para el usuario
+>>>>>>> Stashed changes
   return (
     <ImageBackground
       source={require('./img/backgroundReg.jpg')}
@@ -123,6 +145,7 @@ const Registro = () => {
   );
 };
 
+// Configuración de los estilos del componente asociado
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -166,4 +189,5 @@ const pickerSelectStyles = StyleSheet.create({
   },
 });
 
+// Exportamos el componente para su uso en otras partes de la aplicación
 export default Registro;
