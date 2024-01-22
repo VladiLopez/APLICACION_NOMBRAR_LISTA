@@ -1,28 +1,15 @@
-<<<<<<< Updated upstream
-import React, { useState, useEffect } from "react";
-=======
-// Importamos los modulos y librerías necesarias
-
+import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
->>>>>>> Stashed changes
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
+  ImageBackground,
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
-<<<<<<< Updated upstream
-  Dimensions,
-  ImageBackground,
+  TouchableOpacity
 } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
-import { Picker } from '@react-native-picker/picker';
-=======
-  View,
-} from 'react-native';
->>>>>>> Stashed changes
 
 const Registro = () => {
   // Utiliza el hook de navegación proporcionado por React Native
@@ -63,12 +50,12 @@ const Registro = () => {
     navigation.push('Login');
   };
 
-<<<<<<< Updated upstream
   const handleTipoUsuarioChange = (value) => {
     setTipo_Usuario(value);
   };
 
   const verificarRegistroCompleto = () => {
+    // tenemos datos completos
     if (Nombre && Apellidos && Correo && Codigo && password && Tipo_Usuario) {
       setRegistroCompleto(true);
     } else {
@@ -76,13 +63,12 @@ const Registro = () => {
     }
   };
 
+  // Verificación
   useEffect(() => {
     verificarRegistroCompleto();
   }, [Nombre, Apellidos, Correo, Codigo, password, Tipo_Usuario]);
 
-=======
   // Renderizamos la interfaz para el usuario
->>>>>>> Stashed changes
   return (
     <ImageBackground
       source={require('./img/backgroundReg.jpg')}
