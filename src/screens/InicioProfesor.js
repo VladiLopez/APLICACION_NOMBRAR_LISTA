@@ -1,7 +1,7 @@
 // Realizamos las importaciones de los modulos necesarios
 
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useNavigation, useRoute, useFocusEffect, useIsFocused } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
 import { Button, Dimensions, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useClases } from "./ClasesContext";
 
@@ -20,7 +20,8 @@ const Inicio = () => {
   // Funciones y estado de navegacion y contexto
   const route = useRoute();
   const navigation = useNavigation();
-  const { clases, setClases } = useClases();
+  const { clases, setClases, obtenerClases} = useClases();
+  const [lastScreen, setLastScreen] = useState("");
 
   // Estado local para controlar la visibilidad de modal y la clase seleccionada
   const [isModalVisible, setModalVisible] = useState(false);
@@ -46,15 +47,14 @@ const Inicio = () => {
   const handleEliminarClase = () => {
   if (selectedClass) {
     // Eliminar la clase seleccionada del estado de clases
-    const nuevasClases = clases.filter((clase) => clase.id !== selectedClass.id);
-    
-    console.log(selectedClass.id);s
-    const bajaClase = selectedClass.id; // Corregido a selectedClass.id
-    setClases(nuevasClases);
 
-    handleBajaClase(bajaClase);
+    const bajaNRC = selectedClass.NRC;
+    handleBajaClase(bajaNRC);
     // Cerrar el modal
     setModalVisible(false);
+
+    const nuevasClases = clases.filter((clase) => clase.NRC !== bajaNRC);
+    setClases(nuevasClases);
   } else {
     console.log("No se ha seleccionado ninguna clase para eliminar.");
   }
@@ -78,6 +78,16 @@ const Inicio = () => {
 
   // Colores para las clases en la lista
   const colors = ["#83C809", "#099AC8", "#F73A5D", "#F7D53A", "#D796F3", "#96F3E9", "#F6A554", "#7D64FA", "#FFA6F4", "#F8FA64"];
+
+  useEffect(() => {
+    const unsubscribeFocus = navigation.addListener('focus', () => {
+      // Llama a la función para obtener las clases del alumno cuando la pantalla se enfoca
+      obtenerClases();
+    });
+
+    // Devuelve la función de limpieza para el evento de enfoque
+    return unsubscribeFocus;
+  }, [navigation, obtenerClases]);
 
   // Renderiza la interfaz de usuario
   return (

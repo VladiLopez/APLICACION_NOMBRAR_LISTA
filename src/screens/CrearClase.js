@@ -2,8 +2,22 @@
 
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
+
 import {SupabaseClient} from '@supabase/supabase-js';
-import { Button, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
+import { 
+  Button, 
+  Image, 
+  StyleSheet, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  View, 
+  Alert,
+  Dimensions,
+  ImageBackground 
+} from 'react-native';
+
 import { useClases } from "./ClasesContext";
 
 import {supabase} from "../../Lib/supabase";
@@ -42,10 +56,10 @@ const CrearClase = () => {
       navigation.navigate('Inicio');
     };
     
-    const handleRegistroMateria = () => {
+    const handleRegistroMateria = async () => {
       const nuevaClase = {NRC, NombreClase, Seccion, Aula};
-      handleAltaClase(nuevaClase);
-      handleAltaRelacion(codigo,NRC);
+      await handleAltaClase(nuevaClase);
+      await handleAltaRelacion(codigo,NRC);
       agregarClase(nuevaClase);  // Cambié setClases por agregarClase
       console.log('\nNombre de la Clase: ${NombreClase}"\nSeccion: ${Seccion}\nAula: ${Aula}\nNRC: ${NRC}\n');
       navigation.navigate('Inicio', {NRC, NombreClase, Seccion, Aula});
@@ -108,6 +122,7 @@ const CrearClase = () => {
             style={styles.formulario}
             placeholder="Codigo"
             value={codigo}
+            keyboardType="numeric"
             onChangeText={setcodigo}
           />
 

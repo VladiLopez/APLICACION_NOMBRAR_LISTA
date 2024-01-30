@@ -11,6 +11,11 @@ import {
   View
 } from 'react-native';
 
+import{handleAltaRelacion} from "../backend/altaClase";
+
+
+import { useClases } from "./ClasesContext";
+
 /**
  * Componente funcional "AgregarClase".
  * 
@@ -26,10 +31,11 @@ const AgregarClase = () => {
   const route = useRoute();
 
   // Estado local para el código ingresaso por el usuario
-  const [Codigo, setCodigo] = useState('');
+  const [NRC, setNRC] = useState('');
+  const [codigo, setcodigo] = useState('');
 
   // Validar si el código ingresado tiene una longitud de 6 caracteres
-  const isCodigoValid = Codigo.length === 6;
+  const isCodigoValid = NRC.length === 6;
 
   /**
    * Manejador de evento para unirse a la clase
@@ -38,7 +44,8 @@ const AgregarClase = () => {
    */
   const handleUnirse = () => {
     if (isCodigoValid) {
-      navigation.push('HomeAlumno'); // Pantalla para el alumno
+      handleAltaRelacion(codigo,NRC); 
+      navigation.navigate('Inicio');// Pantalla para el alumno
     } else {
       // Puedes mostrar una alerta o realizar alguna acción si el código no es válido
       Alert.alert('Código inválido');
@@ -52,10 +59,19 @@ const AgregarClase = () => {
       <TextInput
         style={styles.formulario}
         placeholder="J5OP46"
-        value={Codigo}
-        onChangeText={setCodigo}
+        value={NRC}
+        onChangeText={setNRC}
         maxLength={6} // Limita la longitud máxima a 6 dígitos
       />
+
+      <Text style={styles.title}>Confirma tu codigo</Text>
+          <TextInput
+            style={styles.formulario}
+            placeholder="Codigo"
+            value={codigo}
+            keyboardType="numeric"
+            onChangeText={setcodigo}
+          />
       <Button
         title="Unirse"
         onPress={handleUnirse}

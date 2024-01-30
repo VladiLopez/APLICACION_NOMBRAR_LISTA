@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { useClases } from "./ClasesContext";
 
+import{modificarClase} from "../backend/modificarClase";
+
 /**
  * Componente funcional ModificarClase.
  * 
@@ -21,7 +23,7 @@ const ModificarClase = ({ route, navigation }) => {
   const [NombreClase, setNombreClase] = useState('');
   const [Seccion, setSeccion] = useState('');
   const [Aula, setAula] = useState('');
-  const [NRC, setNRC] = useState('');
+  const [NRC, setNRC] = useState();
 
   // Obtener la clase seleccionada usando su ID
   const selectedClass = clases.find(clase => clase.id === claseId);
@@ -41,14 +43,10 @@ const ModificarClase = ({ route, navigation }) => {
    * Actualiza el estado de clases con los nuevos detalles de la clase modificada.
    * Navega de nuevo a la pantalla de inicio.
    */
-  const handleModificarClase = () => {
-    if (selectedClass) {
-      const updatedClases = clases.map(clase =>
-        clase.id === claseId
-          ? { ...clase, NombreClase, Seccion, Aula, NRC }
-          : clase
-      );
-      setClases(updatedClases);
+  const handleModificarClase = async () => {
+    if(selectedClass){
+      const nuevaClase = {NombreClase, Seccion, Aula, NRC};
+      await modificarClase(NRC, nuevaClase);
       navigation.navigate('Inicio');
     }
   };
@@ -79,6 +77,7 @@ const ModificarClase = ({ route, navigation }) => {
         style={styles.input}
         value={NRC}
         onChangeText={setNRC}
+        keyboardType="numeric"
         placeholder="NRC"
       />
       <Button title="Guardar" onPress={handleModificarClase} color='#3D2788'/>

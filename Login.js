@@ -50,7 +50,7 @@ const Login = () => {
         getTipoUsuario(usuario.Tipo_Usuario);
 
         // Setear el código del profesor si es profesor
-        if (usuario.Tipo_Usuario === 'Profesor' && !isNaN(usuario.Codigo)) {
+        if (!isNaN(usuario.Codigo)) {
     setCodigoProfesor(parseInt(usuario.Codigo));
   }
 

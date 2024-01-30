@@ -49,9 +49,11 @@ const CustomDrawer = (props) => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigation.navigate('Login');
+      // Aquí puedes redirigir al usuario a la pantalla de inicio de sesión
+      props.navigation.navigate('Login');
     }
-  }, [isAuthenticated, navigation]);
+ }, [isAuthenticated]);
+
 
   return (
     <View style={{ flex: 1 }}>

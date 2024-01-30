@@ -42,19 +42,19 @@ export const ClasesProvider = ({ children }) => {
   };
 
   const obtenerClases = async () => {
-    if (tipoUsuario === "Profesor") {
+    
       await obtenerClasesProfesor();
-    }
+    
   };
 
   const resetTipoUsuario = () => {
-    setTipoUsuario("Alumno");
+    setTipoUsuario("");
     console.log(tipoUsuario);
   };
 
   useEffect(() => {
     obtenerClases();
-  }, [tipoUsuario, codigoProfesor]);
+  }, [codigoProfesor]);
 
   const getTipoUsuario = (tipo) => {
     setTipoUsuario(tipo);

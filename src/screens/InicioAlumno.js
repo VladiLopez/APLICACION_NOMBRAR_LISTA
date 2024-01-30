@@ -1,7 +1,7 @@
 // Importamos librerías y componentes necesarios
 
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useNavigation, useRoute, useFocusEffect, useIsFocused} from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
 import { Button, Dimensions, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useClases } from "./ClasesContext";
 
@@ -18,7 +18,9 @@ const Inicio = () => {
   // funciones y estado de navegación y contexto
   const route = useRoute();
   const navigation = useNavigation();
-  const { clases } = useClases();
+
+  const [lastScreen, setLastScreen] = useState("");
+  const { clases, setClases, obtenerClases} = useClases();
 
   // Funcion para manejar la navegación a la pantalla de agregar clase
   const [isModalVisible, setModalVisible] = useState(false);
@@ -54,6 +56,15 @@ const Inicio = () => {
   // Colores para las clases en la lista
   const colors = ["#83C809", "#099AC8", "#F73A5D", "#F7D53A", "#D796F3", "#96F3E9", "#F6A554", "#7D64FA", "#FFA6F4", "#F8FA64"];
 
+   useEffect(() => {
+      const unsubscribeFocus = navigation.addListener('focus', () => {
+        // Llama a la función para obtener las clases del alumno cuando la pantalla se enfoca
+        obtenerClases();
+      });
+
+      // Devuelve la función de limpieza para el evento de enfoque
+      return unsubscribeFocus;
+    }, [navigation, obtenerClases]);
   // Renderiza la interfaz de usuario
   return (
     <View style={styles.contenido}>
