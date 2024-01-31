@@ -1,3 +1,13 @@
+/**
+ * Importamos los modulos y las librerías necesarias para
+ * desplegar las animaciones y los elementos visuales
+ */
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+} from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
 import {
   Image,
@@ -6,14 +16,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
-import { useClases } from "../screens/ClasesContext";
-import * as ImagePicker from 'expo-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useClases } from "../screens/ClasesContext";
 
 const CustomDrawer = (props) => {
   const navigation = useNavigation();
