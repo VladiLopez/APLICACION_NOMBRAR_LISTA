@@ -30,10 +30,12 @@ const AgregarClase = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
+  const {codigoProfesor} = useClases();
+
+  const codigo = codigoProfesor;
+
   // Estado local para el código ingresaso por el usuario
   const [NRC, setNRC] = useState('');
-  const [codigo, setcodigo] = useState('');
-
   // Validar si el código ingresado tiene una longitud de 6 caracteres
   const isCodigoValid = NRC.length === 6;
 
@@ -64,14 +66,6 @@ const AgregarClase = () => {
         maxLength={6} // Limita la longitud máxima a 6 dígitos
       />
 
-      <Text style={styles.title}>Confirma tu codigo</Text>
-          <TextInput
-            style={styles.formulario}
-            placeholder="Codigo"
-            value={codigo}
-            keyboardType="numeric"
-            onChangeText={setcodigo}
-          />
       <Button
         title="Unirse"
         onPress={handleUnirse}

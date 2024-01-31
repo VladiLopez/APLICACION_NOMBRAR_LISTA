@@ -15,17 +15,14 @@ import logo from './assets/LOGO.png';
 import { useNavigation } from "@react-navigation/native";
 import { supabase } from "./Lib/supabase";
 import { useClases } from "./src/screens/ClasesContext";
-import { useUsuario } from "./src/screens/UsuarioContext";
-
 
 const Login = () => {
   const navigation = useNavigation();
-  const { getTipoUsuario, setCodigoProfesor } = useClases();
+  const { setCodigoUsuario } = useClases();
 
   const [Codigo, setCodigo] = useState('');
   const [password, setPassword] = useState('');
 
-  const { getCodigo } = useUsuario();
 
   const handleLogin = async () => {
     try {
@@ -41,18 +38,14 @@ const Login = () => {
 
       const usuario = data[0];
 
-      getCodigo(Codigo);
-
       if (usuario && usuario.password === password) {
         console.log('Credenciales correctas');
 
-        // Actualizar el tipo de usuario en el contexto
-        getTipoUsuario(usuario.Tipo_Usuario);
-
         // Setear el código del profesor si es profesor
-        if (!isNaN(usuario.Codigo)) {
-    setCodigoProfesor(parseInt(usuario.Codigo));
-  }
+
+        if (!isNaN(Codigo)) {
+          setCodigoUsuario(parseInt(Codigo));
+        }
 
         // Continuar con la navegación
         navigation.push(usuario.Tipo_Usuario === 'Profesor' ? 'HomeProfesor' : 'HomeAlumno');
@@ -83,6 +76,7 @@ const Login = () => {
           style={styles.formulario}
           placeholder="228564789"
           value={Codigo}
+          keyboardType="numeric"
           onChangeText={setCodigo}
         />
         <TextInput

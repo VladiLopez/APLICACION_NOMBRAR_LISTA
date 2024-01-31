@@ -38,6 +38,49 @@ const handleBajaClase = async (bajaNRC) => {
   
 };
 
+
+const handleBajaClaseAlumno = async (codigoUsuario, bajaNRC) => {
+  try {
+    if (typeof bajaNRC !== 'undefined' && typeof codigoUsuario !== 'undefined') {
+      // Verificar si existe un registro con el código de usuario y NRC
+      const { data: existenciaData, error: existenciaError } = await supabase
+        .from('clases_usuario')
+        .select('*')
+        .eq('codigo_fk', codigoUsuario)
+        .eq('nrc_fk', bajaNRC);
+
+      if (existenciaError) {
+        console.error('Error al verificar la existencia del registro:', existenciaError);
+        return; // Detenemos la ejecución si hay un error
+      }
+
+      // Si existe el registro, procedemos a eliminarlo
+      if (existenciaData && existenciaData.length > 0) {
+        const { data: deleteUsuarioData, error: deleteUsuarioError } = await supabase
+          .from('clases_usuario')
+          .delete()
+          .eq('codigo_fk', codigoUsuario)
+          .eq('nrc_fk', bajaNRC);
+
+        if (deleteUsuarioError) {
+          console.error('Error al eliminar referencias en clases_usuario:', deleteUsuarioError);
+          return; // Detenemos la ejecución si hay un error al eliminar
+        }
+
+        console.log('Referencias en clases_usuario eliminadas correctamente', deleteUsuarioData);
+      } else {
+        console.warn('No existe un registro con el código de usuario y NRC proporcionados.');
+      }
+    } else {
+      console.error('El código de usuario o el NRC pasado a handleBajaClase son undefined.');
+    }
+  } catch (error) {
+    console.error('Error general al interactuar con Supabase:', error);
+  }
+};
+
+
 export {
-  handleBajaClase
+  handleBajaClase,
+  handleBajaClaseAlumno,
 };

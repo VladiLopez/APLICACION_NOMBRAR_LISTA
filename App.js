@@ -23,7 +23,6 @@ import Registro from './Registro.js';
 import AgregarClase from './src/screens/AgregarClase.js';
 import Alumnos from './src/screens/Alumnos.js';
 import { ClasesProvider } from "./src/screens/ClasesContext";
-import { UsuarioProvider } from "./src/screens/UsuarioContext";
 import CrearClase from './src/screens/CrearClase.js';
 import EditarPerfil from './src/screens/EditarPerfil.js';
 import HomeAlumno from './src/screens/HomeAlumno.js';
@@ -38,7 +37,6 @@ const App = () => {
   return (
     <NavigationContainer>
       <ClasesProvider>
-      <UsuarioProvider>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
           <Stack.Screen name="HomeProfesor" component={HomeProfesor} options={{ headerShown: false }}/>
@@ -52,7 +50,6 @@ const App = () => {
           <Stack.Screen name="EditarPerfil" component={EditarPerfil} options={{ headerShown: false}}/> 
           <Stack.Screen name="Alumnos" component={Alumnos} options={{ headerShown: true}}/> 
         </Stack.Navigator>
-        </UsuarioProvider>
       </ClasesProvider>
     </NavigationContainer>
   );

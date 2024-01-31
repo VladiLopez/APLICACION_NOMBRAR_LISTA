@@ -12,7 +12,7 @@ export const ClasesProvider = ({ children }) => {
   const [clases, setClases] = useState([]);
   const [datosClase, setDatosClase] = useState(null);
   const [tipoUsuario, setTipoUsuario] = useState("");
-  const [codigoProfesor, setCodigoProfesor] = useState("");
+  const [codigoProfesor, setCodigoProfesor] = useState(null);
 
   const obtenerClasesProfesor = async () => {
     try {
@@ -47,18 +47,9 @@ export const ClasesProvider = ({ children }) => {
     
   };
 
-  const resetTipoUsuario = () => {
-    setTipoUsuario("");
-    console.log(tipoUsuario);
-  };
-
   useEffect(() => {
     obtenerClases();
   }, [codigoProfesor]);
-
-  const getTipoUsuario = (tipo) => {
-    setTipoUsuario(tipo);
-  };
 
   const cerrarSesion = () => {
     // Resetea todos los valores a sus estados iniciales al cerrar sesión
@@ -68,7 +59,7 @@ export const ClasesProvider = ({ children }) => {
     setDatosClase(null);
   };
 
-  const setProfesor = (codigoProfesor) => {
+  const setCodigoUsuario = (codigoProfesor) => {
     setCodigoProfesor(codigoProfesor);
   };
 
@@ -80,11 +71,9 @@ export const ClasesProvider = ({ children }) => {
     obtenerClases,
     setDatosClase,
     obtenerDatosDeClase,
-    getTipoUsuario,
-    resetTipoUsuario,
     obtenerClases,
-    setProfesor,
-    setCodigoProfesor,
+    setCodigoUsuario,
+    codigoProfesor,
     cerrarSesion,
   };
 

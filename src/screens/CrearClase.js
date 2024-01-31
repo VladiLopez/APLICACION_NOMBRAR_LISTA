@@ -41,15 +41,16 @@ const CrearClase = () => {
     const navigation = useNavigation();
 
     // Funciones y estado del contexto de Clases
-    const { agregarClase } = useClases();  // Cambié setClases por agregarClase
+    const { agregarClase, codigoProfesor } = useClases();  // Cambié setClases por agregarClase
 
     // Estados locales para almacenar la información de la nueva clase
     const [NombreClase, setNombreClase] = useState('');
     const [Seccion, setSeccion] = useState('');
     const [Aula, setAula] = useState('');
     const [NRC, setNRC] = useState('');
-    const [codigo, setcodigo] = useState('');
     const [registroCompleto, setRegistroCompleto] = useState(false);
+
+    const codigo = codigoProfesor;
 
     //Función para manejar el boton de "Cancelar"
     const handlePress = () => {
@@ -115,15 +116,6 @@ const CrearClase = () => {
             value={NRC}
             keyboardType="numeric"
             onChangeText={setNRC}
-          />
-
-          <Text style={styles.title}>Confirma tu codigo</Text>
-          <TextInput
-            style={styles.formulario}
-            placeholder="Codigo"
-            value={codigo}
-            keyboardType="numeric"
-            onChangeText={setcodigo}
           />
 
           <Button title="Crear" onPress={handleRegistroMateria} color='#3D2788' disabled={!registroCompleto} />

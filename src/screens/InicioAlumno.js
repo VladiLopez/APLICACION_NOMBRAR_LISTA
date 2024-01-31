@@ -4,6 +4,7 @@ import { useNavigation, useRoute, useFocusEffect, useIsFocused} from "@react-nav
 import React, { useState, useEffect } from "react";
 import { Button, Dimensions, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useClases } from "./ClasesContext";
+import{handleBajaClaseAlumno} from "../backend/bajaClase";
 
 /**
  * Componente funcional Inicio
@@ -14,13 +15,19 @@ import { useClases } from "./ClasesContext";
  * 
  * @returns {JSX.Element} Elemento JSX que renderiza la pantalla principal.
  */
+
+
 const Inicio = () => {
   // funciones y estado de navegación y contexto
   const route = useRoute();
   const navigation = useNavigation();
 
   const [lastScreen, setLastScreen] = useState("");
-  const { clases, setClases, obtenerClases} = useClases();
+  const { clases, setClases, obtenerClases, codigoProfesor} = useClases();
+
+  const codigoUsuario = codigoProfesor;
+
+  console.log(codigoUsuario);
 
   // Funcion para manejar la navegación a la pantalla de agregar clase
   const [isModalVisible, setModalVisible] = useState(false);
@@ -36,10 +43,27 @@ const Inicio = () => {
     navigation.push('Listado');
   };
 
-  // Funcion para manejar la accion de dar de baja una clase
-  const handleDarDeBajaClase = (item) => {
-    setSelectedClass(item);
+  const handleOpcionesClase = (item) => {
     setModalVisible(true);
+    setSelectedClass(item);
+  };
+
+  // Funcion para manejar la accion de dar de baja una clase
+  const handleDarDeBajaClase = () => {
+    if (selectedClass) {
+  
+    const bajaNRC = selectedClass.NRC;
+    handleBajaClaseAlumno(codigoUsuario, bajaNRC);
+   
+    setModalVisible(false);
+
+    const nuevasClases = clases.filter((clase) => clase.NRC !== bajaNRC);
+    setClases(nuevasClases);
+
+  } else {
+    console.log("No se ha seleccionado ninguna clase para eliminar.");
+  }
+    
   };
 
   // Fución para manejar la acción de modificar una clase
@@ -75,7 +99,7 @@ const Inicio = () => {
 
         renderItem={({ item, index }) => (
           <TouchableOpacity onPress={() => handleClase(item)} style={[styles.estilo_clase, { backgroundColor: colors[index % colors.length] }]}>
-            <TouchableOpacity onPress={() => handleDarDeBajaClase(item)} style={[styles.iconoClase]}>
+            <TouchableOpacity onPress={() => handleOpcionesClase(item)} style={[styles.iconoClase]}>
               <Image
                 source={require('../../img/tres_puntos.png')}
                 style={styles.iconoClase}

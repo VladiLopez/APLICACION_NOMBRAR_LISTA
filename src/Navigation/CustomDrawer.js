@@ -42,7 +42,6 @@ const CustomDrawer = (props) => {
 
   const handleSignOut = () => {
     setIsAuthenticated(false);
-    resetTipoUsuario();
     cerrarSesion();
     navigation.navigate('Login');
   };
