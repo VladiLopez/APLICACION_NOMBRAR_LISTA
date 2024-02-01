@@ -40,7 +40,7 @@ const Inicio = () => {
 
   // Función para manejar la navegación a la pantalla de una clase
   const handleClase = (item) => {
-    navigation.push('Listado');
+    navigation.push('Listado', {codigo: codigoUsuario});
   };
 
   const handleOpcionesClase = (item) => {

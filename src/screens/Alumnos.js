@@ -1,11 +1,20 @@
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { useRoute } from '@react-navigation/native';
+import { useClases } from './ClasesContext';
+import { obtenerUsuariosPorNRC, obtenerClasesPorNRCs } from "../backend/getRegistrosClases";
 
+// Un componente para mostrar una fila de la tabla
+const Row = ({ name, attendance, assignment }) => {
+  return (
+    <View style={styles.row}>
+      <Text style={styles.name}>{name}</Text>
+      <Circle color={attendance} />
+      <Checkbox checked={assignment} />
+    </View>
+  );
+};
 
-// Importamos librerías y componentes necesarios para funcionalidades y estilos
-
-import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-
-// Un componente personalizado para mostrar un círculo de color
 const Circle = ({color}) => {
   return (
     // Estilos asociados al componente
@@ -20,7 +29,6 @@ const Circle = ({color}) => {
   );
 };
 
-// Un componente personalizado para mostrar una casilla de verificación
 const Checkbox = ({checked}) => {
   return (
     // Estilos asociados al componente
@@ -43,56 +51,64 @@ const Checkbox = ({checked}) => {
   );
 };
 
-// Un componente para mostrar una fila de la tabla
-const Row = ({name, attendance, assignment}) => {
+// El componente principal que muestra la tabla completa
+const Alumnos = () => {
+  const { clases } = useClases(); // Asegúrate de importar useClases desde tu contexto
+  const [nombresApellidos, setNombresApellidos] = useState([]);
+
+  const route = useRoute();
+
+  useEffect(() => {
+    const cargarNombresApellidos = async () => {
+      try {
+        if (route.params && route.params.claseNRC) {
+          const nrc = route.params.claseNRC;
+          const codigosAlumnos = await obtenerUsuariosPorNRC(nrc);
+          console.log('Códigos de alumnos asociados al NRC:', codigosAlumnos);
+
+          const nombresApellidosData = await Promise.all(codigosAlumnos.map(async (alumno) => {
+            try {
+              console.log('Datos de usuario por código:', alumno);
+              return alumno;
+            } catch (error) {
+              console.error('Error al obtener datos para el código de alumno', alumno, error);
+              return null;
+            }
+          }));
+
+          setNombresApellidos(nombresApellidosData.flat());
+        }
+      } catch (error) {
+        console.error('Error al cargar nombres y apellidos:', error);
+      }
+    };
+
+    cargarNombresApellidos();
+  }, [route.params]);
+
   return (
-    <View style={styles.row}>
-      <Text style={styles.name}>{name}</Text>
-      <Circle color={attendance} />
-      <Checkbox checked={assignment} />
-    </View>
-  );
-};
-
-  // El componente principal que muestra la tabla completa
-const Alumnos = ({ route }) => {
-  // Recupera el nombre de la clase de los parámetros de navegación
-  const { claseNombre } = route.params;
-
-  // Los datos de los alumnos
-  const students = [
-    {name: 'Felipe Cisa', attendance: 'green', assignment: true},
-    {name: 'Mario Rincón', attendance: 'green', assignment: true},
-    {name: 'Marcelo Rios', attendance: 'red', assignment: false},
-    {name: 'Laura Rios', attendance: 'green', assignment: true},
-    {name: 'Ernesto Pérez', attendance: 'orange', assignment: true},
-    {name: 'Fili Acuña', attendance: 'green', assignment: true},
-    {name: 'Javier Martínez', attendance: 'orange', assignment: true},
-    {name: 'Maritza Guerrero', attendance: 'green', assignment: true},
-    {name: 'Gustavo L.', attendance: 'red', assignment: false,
-  },
-  ];
-
-  return (
-    // Renderiza la interfaz del usuario
     <View style={styles.container}>
-      <Text style={styles.title}>Tabla de asistencia - {claseNombre}</Text>
+      <Text style={styles.title}>Tabla de asistencia{clases[0]?.nombreDeLaClase}</Text>
       <View style={styles.header}>
         <Text style={styles.name}>Alumno</Text>
       </View>
-      {students.map((student, index) => (
+      {nombresApellidos.map((alumno, index) => (
         <Row
           key={index}
-          name={student.name}
-          attendance={student.attendance}
-          assignment={student.assignment}
+          name={`${alumno.Nombre} ${alumno.Apellidos}`}
+          attendance={alumno.Asistencia}  // Asegúrate de tener estos campos en los datos del usuario
+          assignment={alumno.Tarea}  // Asegúrate de tener estos campos en los datos del usuario
         />
       ))}
     </View>
   );
 };
 
-// Los estilos para los componentes
+// Componentes de estilo y otras funciones necesarias aquí
+
+// ... (los componentes Circle y Checkbox, así como los estilos)
+
+// Estilos para el componente Alumnos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -123,15 +139,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
   },
-  attendance: {
-    width: 20,
-    textAlign: 'center',
-  },
-  assignment: {
-    width: 20,
-    textAlign: 'center',
-  },
 });
 
-// Exportamos el componente para su uso en otras partes de la aplicación
 export default Alumnos;

@@ -4,9 +4,10 @@ import {
   obtenerNRCsPorProfesor,
   obtenerDatosDeClasesPorNRCs,
   obtenerDatosDeClasePorId,
+  obtenerUsuariosPorNRC,
 } from "../backend/getRegistrosClases";
 
-const ClasesContext = createContext();
+export const ClasesContext = createContext();
 
 export const ClasesProvider = ({ children }) => {
   const [clases, setClases] = useState([]);
@@ -37,14 +38,23 @@ export const ClasesProvider = ({ children }) => {
     }
   };
 
-  const agregarClase = (nuevaClase) => {
-    setClases([...clases, { id: nuevaClase.NRC, ...nuevaClase }]);
-  };
-
   const obtenerClases = async () => {
     
       await obtenerClasesProfesor();
     
+  };
+
+  const agregarClase = (nuevaClase) => {
+    setClases([...clases, { id: nuevaClase.NRC, ...nuevaClase }]);
+  };
+
+  const obtenerUsuarios = async (nrc) => {
+    try {
+      const nombresApellidos = await obtenerUsuariosPorNRC(nrc);
+      console.log('Nombres y apellidos asociados al NRC:', nombresApellidos);
+    } catch (error) {
+      console.error("Error al obtener nombres y apellidos:", error);
+    }
   };
 
   useEffect(() => {
@@ -73,6 +83,7 @@ export const ClasesProvider = ({ children }) => {
     obtenerDatosDeClase,
     obtenerClases,
     setCodigoUsuario,
+    obtenerUsuarios,
     codigoProfesor,
     cerrarSesion,
   };

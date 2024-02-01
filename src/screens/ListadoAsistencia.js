@@ -23,7 +23,7 @@ const ListadoAsistencia = () => {
    */
   const handleClase = (item) => {
     // Pasa el nombre de la clase como parámetro a la pantalla 'Alumnos'
-    navigation.push('Alumnos', { claseNombre: item.NombreClase });
+    navigation.push('Alumnos', { claseNombre: item.NombreClase, claseNRC: item.NRC });
   };
   /**
    * Componente funcional para añadir espacio en la parte superior de la lista.

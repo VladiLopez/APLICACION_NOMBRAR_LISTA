@@ -1,18 +1,53 @@
 // Liberías y modulos necesarios
 
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { ClasesContext } from "./ClasesContext";
+import { supabase } from "../../Lib/supabase";
 
 const PerfilProfesor = () => {
   const navigation = useNavigation();
+  const { codigoProfesor } = useContext(ClasesContext);
+  const [usuario, setUsuario] = useState(null);
 
   /**
    * Maneja el evento de modificar el perfil.
    * Actualiza el estado de clases con los nuevos detalles de los perfiles modificados.
    * Navega de nuevo a la pantalla de inicio.
    */
+  useEffect(() => {
+    const obtenerDatosUsuario = async () => {
+      try {
+        // Verifica que el código del profesor no esté vacío
+        if (!codigoProfesor) return;
+
+        // Realiza la consulta a la base de datos para obtener los datos del usuario
+        const { data, error } = await supabase
+          .from('usuarios')
+          .select('*')
+          .eq('Codigo', codigoProfesor);
+
+        // Maneja el error en caso de que ocurra
+        if (error) {
+          console.error('Error al obtener los datos del usuario:', error);
+          return;
+        }
+
+        // Actualiza el estado con los datos del usuario obtenidos
+        if (data && data.length > 0) {
+          setUsuario(data[0]);
+        }
+      } catch (error) {
+        console.error('Error general al interactuar con Supabase:', error);
+      }
+    };
+
+    // Llama a la función para obtener los datos del usuario
+    obtenerDatosUsuario();
+  }, [codigoProfesor]); // Asegúrate de incluir codigoProfesor en la lista de dependencias
+
   const handleEditarPerfil = () => {
     navigation.push('EditarPerfil');
   };
@@ -30,10 +65,10 @@ const PerfilProfesor = () => {
       </View>
       <View style={styles.containerText}>
         <Text style={styles.name}>
-            Vladimir Reynoso Hernandez
+        {usuario && `${usuario.Nombre} ${usuario.Apellidos}`}
         </Text>
         <Text style={styles.code}>
-            259675322
+          {usuario && usuario.Codigo}
         </Text>
       </View>
       <View style={styles.containerButton}>

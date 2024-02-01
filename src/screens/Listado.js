@@ -1,22 +1,45 @@
-import React from "react";
-//import DrawerNavigation from "../Navigation/DrawerNavigation.js";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
+import { useRoute } from '@react-navigation/native';
+import { obtenerDatosUsuarioPorCodigo } from "../backend/getRegistrosClases";
 
 const ListadoProfesor = () => {
-  // Datos que deseas codificar en el QR
-  const qrData = 'Gonzalez Monje Ivan Jared\n215698763';
+  const route = useRoute();
+  const codigo = route.params.codigo;
+
+  const [datosUsuario, setDatosUsuario] = useState(null);
+
+  useEffect(() => {
+    const cargarDatosUsuario = async () => {
+      try {
+        const usuario = await obtenerDatosUsuarioPorCodigo(codigo);
+        setDatosUsuario(usuario);
+      } catch (error) {
+        console.error('Error al cargar datos de usuario:', error);
+      }
+    };
+
+    cargarDatosUsuario();
+  }, [codigo]);
 
   // Renderiza la interfaz de usuario
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#D4BDFA',}}>
-      {/* Renderiza el código QR */}
-      <QRCode
-        value={qrData}
-        size={200} // Tamaño del código QR
-        color="black" // Color del código QR
-      />
-      <Text style={styles.datos}>{qrData}</Text>
+      {datosUsuario && (
+        <>
+          {/* Renderiza el código QR */}
+          <QRCode
+            value={`${datosUsuario.Nombre} ${datosUsuario.Apellidos} ${datosUsuario.Codigo}`}
+            size={200} // Tamaño del código QR
+            color="black" // Color del código QR
+          />
+          {/* Renderiza los datos */}
+          <Text style={styles.datos}>
+            {`${datosUsuario.Nombre} ${datosUsuario.Apellidos} ${datosUsuario.Codigo}`}
+          </Text>
+        </>
+      )}
     </View>
   );
 };
@@ -32,5 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Exportamos el componente para ser usado en otra parte de la aplicación
 export default ListadoProfesor;

@@ -1,26 +1,61 @@
-// Importamos los componentes necesarios 
-
+// Importa el useEffect y el useContext desde 'react'
+import React, { useState, useEffect, useContext } from "react";
+// Importa el contexto de ClasesProvider
+import { ClasesContext } from "./ClasesContext";
+// Importa el hook useNavigation desde '@react-navigation/native'
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+// Importa los componentes necesarios de 'react-native'
 import { Image, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+// Importa supabase desde '../../Lib/supabase'
+import { supabase } from "../../Lib/supabase";
 
-/**
- * @component
- * Pantalla que muestra el perfil de un profesor.
- */
 const PerfilProfesor = () => {
+  // Obtiene el código del profesor del contexto de ClasesProvider
+  const { codigoProfesor } = useContext(ClasesContext);
+  // Usa el hook useNavigation para obtener la navegación
   const navigation = useNavigation();
+  // Define el estado para almacenar los datos del usuario
+  const [usuario, setUsuario] = useState(null);
 
-  /**
-   * Navega a la pantalla de edición de perfil cuando se presiona el botón "Editar perfil".
-   * @function
-   */
+  // Define el efecto para obtener los datos del usuario al cargar el componente
+  useEffect(() => {
+    const obtenerDatosUsuario = async () => {
+      try {
+        // Verifica que el código del profesor no esté vacío
+        if (!codigoProfesor) return;
+
+        // Realiza la consulta a la base de datos para obtener los datos del usuario
+        const { data, error } = await supabase
+          .from('usuarios')
+          .select('*')
+          .eq('Codigo', codigoProfesor);
+
+        // Maneja el error en caso de que ocurra
+        if (error) {
+          console.error('Error al obtener los datos del usuario:', error);
+          return;
+        }
+
+        // Actualiza el estado con los datos del usuario obtenidos
+        if (data && data.length > 0) {
+          setUsuario(data[0]);
+        }
+      } catch (error) {
+        console.error('Error general al interactuar con Supabase:', error);
+      }
+    };
+
+    // Llama a la función para obtener los datos del usuario
+    obtenerDatosUsuario();
+  }, [codigoProfesor]); // Asegúrate de incluir codigoProfesor en la lista de dependencias
+
+  // Define la función para manejar la navegación a la pantalla de editar perfil
   const handleEditarPerfil = () => {
     navigation.push('EditarPerfil');
   };
 
-  // Renderiza la interfaz de usuario
+  // Retorna la interfaz de usuario
   return (
     <View style={styles.contenido}>
       <View style={styles.header}>
@@ -33,10 +68,10 @@ const PerfilProfesor = () => {
       </View>
       <View style={styles.containerText}>
         <Text style={styles.name}>
-            Jared Mandujano López Monje
+          {usuario && `${usuario.Nombre} ${usuario.Apellidos}`}
         </Text>
         <Text style={styles.code}>
-            259675322
+          {usuario && usuario.Codigo}
         </Text>
       </View>
       <View style={styles.containerButton}>
@@ -47,6 +82,7 @@ const PerfilProfesor = () => {
     </View>
   );
 };
+
 
 /**
  * Estilos para la pantalla de perfil del profesor.
