@@ -41,3 +41,15 @@ Si deseas consultar qué versión tienes instalado en tu computador puedes usar 
 ```
 node -v
 ```
+
+- **TypeScript**
+```
+tsc -v
+```
+
+- **Expo**
+```
+expo --version
+```
+
+
