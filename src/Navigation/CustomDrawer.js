@@ -1,6 +1,10 @@
 /**
- * Importamos los modulos y las librerías necesarias para
- * desplegar las animaciones y los elementos visuales
+ * Componente CustomDrawer
+ * Este componente personalizado define la apariencia del 
+ * cajon de navegacion lateral ( drawer ).
+ * Utilizado en la aplicacion. Contiene elementos visuales, animaciones y funcionalidades especificas, como
+ * la seleccion de imagenes de perfil y la opcion para
+ * cerrar sesion
  */
 import {
   DrawerContentScrollView,
@@ -19,6 +23,11 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useClases } from "../screens/ClasesContext";
 
+/**
+ * Funcion CustomDrawer
+ * @param { object } props - Propiedades del componente proporcionadas por React Navigation.
+ * @returns { JSX.Element } - Elemento JSX que representa el cajon de navegación personalizado.
+ */
 const CustomDrawer = (props) => {
   const navigation = useNavigation();
   const { resetTipoUsuario } = useClases();
@@ -27,6 +36,9 @@ const CustomDrawer = (props) => {
 
   const { cerrarSesion } = useClases();
 
+  /**
+   * Abre la biblioteca de medios para seleccionar una imagen de perfil
+   */
   const openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -44,6 +56,11 @@ const CustomDrawer = (props) => {
     setSelectedImage({ localUri: pickerResult.assets[0].uri });
   };
 
+  /**
+   * Maneja la accion de cerrar sesion.
+   * Realiza las acciones necesarias para cerrar la sesion
+   * del usuario.
+   */
   const handleSignOut = () => {
     setIsAuthenticated(false);
     resetTipoUsuario();
@@ -51,6 +68,10 @@ const CustomDrawer = (props) => {
     navigation.navigate('Login');
   };
 
+  /**
+   * Efecto secundario que redirige al usuario a la pantalla de inicio de sesion
+   * si no esta autenticado.
+   */
   useEffect(() => {
     if (!isAuthenticated) {
       // Aquí puedes redirigir al usuario a la pantalla de inicio de sesión
@@ -59,6 +80,9 @@ const CustomDrawer = (props) => {
  }, [isAuthenticated]);
 
 
+  /**
+   * Renderizamos el componente
+   */
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView
@@ -128,4 +152,7 @@ const CustomDrawer = (props) => {
   );
 };
 
+/**
+ * Exportamos el componente para que pueda ser usado en otra parte de la aplicacion
+ */
 export default CustomDrawer;

@@ -1,5 +1,5 @@
 /**
- *  Querido programador
+ *            Querido programador
  * 
  * En el momento en el que estamos programando esto solo 
  * nosotros y diosito saben cómo lo hicimos, ahora solo 
@@ -7,9 +7,8 @@
  * 
  * Espero puedas programarla y mejorarla
  * 
- * Si no puedes incrementa el contador de horas: 1 hrs
+ * Si no puedes incrementa el contador de horas:[ 1 hrs ]
  */
-
 
 // Importamos los modulos y las liberías necesarias
 import { NavigationContainer } from '@react-navigation/native';
@@ -23,7 +22,6 @@ import Registro from './Registro.js';
 import AgregarClase from './src/screens/AgregarClase.js';
 import Alumnos from './src/screens/Alumnos.js';
 import { ClasesProvider } from "./src/screens/ClasesContext";
-import { UsuarioProvider } from "./src/screens/UsuarioContext";
 import CrearClase from './src/screens/CrearClase.js';
 import EditarPerfil from './src/screens/EditarPerfil.js';
 import HomeAlumno from './src/screens/HomeAlumno.js';
@@ -31,9 +29,12 @@ import HomeProfesor from './src/screens/HomeProfesor.js'; //HOME.JS HACE LA CONE
 import Listado from './src/screens/Listado.js';
 import ModificarClase from './src/screens/ModificarClase.js';
 import ScannQR from './src/screens/ScannQR.js';
+import { UsuarioProvider } from "./src/screens/UsuarioContext";
 
+// Creamos el Stack Navigator de React Navigation.
 const Stack = createStackNavigator();
 
+// Definimos el componente principal de la aplicacion.
 const App = () => {
   return (
     <NavigationContainer>
@@ -58,4 +59,5 @@ const App = () => {
   );
 };
 
+// Exportamos el componente principal para ser utilizado en otros archivos
 export default App;

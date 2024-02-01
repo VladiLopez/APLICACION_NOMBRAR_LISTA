@@ -27,7 +27,6 @@ const ListadoAsistencia = () => {
   };
   /**
    * Componente funcional para añadir espacio en la parte superior de la lista.
-   * 
    * @returns {JSX.Element} Elemento JSX que representa el espacio en la parte superior de la lista.
    */
   const HeaderSpacer = () => {

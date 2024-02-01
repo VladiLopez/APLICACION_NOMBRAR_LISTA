@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  Button,
-  Alert,
-  TouchableOpacity,
-  Dimensions,
-  ImageBackground,
-} from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+/**
+ * Importamos los modulos y librerías necesarias para 
+ * desplegar las animaciones y los elementos visuales
+ */
 import { Picker } from '@react-native-picker/picker';
-
-import {handleAltaUsuario} from "./src/backend/altaUsuario";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import {
+  Alert,
+  Button,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
+// Llamada al archivo para la alta de nuevos usuarios
+import { handleAltaUsuario } from "./src/backend/altaUsuario";
 
 const Registro = () => {
   const navigation = useNavigation();
@@ -65,6 +68,7 @@ const Registro = () => {
     verificarRegistroCompleto();
   }, [Nombre, Apellidos, Correo, Codigo, password, Tipo_Usuario]);
 
+  // Renderizamos el componente
   return (
     <ImageBackground
       source={require('./img/backgroundReg.jpg')}
@@ -127,6 +131,7 @@ const Registro = () => {
   );
 };
 
+// Configuracion de la hoja de los estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -170,4 +175,5 @@ const pickerSelectStyles = StyleSheet.create({
   },
 });
 
+// Exportamos el componente para que pueda ser usado en otra parte de la aplicacion
 export default Registro;

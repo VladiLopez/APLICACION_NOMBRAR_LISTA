@@ -19,7 +19,6 @@ export default function ScannQR() {
 
   /**
    * Función asincrónica para solicitar permisos de la cámara.
-   * @function
    */
   const askForCameraPermission = () => {
     (async () => {
