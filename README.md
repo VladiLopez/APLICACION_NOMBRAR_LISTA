@@ -38,4 +38,6 @@ Si deseas consultar qué versión tienes instalado en tu computador puedes usar 
 #### Versiones de tecnologías utilizadas
 
 - **JavaScript (Node.js):**
-```node -v```
+```
+node -v
+```
