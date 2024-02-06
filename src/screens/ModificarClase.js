@@ -1,32 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import { useClases } from "./ClasesContext";
 
-/**
- * Componente funcional ModificarClase.
- * 
- * @description Este componente permite modificar los detalles de una clase específica.
- * Se obtiene la información de la clase a través de los parámetros de ruta.
- * Al guardar los cambios, actualiza el estado de clases y navega de nuevo a la pantalla de inicio.
- * 
- * @param {object} route - Objeto que contiene información sobre la ruta/navegación.
- * @param {object} navigation - Objeto que proporciona funciones de navegación.
- * @returns {JSX.Element} Elemento JSX que renderiza la interfaz de usuario para modificar una clase.
- */
 const ModificarClase = ({ route, navigation }) => {
   const { clases, setClases } = useClases();
   const { claseId } = route.params;
 
-  // Estados para los detalles de la clase
   const [NombreClase, setNombreClase] = useState('');
   const [Seccion, setSeccion] = useState('');
   const [Aula, setAula] = useState('');
   const [NRC, setNRC] = useState('');
 
-  // Obtener la clase seleccionada usando su ID
   const selectedClass = clases.find(clase => clase.id === claseId);
 
-  // Actualizar los estados con los detalles de la clase seleccionada
   useEffect(() => {
     if (selectedClass) {
       setNombreClase(selectedClass.NombreClase);
@@ -36,11 +22,6 @@ const ModificarClase = ({ route, navigation }) => {
     }
   }, [selectedClass]);
 
-  /**
-   * Maneja el evento de modificar la clase.
-   * Actualiza el estado de clases con los nuevos detalles de la clase modificada.
-   * Navega de nuevo a la pantalla de inicio.
-   */
   const handleModificarClase = () => {
     if (selectedClass) {
       const updatedClases = clases.map(clase =>
@@ -53,7 +34,6 @@ const ModificarClase = ({ route, navigation }) => {
     }
   };
 
-  // Renderiza la interfaz de usuario
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Modificar Clase</Text>
@@ -86,7 +66,6 @@ const ModificarClase = ({ route, navigation }) => {
   );
 };
 
-// Estilos asociados al componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -113,5 +92,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Exportamos el componente para ser usado en otra parte de la publicación
 export default ModificarClase;

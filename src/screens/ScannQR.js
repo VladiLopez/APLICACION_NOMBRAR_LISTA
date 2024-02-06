@@ -1,26 +1,12 @@
-// Importamos los modulos y las librerías necesarias
-
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
 
-/**
- * Componente funcional para escanear códigos QR.
- * @returns {JSX.Element}
- */
 export default function ScannQR() {
-  // Estado para almacenar la información sobre los permisos de la cámara
   const [hasPermission, setHasPermission] = useState(null);
-  // Estado para rastrear si el código QR ha sido escaneado
   const [scanned, setScanned] = useState(false);
-  // Estado para almacenar el texto scanneado del codigo QR
   const [text, setText] = useState('')
-  // Estado para almacenar el texto scanneado del código QR
 
-  /**
-   * Función asincrónica para solicitar permisos de la cámara.
-   * @function
-   */
   const askForCameraPermission = () => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -47,8 +33,6 @@ export default function ScannQR() {
         <Text>Se requiere el permiso de camara</Text>
       </View>)
   }
-
-  // is not allow ???
   if (hasPermission === false) {
     return (
       <View style={styles.container}>
@@ -72,11 +56,10 @@ export default function ScannQR() {
   );
 }
 
-// Estilos asociados al componente 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D4BDFA',
+    //backgroundColor: '#D4BDFA',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -91,6 +74,6 @@ const styles = StyleSheet.create({
     width: 300,
     overflow: 'hidden',
     borderRadius: 30,
-    backgroundColor: '#D3D7DB'
+    //backgroundColor: '#D3D7DB'
   }
 });

@@ -1,35 +1,47 @@
-// Importamos los componentes necesarios 
-
-import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Image, Text, Button } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import * as ImagePicker from 'expo-image-picker';
 
-/**
- * @component
- * Pantalla que muestra el perfil de un profesor.
- */
 const PerfilProfesor = () => {
   const navigation = useNavigation();
+  const [image, setImage] = useState(null);
 
-  /**
-   * Navega a la pantalla de edición de perfil cuando se presiona el botón "Editar perfil".
-   * @function
-   */
   const handleEditarPerfil = () => {
     navigation.push('EditarPerfil');
   };
 
-  // Renderiza la interfaz de usuario
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
   return (
     <View style={styles.contenido}>
       <View style={styles.header}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.profileImage}
-            source={require('../../img/usuario.png')}
-          />
-        </View>
+        <TouchableOpacity onPress={pickImage}>
+          <View style={styles.imageContainer}>
+            {image ? (
+              <Image
+                style={styles.profileImage}
+                source={{ uri: image }}
+              />
+            ) : (
+              <Image
+                style={styles.profileImage}
+                source={require('../../img/usuario.png')}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.containerText}>
         <Text style={styles.name}>
@@ -48,10 +60,6 @@ const PerfilProfesor = () => {
   );
 };
 
-/**
- * Estilos para la pantalla de perfil del profesor.
- * @constant {Object}
- */
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
@@ -61,7 +69,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#6956A5',
     height: '30%',
-    justifyContent: 'center',
+    //justifyContent: 'center',
     alignItems: 'center',
   },
   imageContainer: {
@@ -69,7 +77,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 100,
     overflow: 'hidden',
-    marginTop: '40%',
+    marginTop: '60%',
   },
   profileImage: {
     flex: 1,
@@ -84,7 +92,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 35,
     fontWeight: "bold",
-    marginTop: 90,
+    marginTop: 120,
     textAlign: 'center',
   },
   code: {
@@ -102,7 +110,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     width: 200,
     height: 50,
-    borderRadius: 10
+    borderRadius: 20
   },
   TextButton:{
     fontSize: 25,
@@ -113,5 +121,4 @@ const styles = StyleSheet.create({
   }
 });
 
-// Exportamos el componente para ser usado en otra parte de la aplicación
 export default PerfilProfesor;

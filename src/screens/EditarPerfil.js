@@ -1,25 +1,13 @@
-// Importamos modulos y librerías necesarias
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 
-import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
-
-/**
- * Componente funcional EditarPerfil.
- * 
- * @description Este componente representa la pantalla de edición de perfil de usuario.
- * Permite al usuario editar su nombre, apellidos, código y contraseña.
- * 
- * @returns {JSX.Element} Elemento JSX que renderiza la pantalla de edición de perfil.
- */
 const EditarPerfil = () => {
 
-  // Estados locales para almacenar la información del perfil
   const [Nombre, setNombre] = useState('');
   const [Apellidos, setApellidos] = useState('');
   const [codigo, setcodigo] = useState('');
   const [password, setpassword] = useState('');
 
-  // Renderiza la interfaz de usuario
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Editar perfil</Text>
@@ -52,7 +40,6 @@ const EditarPerfil = () => {
   );
 };
 
-// Estilos asociados al componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -79,5 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Exporta el componente para su uso en otras partes de la aplicación.
 export default EditarPerfil;

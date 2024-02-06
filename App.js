@@ -1,35 +1,19 @@
-/**
- *  Querido programador
- * 
- * En el momento en el que estamos programando esto solo 
- * nosotros y diosito saben cómo lo hicimos, ahora solo 
- * diosito lo sabe.
- * 
- * Espero puedas programarla y mejorarla
- * 
- * Si no puedes incrementa el contador de horas: 1 hrs
- */
-
-
-// Importamos los modulos y las liberías necesarias
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react'; // Importamos React native para el desarrollo de la app para dispositivos moviles
 import 'react-native-gesture-handler';
-
-// Importamos las pantallas
 import Login from './Login.js';
 import Registro from './Registro.js';
-import AgregarClase from './src/screens/AgregarClase.js';
-import Alumnos from './src/screens/Alumnos.js';
-import { ClasesProvider } from "./src/screens/ClasesContext";
-import CrearClase from './src/screens/CrearClase.js';
-import EditarPerfil from './src/screens/EditarPerfil.js';
-import HomeAlumno from './src/screens/HomeAlumno.js';
 import HomeProfesor from './src/screens/HomeProfesor.js'; //HOME.JS HACE LA CONEXIÓN DEL MENÚ DESPLEGABLE
-import Listado from './src/screens/Listado.js';
+import HomeAlumno from './src/screens/HomeAlumno.js';
+import CrearClase from './src/screens/CrearClase.js'; 
+import AgregarClase from './src/screens/AgregarClase.js'; 
+import Listado from './src/screens/Listado.js'; 
+import ScannQR from './src/screens/ScannQR.js'; 
 import ModificarClase from './src/screens/ModificarClase.js';
-import ScannQR from './src/screens/ScannQR.js';
+import EditarPerfil from './src/screens/EditarPerfil.js'; 
+import Alumnos from './src/screens/Alumnos.js'; 
+import { ClasesProvider } from "./src/screens/ClasesContext";
 
 const Stack = createStackNavigator();
 
@@ -55,5 +39,4 @@ const App = () => {
   );
 };
 
-// Exportar el componente para su uso porterior
 export default App;

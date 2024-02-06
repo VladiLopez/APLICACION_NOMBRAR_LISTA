@@ -1,27 +1,40 @@
 import React from "react";
-//import DrawerNavigation from "../Navigation/DrawerNavigation.js";
-import { StyleSheet, Text, View } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
 
 const ListadoProfesor = () => {
-  // Datos que deseas codificar en el QR
-  const qrData = 'Gonzalez Monje Ivan Jared\n215698763';
+  // Obtiene la fecha y hora actual en la Ciudad de México
+  const fechaHoraActual = new Date();
+  const opcionesFechaHora = { timeZone: 'America/Mexico_City' }; // Especifica la zona horaria aquí
+  const formattedFechaHora = fechaHoraActual.toLocaleString('es-MX', opcionesFechaHora);
 
-  // Renderiza la interfaz de usuario
+  nombre = 'Gonzalez Monje Ivan Jared';
+  codigo = 215698763;
+
+  // Datos que deseas codificar en el QR como un objeto
+  const qrData = {
+    nombre: 'Gonzalez Monje Ivan Jared',
+    codigo: 215698763,
+    fechaHoraEscaneo: formattedFechaHora,
+  };
+
+  // Convierte el objeto a una cadena JSON
+  const qrDataString = JSON.stringify(qrData);
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#D4BDFA',}}>
-      {/* Renderiza el código QR */}
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#D4BDFA' }}>
+      {/* Renderiza el código QR con la cadena JSON como valor */}
       <QRCode
-        value={qrData}
+        value={qrDataString}
         size={200} // Tamaño del código QR
         color="black" // Color del código QR
       />
-      <Text style={styles.datos}>{qrData}</Text>
+      <Text style={styles.datos}>{nombre}</Text>
+      <Text style={styles.datos}>{codigo}</Text>
     </View>
   );
 };
 
-// Estilos asociados al componente
 const styles = StyleSheet.create({
   datos: {
     fontSize: 25,
@@ -32,5 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Exportamos el componente para ser usado en otra parte de la aplicación
 export default ListadoProfesor;

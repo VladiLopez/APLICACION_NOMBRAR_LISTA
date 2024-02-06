@@ -1,21 +1,21 @@
-import { Picker } from '@react-native-picker/picker';
-import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Alert,
-  Button,
-  ImageBackground,
-  StyleSheet,
   Text,
+  View,
+  StyleSheet,
   TextInput,
-  TouchableOpacity
+  Button,
+  Alert,
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground,
 } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import { Picker } from '@react-native-picker/picker';
 
 const Registro = () => {
-  // Utiliza el hook de navegación proporcionado por React Native
   const navigation = useNavigation();
 
-  // Estados para manejar la información del formulario
   const [Nombre, setNombre] = useState('');
   const [Apellidos, setApellidos] = useState('');
   const [Correo, setCorreo] = useState('');
@@ -24,7 +24,10 @@ const Registro = () => {
   const [Tipo_Usuario, setTipo_Usuario] = useState('');
   const [registroCompleto, setRegistroCompleto] = useState(false);
 
-  // Función para manejar el evento de registro
+  useEffect(() => {
+    verificarRegistroCompleto();
+  }, [Nombre, Apellidos, Correo, Codigo, password, Tipo_Usuario]);
+
   const handleRegistro = () => {
     // Guarda los datos del registro en una variable local o en un servicio de autenticación
     const registroData = {
@@ -36,17 +39,13 @@ const Registro = () => {
       Tipo_Usuario,
     };
 
-    // Muestra un mensaje de alerta indicando que los datos han sido registrados.
     Alert.alert('DATOS REGISTRADOS!!');
     // Aquí puedes realizar la autenticación o guardar los datos en un servicio
 
-    // Navega a la pantalla de inicio de sesión y pasa los datos de registro como parametro.
-    navigation.push('Login', { registroData });
+    navigation.push('Login', { registroData }); // Pasa los datos de registro como parámetro
   };
 
-  // Función para manejar el evento de inicio de sesión
   const handleLogin = () => {
-    // Navegamos a la pantalla de inicio de sesión
     navigation.push('Login');
   };
 
@@ -55,7 +54,6 @@ const Registro = () => {
   };
 
   const verificarRegistroCompleto = () => {
-    // tenemos datos completos
     if (Nombre && Apellidos && Correo && Codigo && password && Tipo_Usuario) {
       setRegistroCompleto(true);
     } else {
@@ -63,12 +61,6 @@ const Registro = () => {
     }
   };
 
-  // Verificación
-  useEffect(() => {
-    verificarRegistroCompleto();
-  }, [Nombre, Apellidos, Correo, Codigo, password, Tipo_Usuario]);
-
-  // Renderizamos la interfaz para el usuario
   return (
     <ImageBackground
       source={require('./img/backgroundReg.jpg')}
@@ -90,17 +82,17 @@ const Registro = () => {
         />
         <TextInput
           style={styles.formulario}
-          placeholder="Código"
-          value={Codigo}
-          onChangeText={setCodigo}
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.formulario}
           placeholder="tuCorreo@ejemplo.com"
           value={Correo}
           onChangeText={setCorreo}
           keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.formulario}
+          placeholder="Código"
+          value={Codigo}
+          onChangeText={setCodigo}
+          keyboardType="numeric"
         />
         <TextInput
           style={styles.formulario}
@@ -117,11 +109,17 @@ const Registro = () => {
             style={pickerSelectStyles.estilo}
           >
             <Picker.Item label="Seleccionar tipo de usuario" value={null} />
-            <Picker.Item label="Profesor" value={'Profesor'} onChangeText={setTipo_Usuario} />
-            <Picker.Item label="Alumno" value={'Alumno'} onChangeText={setTipo_Usuario} />
+            <Picker.Item label="Profesor" value={'Profesor'} />
+            <Picker.Item label="Alumno" value={'Alumno'} />
           </Picker>
         </View>
-        <Button title="Registrar" onPress={handleRegistro} color='#3D2788' disabled={!registroCompleto} />
+        <TouchableOpacity
+          style={[styles.customButton, !registroCompleto && styles.buttonDisabled]}
+          onPress={handleRegistro}
+          disabled={!registroCompleto}
+        >
+          <Text style={styles.customButtonText}>Registrar</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text>{'\n'}</Text>
           <Text style={styles.boton_registro}>¿Tienes cuenta? Inicia sesión aquí.</Text>
@@ -130,8 +128,7 @@ const Registro = () => {
     </ImageBackground>
   );
 };
-
-// Configuración de los estilos del componente asociado
+   
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -157,7 +154,7 @@ const styles = StyleSheet.create({
   },
   boton_registro: {
     fontSize: 17,
-    color: 'white',
+    color: '#3D2788',
     fontWeight: 'bold'
   },
   backgroundImage: {
@@ -165,6 +162,30 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "center",
   },
+  customButton: {
+    width: '40%',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3D2788',
+    borderRadius: 10,
+    marginBottom: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 5,
+  },
+  customButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  buttonDisabled: {
+    backgroundColor: '#D3D3D3', // Color gris
+  }
 });
 
 const pickerSelectStyles = StyleSheet.create({
@@ -175,5 +196,4 @@ const pickerSelectStyles = StyleSheet.create({
   },
 });
 
-// Exportamos el componente para su uso en otras partes de la aplicación
 export default Registro;

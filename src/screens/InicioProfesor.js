@@ -1,60 +1,61 @@
-// Realizamos las importaciones de los modulos necesarios
-
-import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
-import { Button, Dimensions, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, FlatList, Modal, Button, Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { useClases } from "./ClasesContext";
 
-/**
- * Componente funcional Inicio.
- * 
- * @description Este componente representa la pantalla principal de la aplicación para un usuario.
- * Muestra una lista de clases con opciones para eliminar, modificar y agregar nuevas clases.
- * Utiliza un modal para confirmar la acción de eliminar o modificar una clase.
- * 
- * @returns {JSX.Element} Elemento JSX que renderiza la pantalla principal
- */
 const Inicio = () => {
-  // Funciones y estado de navegacion y contexto
   const route = useRoute();
   const navigation = useNavigation();
   const { clases, setClases } = useClases();
 
-  // Estado local para controlar la visibilidad de modal y la clase seleccionada
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
 
-  // Funcion para manejar la navegación a la pantalla de agregar clase
   const handlePress = () => {
     navigation.push("CrearClase");
   };
 
-  // Funcion para manejar la navegación a la pantalla de escannear QR
   const handlePressCamara = () => {
     navigation.push("ScannQR");
   };
 
-  // Funcion para mostrar las opciones de una clase y seleccionarla
   const handleOpcionesClase = (item) => {
     setModalVisible(true);
     setSelectedClass(item);
   };
 
-  // Funcion para eliminar la clase seleccionada
   const handleEliminarClase = () => {
     if (selectedClass) {
-      // Eliminar la clase seleccionada del estado de clases
-      const nuevasClases = clases.filter((clase) => clase.id !== selectedClass.id);
-      // Actualizar el estado de clases
-      setClases(nuevasClases);
-      // Cerrar el modal
-      setModalVisible(false);
+      // Mostrar una alerta para confirmar antes de eliminar la clase
+      Alert.alert(
+        "Confirmación",
+        `¿Estás seguro de que deseas eliminar la clase '${selectedClass.NombreClase}'?`,
+        [
+          {
+            text: "Cancelar",
+            onPress: () => console.log("Cancelado"),
+            style: "cancel"
+          },
+          { text: "Eliminar", onPress: () => eliminarClase() }
+        ]
+      );
     } else {
       console.log("No se ha seleccionado ninguna clase para eliminar.");
     }
   };
 
-  // funcion para modificar la clase seleccionada
+  const eliminarClase = () => {
+    // Eliminar la clase seleccionada del estado de clases
+    const nuevasClases = clases.filter((clase) => clase.id !== selectedClass.id);
+    console.log("Clase seleccionada para eliminar:", selectedClass); // Nuevo log
+    console.log("Nuevas clases después de eliminar:", nuevasClases); // Nuevo log
+    // Actualizar el estado de clases
+    setClases(nuevasClases);
+    // Cerrar el modal
+    setModalVisible(false);
+  };
+
   const handleModificarClase = () => {
     if (selectedClass) {
       // Navegar a la pantalla 'ModificarClase' y pasar el ID de la clase seleccionada como parámetro
@@ -65,15 +66,12 @@ const Inicio = () => {
     }
   };
 
-  // Componente para agregar espacio entre el encabezado y la lista
   const HeaderSpacer = () => {
     return <View style={{ marginBottom: 15 }} />;
   };
 
-  // Colores para las clases en la lista
   const colors = ["#83C809", "#099AC8", "#F73A5D", "#F7D53A", "#D796F3", "#96F3E9", "#F6A554", "#7D64FA", "#FFA6F4", "#F8FA64"];
 
-  // Renderiza la interfaz de usuario
   return (
     <View style={styles.contenido}>
       <FlatList
@@ -124,7 +122,6 @@ const Inicio = () => {
 
 const { width, height } = Dimensions.get('window');
 
-// Estilos asociados al componente
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
@@ -195,5 +192,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Exportamos el componente para ser usado en otra parte de la aplicación
 export default Inicio;

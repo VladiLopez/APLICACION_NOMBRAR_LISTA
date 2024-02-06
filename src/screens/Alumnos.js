@@ -1,12 +1,9 @@
-// Importamos librerías y componentes necesarios para funcionalidades y estilos
-
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 
 // Un componente personalizado para mostrar un círculo de color
 const Circle = ({color}) => {
   return (
-    // Estilos asociados al componente
     <View
       style={{
         width: 20,
@@ -21,7 +18,6 @@ const Circle = ({color}) => {
 // Un componente personalizado para mostrar una casilla de verificación
 const Checkbox = ({checked}) => {
   return (
-    // Estilos asociados al componente
     <View
       style={{
         width: 20,
@@ -42,37 +38,34 @@ const Checkbox = ({checked}) => {
 };
 
 // Un componente para mostrar una fila de la tabla
-const Row = ({name, attendance, assignment}) => {
+const Row = ({name, attendance}) => {
   return (
     <View style={styles.row}>
       <Text style={styles.name}>{name}</Text>
       <Circle color={attendance} />
-      <Checkbox checked={assignment} />
     </View>
   );
 };
 
-  // El componente principal que muestra la tabla completa
+// El componente principal que muestra la tabla completa
 const Alumnos = ({ route }) => {
   // Recupera el nombre de la clase de los parámetros de navegación
   const { claseNombre } = route.params;
 
   // Los datos de los alumnos
   const students = [
-    {name: 'Felipe Cisa', attendance: 'green', assignment: true},
-    {name: 'Mario Rincón', attendance: 'green', assignment: true},
-    {name: 'Marcelo Rios', attendance: 'red', assignment: false},
-    {name: 'Laura Rios', attendance: 'green', assignment: true},
-    {name: 'Ernesto Pérez', attendance: 'orange', assignment: true},
-    {name: 'Fili Acuña', attendance: 'green', assignment: true},
-    {name: 'Javier Martínez', attendance: 'orange', assignment: true},
-    {name: 'Maritza Guerrero', attendance: 'green', assignment: true},
-    {name: 'Gustavo L.', attendance: 'red', assignment: false,
-  },
+    {name: 'Felipe Cisa', attendance: 'green'},
+    {name: 'Mario Rincón', attendance: 'green'},
+    {name: 'Marcelo Rios', attendance: 'red'},
+    {name: 'Laura Rios', attendance: 'green'},
+    {name: 'Ernesto Pérez', attendance: 'orange'},
+    {name: 'Fili Acuña', attendance: 'green'},
+    {name: 'Javier Martínez', attendance: 'orange'},
+    {name: 'Maritza Guerrero', attendance: 'green'},
+    {name: 'Gustavo L.', attendance: 'red'},
   ];
 
   return (
-    // Renderiza la interfaz del usuario
     <View style={styles.container}>
       <Text style={styles.title}>Tabla de asistencia - {claseNombre}</Text>
       <View style={styles.header}>
@@ -83,7 +76,6 @@ const Alumnos = ({ route }) => {
           key={index}
           name={student.name}
           attendance={student.attendance}
-          assignment={student.assignment}
         />
       ))}
     </View>
@@ -131,5 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Exportamos el componente para su uso en otras partes de la aplicación
 export default Alumnos;

@@ -1,60 +1,42 @@
-// Importamos librerías y componentes necesarios
-
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
-import { Button, Dimensions, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, FlatList, Modal, Button } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { useClases } from "./ClasesContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-/**
- * Componente funcional Inicio
- * 
- * @description Este componente representa la pantalla principal de la aplicación para un usuario.
- * Muestra una lista de clases con la opción de dar baja, agregar una nueva clase y ver detalles de una clase.
- * Utiliza un modal para confirmar la acción de dar de baja una clase.
- * 
- * @returns {JSX.Element} Elemento JSX que renderiza la pantalla principal.
- */
 const Inicio = () => {
-  // funciones y estado de navegación y contexto
   const route = useRoute();
   const navigation = useNavigation();
   const { clases } = useClases();
 
-  // Funcion para manejar la navegación a la pantalla de agregar clase
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
 
-  // Funcion para manejar la navegación a la pantalla de agregar clase
   const handlePressAgregarClase = () => {
     navigation.push("AgregarClase");
   };
 
-  // Función para manejar la navegación a la pantalla de una clase
   const handleClase = (item) => {
     navigation.push('Listado');
   };
 
-  // Funcion para manejar la accion de dar de baja una clase
   const handleDarDeBajaClase = (item) => {
     setSelectedClass(item);
     setModalVisible(true);
   };
 
-  // Fución para manejar la acción de modificar una clase
   const handleModificarClase = () => {
     // Lógica para modificar la clase seleccionada (selectedClass)
     setModalVisible(true);
   };
 
-  // Componentes para agregar espacio entre el encabezado y la lista
   const HeaderSpacer = () => {
     return <View style={{ marginBottom: 15 }} />;
   };
 
-  // Colores para las clases en la lista
   const colors = ["#83C809", "#099AC8", "#F73A5D", "#F7D53A", "#D796F3", "#96F3E9", "#F6A554", "#7D64FA", "#FFA6F4", "#F8FA64"];
 
-  // Renderiza la interfaz de usuario
   return (
     <View style={styles.contenido}>
       <FlatList
@@ -104,7 +86,6 @@ const Inicio = () => {
 
 const { width, height } = Dimensions.get('window');
 
-// Estilos asociados al componente
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
@@ -176,5 +157,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Exportamos el componente para ser usado en otra parte de la aplicación
 export default Inicio;
