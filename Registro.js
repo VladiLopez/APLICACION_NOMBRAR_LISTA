@@ -26,6 +26,10 @@ const Registro = () => {
   const [Tipo_Usuario, setTipo_Usuario] = useState('');
   const [registroCompleto, setRegistroCompleto] = useState(false);
 
+  useEffect(() => {
+    verificarRegistroCompleto();
+  }, [Nombre, Apellidos, Correo, Codigo, password, Tipo_Usuario]);
+
   const handleRegistro = () => {
     // Guarda los datos del registro en una variable local o en un servicio de autenticación
     const registroData = {
@@ -60,10 +64,6 @@ const Registro = () => {
       setRegistroCompleto(false);
     }
   };
-
-  useEffect(() => {
-    verificarRegistroCompleto();
-  }, [Nombre, Apellidos, Correo, Codigo, password, Tipo_Usuario]);
 
   return (
     <ImageBackground
@@ -117,7 +117,13 @@ const Registro = () => {
             <Picker.Item label="Alumno" value={'Alumno'} onChangeText={setTipo_Usuario} />
           </Picker>
         </View>
-        <Button title="Registrar" onPress={handleRegistro} color='#3D2788' disabled={!registroCompleto} />
+        <TouchableOpacity
+          style={[styles.customButton, !registroCompleto && styles.buttonDisabled]}
+          onPress={handleRegistro}
+          disabled={!registroCompleto}
+        >
+          <Text style={styles.customButtonText}>Registrar</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text>{'\n'}</Text>
           <Text style={styles.boton_registro}>¿Tienes cuenta? Inicia sesión aquí.</Text>
@@ -152,7 +158,7 @@ const styles = StyleSheet.create({
   },
   boton_registro: {
     fontSize: 17,
-    color: 'white',
+    color: '#3D2788',
     fontWeight: 'bold'
   },
   backgroundImage: {
@@ -160,6 +166,30 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "center",
   },
+  customButton: {
+    width: '40%',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3D2788',
+    borderRadius: 10,
+    marginBottom: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 5,
+  },
+  customButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  buttonDisabled: {
+    backgroundColor: '#D3D3D3', // Color gris
+  }
 });
 
 const pickerSelectStyles = StyleSheet.create({

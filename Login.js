@@ -6,7 +6,7 @@ import {
   Image,
   StyleSheet,
   TextInput,
-  Button,
+  Modal,
   Alert,
   TouchableOpacity,
   ImageBackground,
@@ -22,6 +22,9 @@ const Login = () => {
 
   const [Codigo, setCodigo] = useState('');
   const [password, setPassword] = useState('');
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
 
   const handleLogin = async () => {
@@ -50,7 +53,8 @@ const Login = () => {
         // Continuar con la navegación
         navigation.push(usuario.Tipo_Usuario === 'Profesor' ? 'HomeProfesor' : 'HomeAlumno');
       } else {
-        Alert.alert('Código y/o contraseña incorrecta');
+        setAlertMessage('Correo y/o contraseña incorrecta!!');
+        setShowAlert(true);
       }
     } catch (error) {
       console.error('Error general al interactuar con Supabase:', error);
@@ -86,11 +90,28 @@ const Login = () => {
           value={password}
           onChangeText={setPassword}
         />
-        <Button title="Iniciar Sesión" onPress={handleLogin} color='#3D2788' />
+        <TouchableOpacity style={styles.customButton} onPress={handleLogin}>
+          <Text style={styles.customButtonText}>Iniciar Sesión</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleRegistro}>
           <Text>{'\n'}</Text>
           <Text style={styles.boton_registro}>¿No tienes cuenta? Regístrate aquí.</Text>
         </TouchableOpacity>
+        <Modal
+          visible={showAlert}
+          transparent={true}
+          animationType='fade'
+          onRequestClose={() => setShowAlert(false)}
+        >
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalText}>{alertMessage}</Text>
+              <TouchableOpacity onPress={() => setShowAlert(false)} style={styles.modalButton}>
+                <Text style={styles.modalButtonText}>OK</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     </ImageBackground>
   );
@@ -124,6 +145,27 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     backgroundColor: 'white',
   },
+  customButton: {
+    width: '40%',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3D2788',
+    borderRadius: 10,
+    marginBottom: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 5,
+  },
+  customButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   boton_registro: {
     fontSize: 17,
     color: '#3D2788',
@@ -134,7 +176,35 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "center",
   },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalButton: {
+    backgroundColor: '#3D2788',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 15,
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });
 
 export default Login;
-

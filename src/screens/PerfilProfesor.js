@@ -7,10 +7,12 @@ import { useNavigation } from "@react-navigation/native";
 // Importa los componentes necesarios de 'react-native'
 import { Image, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import * as ImagePicker from 'expo-image-picker';
 // Importa supabase desde '../../Lib/supabase'
 import { supabase } from "../../Lib/supabase";
 
 const PerfilProfesor = () => {
+  const [image, setImage] = useState(null);
   // Obtiene el código del profesor del contexto de ClasesProvider
   const { codigoProfesor } = useContext(ClasesContext);
   // Usa el hook useNavigation para obtener la navegación
@@ -55,16 +57,37 @@ const PerfilProfesor = () => {
     navigation.push('EditarPerfil');
   };
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
   // Retorna la interfaz de usuario
   return (
     <View style={styles.contenido}>
       <View style={styles.header}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.profileImage}
-            source={require('../../img/usuario.png')}
-          />
-        </View>
+        <TouchableOpacity onPress={pickImage}>
+          <View style={styles.imageContainer}>
+            {image ? (
+              <Image
+                style={styles.profileImage}
+                source={{ uri: image }}
+              />
+            ) : (
+              <Image
+                style={styles.profileImage}
+                source={require('../../img/usuario.png')}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.containerText}>
         <Text style={styles.name}>
@@ -97,7 +120,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#6956A5',
     height: '30%',
-    justifyContent: 'center',
+    //justifyContent: 'center',
     alignItems: 'center',
   },
   imageContainer: {
@@ -105,7 +128,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 100,
     overflow: 'hidden',
-    marginTop: '40%',
+    marginTop: '60%',
   },
   profileImage: {
     flex: 1,
@@ -120,7 +143,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 35,
     fontWeight: "bold",
-    marginTop: 90,
+    marginTop: 120,
     textAlign: 'center',
   },
   code: {
@@ -138,7 +161,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     width: 200,
     height: 50,
-    borderRadius: 10
+    borderRadius: 20
   },
   TextButton:{
     fontSize: 25,

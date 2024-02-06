@@ -2,7 +2,7 @@
 
 import { useNavigation, useRoute, useFocusEffect, useIsFocused } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
-import { Button, Dimensions, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, Dimensions, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import { useClases } from "./ClasesContext";
 
 import{handleBajaClase} from "../backend/bajaClase";
@@ -44,7 +44,7 @@ const Inicio = () => {
   };
 
   // Funcion para eliminar la clase seleccionada
-  const handleEliminarClase = () => {
+  const FuncionEliminarClase = () => {
   if (selectedClass) {
     // Eliminar la clase seleccionada del estado de clases
 
@@ -59,6 +59,26 @@ const Inicio = () => {
     console.log("No se ha seleccionado ninguna clase para eliminar.");
   }
 };
+
+  const handleEliminarClase = () => {
+    if (selectedClass) {
+      // Mostrar una alerta para confirmar antes de eliminar la clase
+      Alert.alert(
+        "Confirmación",
+        `¿Estás seguro de que deseas eliminar la clase '${selectedClass.NombreClase}'?`,
+        [
+          {
+            text: "Cancelar",
+            onPress: () => console.log("Cancelado"),
+            style: "cancel"
+          },
+          { text: "Eliminar", onPress: () => FuncionEliminarClase() }
+        ]
+      );
+    } else {
+      console.log("No se ha seleccionado ninguna clase para eliminar.");
+    }
+  };
 
   // funcion para modificar la clase seleccionada
   const handleModificarClase = () => {

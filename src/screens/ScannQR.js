@@ -2,7 +2,7 @@
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, ImageBackground} from 'react-native';
 
 /**
  * Componente funcional para escanear códigos QR.
@@ -59,16 +59,21 @@ export default function ScannQR() {
 
   // Return the View
   return (
-    <View style={styles.container}>
-      <View style={styles.barcodebox}>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{ height: 400, width: 400 }} />
-      </View>
-      <Text style={styles.maintext}>{text}</Text>
+    <ImageBackground
+        source={require('../../img/background_crearLista.jpg')}
+        style={styles.backgroundImage}
+    >
+      <View style={styles.container}>
+        <View style={styles.barcodebox}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={{ height: 400, width: 400 }} />
+        </View>
+        <Text style={styles.maintext}>{text}</Text>
 
-      {scanned && <Button title={'Escanear nuevamente?'} onPress={() => setScanned(false)} color='#3D2788' />}
-    </View>
+        {scanned && <Button title={'Escanear nuevamente?'} onPress={() => setScanned(false)} color='#3D2788' />}
+      </View>
+    </ImageBackground>
   );
 }
 
@@ -76,7 +81,7 @@ export default function ScannQR() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D4BDFA',
+    //backgroundColor: '#D4BDFA',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -92,5 +97,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 30,
     backgroundColor: '#D3D7DB'
-  }
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, StyleSheet, Text, TextInput, View, ImageBackground, TouchableOpacity } from "react-native";
 import { useClases } from "./ClasesContext";
 
 import{modificarClase} from "../backend/modificarClase";
@@ -53,35 +53,41 @@ const ModificarClase = ({ route, navigation }) => {
 
   // Renderiza la interfaz de usuario
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Modificar Clase</Text>
-      <TextInput
-        style={styles.input}
-        value={NombreClase}
-        onChangeText={setNombreClase}
-        placeholder="Nombre de la Clase"
-      />
-      <TextInput
-        style={styles.input}
-        value={Seccion}
-        onChangeText={setSeccion}
-        placeholder="Sección"
-      />
-      <TextInput
-        style={styles.input}
-        value={Aula}
-        onChangeText={setAula}
-        placeholder="Aula"
-      />
-      <TextInput
-        style={styles.input}
-        value={NRC}
-        onChangeText={setNRC}
-        keyboardType="numeric"
-        placeholder="NRC"
-      />
-      <Button title="Guardar" onPress={handleModificarClase} color='#3D2788'/>
-    </View>
+    <ImageBackground
+        source={require('../../img/background_crearLista.jpg')}
+        style={styles.backgroundImage}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Modificar Clase</Text>
+        <TextInput
+          style={styles.input}
+          value={NombreClase}
+          onChangeText={setNombreClase}
+          placeholder="Nombre de la Clase"
+        />
+        <TextInput
+          style={styles.input}
+          value={Seccion}
+          onChangeText={setSeccion}
+          placeholder="Sección"
+        />
+        <TextInput
+          style={styles.input}
+          value={Aula}
+          onChangeText={setAula}
+          placeholder="Aula"
+        />
+        <TextInput
+          style={styles.input}
+          value={NRC}
+          onChangeText={setNRC}
+          keyboardType="numeric"
+          placeholder="NRC"
+        />
+        <TouchableOpacity style={styles.customButton} onPress={handleModificarClase}>
+          <Text style={styles.customButtonText}>Guardar</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -91,7 +97,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D4BDFA',
     padding: 20,
   },
   title: {
@@ -109,6 +114,32 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderRadius: 70,
     backgroundColor: 'white',
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+  customButton: {
+    width: '40%',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3D2788',
+    borderRadius: 10,
+    marginBottom: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 5,
+  },
+  customButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
