@@ -26,7 +26,7 @@ const ModificarClase = ({ route, navigation }) => {
   const [NRC, setNRC] = useState();
 
   // Obtener la clase seleccionada usando su ID
-  const selectedClass = clases.find(clase => clase.id === claseId);
+  const selectedClass = clases.find(clase => clase.NRC === claseId);
 
   // Actualizar los estados con los detalles de la clase seleccionada
   useEffect(() => {
@@ -77,7 +77,6 @@ const ModificarClase = ({ route, navigation }) => {
         style={styles.input}
         value={NRC}
         onChangeText={setNRC}
-        keyboardType="numeric"
         placeholder="NRC"
       />
       <Button title="Guardar" onPress={handleModificarClase} color='#3D2788'/>

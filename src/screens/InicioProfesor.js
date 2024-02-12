@@ -62,14 +62,14 @@ const Inicio = () => {
 
   // funcion para modificar la clase seleccionada
   const handleModificarClase = () => {
-    if (selectedClass) {
-      // Navegar a la pantalla 'ModificarClase' y pasar el ID de la clase seleccionada como parámetro
-      navigation.navigate('ModificarClase', { claseId: selectedClass.id });
-      setModalVisible(false);
-    } else {
-      console.log("No se ha seleccionado ninguna clase para modificar.");
-    }
-  };
+  if (selectedClass) {
+    // Navegar a la pantalla 'ModificarClase' y pasar el ID de la clase seleccionada como parámetro
+    navigation.navigate('ModificarClase', { claseId: selectedClass.NRC }); // Corregido aquí
+    setModalVisible(false);
+  } else {
+    console.log("No se ha seleccionado ninguna clase para modificar.");
+  }
+};
 
   // Componente para agregar espacio entre el encabezado y la lista
   const HeaderSpacer = () => {

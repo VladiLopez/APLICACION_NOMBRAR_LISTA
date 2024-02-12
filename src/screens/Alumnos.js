@@ -1,23 +1,73 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useClases } from './ClasesContext';
-import { obtenerUsuariosPorNRC, obtenerClasesPorNRCs } from "../backend/getRegistrosClases";
+import { getCodigos, getAsistencias, getDatosAsistencias } from "../backend/getRegistrosClases";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-// Un componente para mostrar una fila de la tabla
-const Row = ({ name, attendance, assignment }) => {
+const formatHora = (horaString) => {
+  try {
+    const [hour, minute] = horaString.split(":").map(part => parseInt(part));
+    return new Date(0, 0, 0, hour, minute);
+  } catch (error) {
+    console.error('Error al formatear la hora:', error);
+    return null;
+  }
+};
+
+
+const Row = ({ name, horaAsistencia, horaInicio }) => {
+  const [color, setColor] = useState(null);
+
+  useEffect(() => {
+    const calcularColor = () => {
+      console.log(horaInicio);
+      console.log(horaAsistencia);
+
+      const horaInicioFormateada = formatHora(horaInicio);
+      const horaAsistenciaFormateada = formatHora(horaAsistencia);
+
+      console.log(horaInicioFormateada);
+      console.log(horaAsistenciaFormateada);
+
+
+      const horaInicioMinutos = horaInicioFormateada.getHours() * 60 + horaInicioFormateada.getMinutes();
+      const horaAsistenciaMinutos = horaAsistenciaFormateada.getHours() * 60 + horaAsistenciaFormateada.getMinutes();
+
+      const diferenciaMinutos = horaAsistenciaMinutos - horaInicioMinutos;
+
+      console.log(diferenciaMinutos);
+
+      if (diferenciaMinutos <= 0) {
+        return 'green'; // Llegó puntual o antes de la hora de inicio
+      } else if (diferenciaMinutos <= 15) {
+        return 'yellow'; // Llegó hasta 15 minutos tarde
+      } else {
+        return 'red'; // Llegó más de 15 minutos tarde
+      }
+    };
+
+
+    const color = calcularColor();
+    setColor(color);
+  }, [horaAsistencia, horaInicio]);
+
+  if (color === null) {
+    // Renderizar un componente de carga mientras se calcula el color
+    return <ActivityIndicator />;
+  }
+
   return (
     <View style={styles.row}>
       <Text style={styles.name}>{name}</Text>
-      <Circle color={attendance} />
-      <Checkbox checked={assignment} />
+      <Circle color={color} />
     </View>
   );
 };
 
+
 const Circle = ({color}) => {
   return (
-    // Estilos asociados al componente
     <View
       style={{
         width: 20,
@@ -29,86 +79,74 @@ const Circle = ({color}) => {
   );
 };
 
-const Checkbox = ({checked}) => {
-  return (
-    // Estilos asociados al componente
-    <View
-      style={{
-        width: 20,
-        height: 20,
-        borderWidth: 2,
-        borderColor: 'black',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      {checked ? (
-        <Image
-          source={require('../../img/check.png')} // Una imagen local de un símbolo de verificación
-          style={{width: 15, height: 15}}
-        />
-      ) : null}
-    </View>
-  );
-};
-
-// El componente principal que muestra la tabla completa
 const Alumnos = () => {
-  const { clases } = useClases(); // Asegúrate de importar useClases desde tu contexto
+  const { clases } = useClases(); 
   const [nombresApellidos, setNombresApellidos] = useState([]);
-
+  const [horas, setHoras] = useState([]); // Nuevo estado para almacenar las horas de llegada de los alumnos
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const route = useRoute();
 
-  useEffect(() => {
-    const cargarNombresApellidos = async () => {
+  const hora_inicio = route.params.hora;
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+ useEffect(() => {
+    const cargarDatosPorFecha = async () => {
       try {
-        if (route.params && route.params.claseNRC) {
-          const nrc = route.params.claseNRC;
-          const codigosAlumnos = await obtenerUsuariosPorNRC(nrc);
-          console.log('Códigos de alumnos asociados al NRC:', codigosAlumnos);
+        const nrc = route.params.claseNRC;
+        const fecha = formatDate(selectedDate);
+        const asistencias = await getAsistencias(fecha, nrc);
+        setNombresApellidos(asistencias);
 
-          const nombresApellidosData = await Promise.all(codigosAlumnos.map(async (alumno) => {
-            try {
-              console.log('Datos de usuario por código:', alumno);
-              return alumno;
-            } catch (error) {
-              console.error('Error al obtener datos para el código de alumno', alumno, error);
-              return null;
-            }
-          }));
-
-          setNombresApellidos(nombresApellidosData.flat());
-        }
+        const horasAsistencias = await getCodigos(fecha, nrc);
+        setHoras(horasAsistencias); // Asegúrate de que se pasen correctamente las horas al estado 'horas'
       } catch (error) {
-        console.error('Error al cargar nombres y apellidos:', error);
+        console.error('Ocurrió un error al obtener asistencias:', error);
       }
     };
 
-    cargarNombresApellidos();
-  }, [route.params]);
+    cargarDatosPorFecha();
+  }, [selectedDate]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tabla de asistencia{clases[0]?.nombreDeLaClase}</Text>
+      <Text style={styles.title}>Tabla de asistencia {clases[0]?.nombreDeLaClase}</Text>
+      <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+        <Text>Seleccionar Fecha</Text>
+      </TouchableOpacity>
+      {showDatePicker && (
+        <DateTimePicker
+          value={selectedDate}
+          mode="date"
+          display="default"
+          onChange={(event, newDate) => {
+            const currentDate = newDate || selectedDate;
+            setShowDatePicker(Platform.OS === 'ios');
+            setSelectedDate(currentDate);
+          }}
+        />
+      )}
       <View style={styles.header}>
         <Text style={styles.name}>Alumno</Text>
       </View>
-      {nombresApellidos.map((alumno, index) => (
+      {nombresApellidos.map((usuario, index) => (
         <Row
           key={index}
-          name={`${alumno.Nombre} ${alumno.Apellidos}`}
-          attendance={alumno.Asistencia}  // Asegúrate de tener estos campos en los datos del usuario
-          assignment={alumno.Tarea}  // Asegúrate de tener estos campos en los datos del usuario
+          name={`${usuario.Nombre} ${usuario.Apellidos}`}
+          horaAsistencia={horas[index] ? horas[index] : ''} // Asegurar que la hora de asistencia esté definida
+          horaInicio={hora_inicio} // Asegurar que la hora de inicio esté definida
         />
       ))}
     </View>
   );
 };
 
-// Componentes de estilo y otras funciones necesarias aquí
-
-// ... (los componentes Circle y Checkbox, así como los estilos)
-
-// Estilos para el componente Alumnos
 const styles = StyleSheet.create({
   container: {
     flex: 1,

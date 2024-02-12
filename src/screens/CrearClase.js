@@ -27,7 +27,7 @@ import{handleAltaRelacion} from "../backend/altaClase";
 
 
 /**
- * Componente funcional CrerClase.
+ * Componente funcional CrearClase.
  * 
  * @description Este componente representa la pantalla para que el usuario cree una nueva clase.
  * Permite al usuario ingresar informacioón como el nombre de la clase, sección, aula y NRC.
@@ -48,6 +48,8 @@ const CrearClase = () => {
     const [Seccion, setSeccion] = useState('');
     const [Aula, setAula] = useState('');
     const [NRC, setNRC] = useState('');
+    const [Hora_inicio, setHora_inicio] = useState('');
+    const [Hora_fin, setHora_fin] = useState('');
     const [registroCompleto, setRegistroCompleto] = useState(false);
 
     const codigo = codigoProfesor;
@@ -58,16 +60,16 @@ const CrearClase = () => {
     };
     
     const handleRegistroMateria = async () => {
-      const nuevaClase = {NRC, NombreClase, Seccion, Aula};
+      const nuevaClase = {NRC, NombreClase, Seccion, Aula, Hora_inicio, Hora_fin};
       await handleAltaClase(nuevaClase);
       await handleAltaRelacion(codigo,NRC);
       agregarClase(nuevaClase);  // Cambié setClases por agregarClase
       console.log('\nNombre de la Clase: ${NombreClase}"\nSeccion: ${Seccion}\nAula: ${Aula}\nNRC: ${NRC}\n');
-      navigation.navigate('Inicio', {NRC, NombreClase, Seccion, Aula});
+      navigation.navigate('Inicio', {NRC, NombreClase, Seccion, Aula, Hora_inicio, Hora_fin});
     };
     // Función para verificar si todos los campos estan completos
     const verificarRegistroCompleto = () => {
-      if (NombreClase && Seccion && Aula && NRC) {
+      if (NombreClase && Seccion && Aula && NRC && Hora_inicio && Hora_fin) {
         setRegistroCompleto(true);
       } else {
         setRegistroCompleto(false);
@@ -77,7 +79,7 @@ const CrearClase = () => {
     // Efecto secundario para verificar el registro completo cuando cambian los valores.
     useEffect(() => {
       verificarRegistroCompleto();
-    }, [NombreClase, Seccion, Aula, NRC]);
+    }, [NombreClase, Seccion, Aula, NRC, Hora_inicio, Hora_fin]);
 
     // Renderiza la interfaz de usuario
     return (
@@ -116,6 +118,18 @@ const CrearClase = () => {
             value={NRC}
             keyboardType="numeric"
             onChangeText={setNRC}
+          />
+          <TextInput
+            style={styles.formulario}
+            placeholder="Inicio de clase (HH:MM)"
+            value={Hora_inicio}
+            onChangeText={setHora_inicio}
+          />
+          <TextInput
+            style={styles.formulario}
+            placeholder="Fin de la clase (HH:MM)"
+            value={Hora_fin}
+            onChangeText={setHora_fin}
           />
 
           <Button title="Crear" onPress={handleRegistroMateria} color='#3D2788' disabled={!registroCompleto} />
@@ -175,4 +189,4 @@ const styles = StyleSheet.create({
 });
 
 // Exporta el componente para su uso en otras partes de la aplicación
-export default CrearClase;
+export default CrearClase;

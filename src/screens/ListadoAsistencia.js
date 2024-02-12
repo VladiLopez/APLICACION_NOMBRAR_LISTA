@@ -22,8 +22,9 @@ const ListadoAsistencia = () => {
    * @param {object} item - Objeto que representa la clase seleccionada.
    */
   const handleClase = (item) => {
+   const horaInicioFormatted = `${item.Hora_inicio}:00-06`; // Agregamos los segundos y la zona horaria correspondiente
     // Pasa el nombre de la clase como parámetro a la pantalla 'Alumnos'
-    navigation.push('Alumnos', { claseNombre: item.NombreClase, claseNRC: item.NRC });
+    navigation.push('Alumnos', { claseNombre: item.NombreClase, claseNRC: item.NRC, hora: horaInicioFormatted });
   };
   /**
    * Componente funcional para añadir espacio en la parte superior de la lista.
