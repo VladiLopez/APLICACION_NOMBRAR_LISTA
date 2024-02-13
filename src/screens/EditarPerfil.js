@@ -1,64 +1,67 @@
-// Importamos modulos y librerías necesarias
-
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, StyleSheet, Text, TextInput, View, TouchableOpacity, ImageBackground} from "react-native";
+import { Updates } from 'expo';
 
-/**
- * Componente funcional EditarPerfil.
- * 
- * @description Este componente representa la pantalla de edición de perfil de usuario.
- * Permite al usuario editar su nombre, apellidos, código y contraseña.
- * 
- * @returns {JSX.Element} Elemento JSX que renderiza la pantalla de edición de perfil.
- */
 const EditarPerfil = () => {
-
-  // Estados locales para almacenar la información del perfil
   const [Nombre, setNombre] = useState('');
   const [Apellidos, setApellidos] = useState('');
   const [codigo, setcodigo] = useState('');
   const [password, setpassword] = useState('');
 
-  // Renderiza la interfaz de usuario
+  const handleGuardar = () => {
+    // Aquí guardarías tus datos, por ejemplo, en una base de datos o en el almacenamiento local.
+
+    // Después de guardar los datos, reiniciar la aplicación
+    Updates.reloadAsync();
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Editar perfil</Text>
-      <TextInput
-        style={styles.input}
-        value={Nombre}
-        onChangeText={setNombre}
-        placeholder="Nombre"
-      />
-      <TextInput
-        style={styles.input}
-        value={Apellidos}
-        onChangeText={setApellidos}
-        placeholder="Apellidos"
-      />
-      <TextInput
-        style={styles.input}
-        value={codigo}
-        onChangeText={setcodigo}
-        placeholder="Codigo"
-      />
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setpassword}
-        placeholder="Password"
-      />
-      <Button title="Guardar" onPress={"Datos guardados"} color='#3D2788'/>
-    </View>
+    <ImageBackground
+        source={require('../../img/background_crearLista.jpg')}
+        style={styles.backgroundImage}
+        >
+      <View style={styles.container}>
+        <Text style={styles.title}>Editar perfil</Text>
+        <TextInput
+          style={styles.input}
+          value={Nombre}
+          onChangeText={setNombre}
+          placeholder="Nombre"
+        />
+        <TextInput
+          style={styles.input}
+          value={Apellidos}
+          onChangeText={setApellidos}
+          placeholder="Apellidos"
+        />
+        <TextInput
+          style={styles.input}
+          value={codigo}
+          onChangeText={setcodigo}
+          placeholder="Codigo"
+        />
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setpassword}
+          placeholder="Password"
+        />
+        <TouchableOpacity 
+          style={styles.customButton}
+          onPress={handleGuardar} 
+        >
+          <Text style={styles.customButtonText}>Guardar</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
-// Estilos asociados al componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D4BDFA',
     padding: 20,
   },
   title: {
@@ -77,7 +80,32 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     backgroundColor: 'white',
   },
+  customButton: {
+    width: '40%',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3D2788',
+    borderRadius: 10,
+    marginBottom: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 5,
+  },
+  customButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
 });
 
-// Exporta el componente para su uso en otras partes de la aplicación.
 export default EditarPerfil;

@@ -1,5 +1,10 @@
 {
   "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "00d680a6-171d-4896-afa3-770b86c6cc97"
+      }
+    },
     "name": "APP_NOMBRAR_LISTA",
     "slug": "APP_NOMBRAR_LISTA",
     "version": "1.0.0",
@@ -18,10 +23,7 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+      "package": "com.tuempresa.tuapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

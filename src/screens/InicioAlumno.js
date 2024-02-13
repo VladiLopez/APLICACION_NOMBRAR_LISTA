@@ -40,13 +40,18 @@ const Inicio = () => {
 
   // Función para manejar la navegación a la pantalla de una clase
   const handleClase = (item) => {
-    navigation.push('Listado', {codigo: codigoUsuario});
+    navigation.push('Listado', {codigo: codigoUsuario, nrc: item.NRC});
   };
 
   const handleOpcionesClase = (item) => {
-    setModalVisible(true);
-    setSelectedClass(item);
+    if (item) {
+      setModalVisible(true);
+      setSelectedClass(item);
+    } else {
+      console.error("No se ha seleccionado ninguna clase.");
+    }
   };
+
 
   // Funcion para manejar la accion de dar de baja una clase
   const handleDarDeBajaClase = () => {

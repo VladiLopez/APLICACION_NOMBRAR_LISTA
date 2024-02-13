@@ -1,41 +1,32 @@
-// Liberías y modulos necesarios
-
-import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect, useContext } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Image, StyleSheet, Text, View} from "react-native";
 import { ClasesContext } from "./ClasesContext";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import * as ImagePicker from 'expo-image-picker';
 import { supabase } from "../../Lib/supabase";
 
-const PerfilProfesor = () => {
-  const navigation = useNavigation();
+const PerfilAlumno = () => {
+  const [image, setImage] = useState(null);
   const { codigoProfesor } = useContext(ClasesContext);
+  const navigation = useNavigation();
   const [usuario, setUsuario] = useState(null);
 
-  /**
-   * Maneja el evento de modificar el perfil.
-   * Actualiza el estado de clases con los nuevos detalles de los perfiles modificados.
-   * Navega de nuevo a la pantalla de inicio.
-   */
   useEffect(() => {
     const obtenerDatosUsuario = async () => {
       try {
-        // Verifica que el código del profesor no esté vacío
         if (!codigoProfesor) return;
 
-        // Realiza la consulta a la base de datos para obtener los datos del usuario
         const { data, error } = await supabase
           .from('usuarios')
           .select('*')
           .eq('Codigo', codigoProfesor);
 
-        // Maneja el error en caso de que ocurra
         if (error) {
           console.error('Error al obtener los datos del usuario:', error);
           return;
         }
 
-        // Actualiza el estado con los datos del usuario obtenidos
         if (data && data.length > 0) {
           setUsuario(data[0]);
         }
@@ -44,43 +35,61 @@ const PerfilProfesor = () => {
       }
     };
 
-    // Llama a la función para obtener los datos del usuario
     obtenerDatosUsuario();
-  }, [codigoProfesor]); // Asegúrate de incluir codigoProfesor en la lista de dependencias
+  }, [codigoProfesor]);
 
   const handleEditarPerfil = () => {
     navigation.push('EditarPerfil');
   };
 
-  // Renderiza la interfaz de usuario
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
   return (
     <View style={styles.contenido}>
       <View style={styles.header}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.profileImage}
-            source={require('../../img/usuario.png')}
-          />
-        </View>
+        <TouchableOpacity onPress={pickImage}>
+          <View style={styles.imageContainer}>
+            {image ? (
+              <Image
+                style={styles.profileImage}
+                source={{ uri: image }}
+              />
+            ) : (
+              <Image
+                style={styles.profileImage}
+                source={require('../../img/usuario.png')}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.containerText}>
         <Text style={styles.name}>
-        {usuario && `${usuario.Nombre} ${usuario.Apellidos}`}
+          {usuario && `${usuario.Nombre} ${usuario.Apellidos}`}
         </Text>
         <Text style={styles.code}>
           {usuario && usuario.Codigo}
         </Text>
       </View>
       <View style={styles.containerButton}>
-        <TouchableOpacity style={styles.Button} onPress={handleEditarPerfil}>
-          <Text style={styles.TextButton}>Editar perfil</Text>
+        <TouchableOpacity style={styles.customButton} onPress={handleEditarPerfil}>
+          <Text style={styles.customButtonText}>Editar perfil</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-// Estilos asociados al componente
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
@@ -90,7 +99,6 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#6956A5',
     height: '30%',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   imageContainer: {
@@ -98,7 +106,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 100,
     overflow: 'hidden',
-    marginTop: '40%',
+    marginTop: '60%',
   },
   profileImage: {
     flex: 1,
@@ -106,14 +114,14 @@ const styles = StyleSheet.create({
     height: undefined,
   },
   containerText: {
-    alignItems: 'center', // Centra el contenido horizontalmente
+    alignItems: 'center',
     width: '100%',
     height: '40%',
   },
   name: {
     fontSize: 35,
     fontWeight: "bold",
-    marginTop: 90,
+    marginTop: 120,
     textAlign: 'center',
   },
   code: {
@@ -121,26 +129,33 @@ const styles = StyleSheet.create({
     fontSize: 29,
     marginTop: 10,
   },
-  containerButton:{
+  containerButton: {
     alignItems: 'center',
     width: '100%',
     height: '30%',
   },
-  Button:{
+  customButton: {
     backgroundColor: '#3D2788',
     marginTop: '10%',
     width: 200,
     height: 50,
-    borderRadius: 10
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 5,
   },
-  TextButton:{
+  customButtonText: {
     fontSize: 25,
     fontWeight: "bold",
-    textAlign: 'center', 
-    marginTop: 7,
-    color: 'white'
+    textAlign: 'center',
+    color: 'white',
   }
 });
 
-// Exportamos el componente para ser usado en otra parte de la aplicación
-export default PerfilProfesor;
+export default PerfilAlumno;
