@@ -8,12 +8,18 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 const formatHora = (horaString) => {
   try {
     const [hour, minute] = horaString.split(":").map(part => parseInt(part));
-    return new Date(0, 0, 0, hour, minute);
+    let hour24 = hour;
+    // Convertir a formato de 24 horas si la hora es PM
+    if (horaString.toLowerCase().includes("pm") && hour !== 12) {
+      hour24 += 12;
+    }
+    return new Date(0, 0, 0, hour24, minute);
   } catch (error) {
     console.error('Error al formatear la hora:', error);
     return null;
   }
 };
+
 
 
 const Row = ({ name, horaAsistencia, horaInicio }) => {
@@ -38,12 +44,12 @@ const Row = ({ name, horaAsistencia, horaInicio }) => {
 
       console.log(diferenciaMinutos);
 
-      if (diferenciaMinutos <= 0) {
-        return 'green'; // Llegó puntual o antes de la hora de inicio
-      } else if (diferenciaMinutos <= 15) {
-        return 'yellow'; // Llegó hasta 15 minutos tarde
+      if (diferenciaMinutos <= 15) {
+        return 'green'; 
+      } else if (diferenciaMinutos <= 60) {
+        return 'yellow'; 
       } else {
-        return 'red'; // Llegó más de 15 minutos tarde
+        return 'red'; 
       }
     };
 

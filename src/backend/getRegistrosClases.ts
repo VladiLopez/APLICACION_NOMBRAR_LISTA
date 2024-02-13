@@ -240,63 +240,19 @@ export const getCodigos = async (selectedDate, nrc) => {
   try {
     const { data, error } = await supabase
       .from('asistencias')
-      .select('codigo_asis_fk, hora')
+      .select('hora') // Solo necesitamos la hora
       .eq('nrc_asis_fk', nrc)
       .eq('fecha', selectedDate);
 
     if (error) {
-      console.error('Error al obtener asistencias por fecha y NRC:', error);
+      console.error('Error al obtener códigos:', error);
       return [];
     } else {
-      console.log('Asistencias por fecha y NRC obtenidas correctamente:', data);
-
-      // Obtener los códigos de usuario
-      const codigosUsuarios = data.map(asistencia => asistencia.codigo_asis_fk);
-
-      // Obtener las horas de llegada
-      const horas = await getHora(codigosUsuarios);
-
-      return horas;
+      console.log('Horas de llegada obtenidas correctamente:', data);
+      return data.map(asistencia => asistencia.hora); // Devuelve solo las horas
     }
   } catch (error) {
-    console.error("Ocurrió un error al obtener asistencias:", error);
-    return [];
-  }
-};
-
-export const getHora = async (codigosUsuarios) => {
-  try {
-    const horas = await Promise.all(codigosUsuarios.map(async codigo => {
-      try {
-        const { data, error } = await supabase
-          .from('asistencias')
-          .select('hora')
-          .eq('codigo_asis_fk', codigo);
-  
-        if (error) {
-          console.error('Error al obtener hora de llegada del alumno:', error);
-          return null;
-        } else {
-          const hora = data[0]?.hora;
-          if (hora) {
-            // Dividir la cadena de hora por el carácter '-' y tomar el primer elemento
-            const [horaPart] = hora.split('-');
-            // Dividir la cadena de horaPart por el carácter ':' para obtener la hora y los minutos
-            const [hour, minute] = horaPart.split(':');
-            return `${hour}:${minute}`;
-          } else {
-            return null;
-          }
-        }
-      } catch (error) {
-        console.error('Error al obtener hora de llegada del alumno:', error);
-        return null;
-      }
-    }));
-  
-    return horas.filter(hora => hora !== null);
-  } catch (error) {
-    console.error('Error al obtener hora de llegada del alumno:', error);
+    console.error('Error al obtener códigos:', error);
     return [];
   }
 };
