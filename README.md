@@ -1,8 +1,8 @@
-# Aplicación "Nombrar Lista"
+# Aplicación "ClassCheck"
 
 ---
 
-La aplicación "Nombrar Lista" ha sido desarrollada por Javier Vladimir López Reynoso y Jared Isaías Monje Flores en colaboración con el equipo de ILabTDI.
+La aplicación "ClassCheck" ha sido desarrollada por Javier Vladimir López Reynoso y Jared Isaías Monje Flores en colaboración con el equipo de ILabTDI.
 
 ## Objetivo
 
@@ -27,6 +27,13 @@ La funcionalidad principal de la aplicación es la toma de asistencia, ofreciend
 - **Base de Datos:** [Supabase (SGBD)](https://supabase.com/) se ha empleado para almacenar y gestionar la información de usuarios, asistencia y demás datos relevantes.
 
 - **CSS:** Se ha utilizado para estilizar la interfaz de usuario y garantizar una experiencia visual atractiva y coherente.
+
+### Diseño de la base de datos
+
+Aquí proporcionamos un pequeño diagrama de la base de datos que se implementó en este proyecto. (SGBD utilizado Supabase).
+
+![Diseño de la base de datos](https://github.com/VladiLopez/APLICACION_NOMBRAR_LISTA/blob/main/ClassCheck_Dise%C3%B1o_base_de_datos.png)
+
 
 ### Instalación y Configuración
 
