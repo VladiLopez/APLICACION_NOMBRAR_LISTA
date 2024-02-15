@@ -30,7 +30,7 @@ La funcionalidad principal de la aplicación es la toma de asistencia, ofreciend
 
 ### Diseño de la base de datos
 
-Aquí proporcionamos un pequeño diagrama de la base de datos que se implementó en este proyecto. (SGBD utilizado Supabase).
+Figura 1. Imagen del diseño de la base de datos.
 
 ![Diseño de la base de datos](https://github.com/VladiLopez/APLICACION_NOMBRAR_LISTA/blob/main/ClassCheck_Dise%C3%B1o_base_de_datos.png)
 
