@@ -46,8 +46,8 @@ const PerfilAlumno = () => {
   }, [codigoProfesor]); // Solo codigoProfesor en la lista de dependencias
 
   const handleEditarPerfil = async () => {
-    // Aquí deberías tener la lógica para editar el perfil
-    console.log('Editar perfil');
+    await navigation.navigate('EditarPerfil');
+    obtenerDatosUsuario();
     // Después de editar el perfil, volvemos a cargar la imagen de perfil
     const foto = await AsyncStorage.getItem(`selectedImage_${codigoProfesor}`);
     if (foto) {
