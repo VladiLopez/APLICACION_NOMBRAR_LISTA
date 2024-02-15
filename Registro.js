@@ -1,23 +1,32 @@
+/**
+ * Importamos los componentes y hooks necesarios para la navegación y el manejo de los estados
+ */
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  Button,
   Alert,
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
 
 const Registro = () => {
+  // Componente funcional para la pantalla de registro
   const navigation = useNavigation();
+  // Obtener el objeto de navegacion para navegar entre pantallas
 
   const [Nombre, setNombre] = useState('');
   const [Apellidos, setApellidos] = useState('');
   const [Correo, setCorreo] = useState('');
   const [Codigo, setCodigo] = useState('');
   const [password, setPassword] = useState('');
+  /**
+   * Declaramos estado de variables para guardar las 
+   * entradas del usuarios para detalles de registro
+   */
 
   const handleRegistro = () => {
     // Guarda los datos del registro en una variable local o en un servicio de autenticación
@@ -28,6 +37,7 @@ const Registro = () => {
       Codigo,
       password,
     };
+    // Creamos los datos del objeto desde la entrada del usuario
 
     Alert.alert('DATOS REGISTRADOS!!');
     // Aquí puedes realizar la autenticación o guardar los datos en un servicio
@@ -36,9 +46,12 @@ const Registro = () => {
   };
 
   const handleLogin = () => {
+      // Function to handle login button press
     navigation.push('Login');
+    // Navegar a la pantalla del login
   };
 
+  // renderizamos el componente
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
@@ -82,6 +95,7 @@ const Registro = () => {
   );
 };
 
+// Definimos los estilos para la pantalla
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -113,4 +127,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exportamos el componente para que pueda ser usado en otra parte de la app
 export default Registro;
