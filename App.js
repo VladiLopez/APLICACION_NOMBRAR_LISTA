@@ -55,4 +55,5 @@ const App = () => {
   );
 };
 
+// Exportacion del componente
 export default App;

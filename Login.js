@@ -1,25 +1,26 @@
-// Login.js
+// Importacion de componentes y recursos necesarios desde React Native y otros archivos locales
+import { useNavigation } from "@react-navigation/native"; // Importación del hook de navegacion
 import React, { useState } from "react";
 import {
-  Text,
-  View,
   Image,
-  StyleSheet,
-  TextInput,
-  Modal,
-  Alert,
-  TouchableOpacity,
   ImageBackground,
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import logo from './assets/LOGO.png';
-import { useNavigation } from "@react-navigation/native";
-import { supabase } from "./Lib/supabase";
-import { useClases } from "./src/screens/ClasesContext";
+import { supabase } from "./Lib/supabase"; // Importacion de la instancia de Supabase
+import logo from './assets/LOGO.png'; // Importacion del logo
+import { useClases } from "./src/screens/ClasesContext"; // Importacion del contexto de Clases
 
+// Definicion del componente funcional Login
 const Login = () => {
-  const navigation = useNavigation();
-  const { setCodigoUsuario } = useClases();
+  const navigation = useNavigation();// Obtencion del objeto de navegacion
+  const { setCodigoUsuario } = useClases();// Obtencion de la funcion setCodigoUsuario desde el contexto
 
+  // Declaracion de estados para el codigo y contraseña del usuario, y para mostrar un alerta
   const [Codigo, setCodigo] = useState('');
   const [password, setPassword] = useState('');
 
@@ -27,44 +28,47 @@ const Login = () => {
   const [alertMessage, setAlertMessage] = useState('');
 
 
+  // Funcion para manejar el inicio de sesion del usuario
   const handleLogin = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabase//Consultar la base de datos para encontrar al usuario por su codigo
         .from('usuarios')
         .select('*')
         .eq('Codigo', Codigo);
 
-      if (error) {
+      if (error) {// Manejar errores de consulta
         console.error('Error al consultar la base de datos:', error);
         return;
       }
 
-      const usuario = data[0];
+      const usuario = data[0];// Obtener el usuario encontrado
 
-      if (usuario && usuario.password === password) {
+      if (usuario && usuario.password === password) {//Verificar la contraseña
         console.log('Credenciales correctas');
 
         // Setear el código del profesor si es profesor
 
-        if (!isNaN(Codigo)) {
+        if (!isNaN(Codigo)) {// Si el codigo es numerico, establecerlo como el codigo de usuario en el contexto
           setCodigoUsuario(parseInt(Codigo));
         }
 
-        // Continuar con la navegación
+        // Navegar a la pantalla de inicio correspondiente [ 'HomeProfesor' o 'HomeAlumno' ]
         navigation.push(usuario.Tipo_Usuario === 'Profesor' ? 'HomeProfesor' : 'HomeAlumno');
-      } else {
+      } else {// mostrar una alerta si las credenciales son incorrectas
         setAlertMessage('Correo y/o contraseña incorrecta!!');
         setShowAlert(true);
       }
-    } catch (error) {
+    } catch (error) {// Manejar errores generales
       console.error('Error general al interactuar con Supabase:', error);
     }
   };
 
+  // funcion para manejar la navegacion a la pantalla de registro
   const handleRegistro = () => {
     navigation.push('Registro');
   };
 
+  // retorno del JSX que representa la interfaz del componente
   return (
     <ImageBackground
       source={require('./img/background.jpg')}
@@ -117,6 +121,7 @@ const Login = () => {
   );
 };
 
+// Estilos del componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -207,4 +212,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exportación del componente
 export default Login;

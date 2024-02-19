@@ -1,23 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { Picker } from '@react-native-picker/picker'; // Importacion del componente Picker
+import { useNavigation } from "@react-navigation/native"; // Importación del hook de navegacion
+import React, { useEffect, useState } from "react";
 import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  Button,
-  Alert,
-  TouchableOpacity,
-  Dimensions,
   ImageBackground,
-} from 'react-native';
-import { useNavigation } from "@react-navigation/native";
-import { Picker } from '@react-native-picker/picker';
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native'; // Importación de componentes de React Native
 
-import {handleAltaUsuario} from "./src/backend/altaUsuario";
+import { handleAltaUsuario } from "./src/backend/altaUsuario"; // Importacion de la funcion handleAltaUsuario desde el backend
 
-const Registro = () => {
-  const navigation = useNavigation();
+const Registro = () => { // Declaracion del componente funcional Registro
+  const navigation = useNavigation(); // Obtener el objeto de navegacion
 
+  // Declaracion de estados para los campos del formulario y la verificacion del registro completo
   const [Nombre, setNombre] = useState('');
   const [Apellidos, setApellidos] = useState('');
   const [Correo, setCorreo] = useState('');
@@ -26,10 +24,12 @@ const Registro = () => {
   const [Tipo_Usuario, setTipo_Usuario] = useState('');
   const [registroCompleto, setRegistroCompleto] = useState(false);
 
+  // Efecto para verificar si el registro esta completo
   useEffect(() => {
     verificarRegistroCompleto();
   }, [Nombre, Apellidos, Correo, Codigo, password, Tipo_Usuario]);
 
+  // Funcion para manejar el registro de usuario
   const handleRegistro = () => {
     // Guarda los datos del registro en una variable local o en un servicio de autenticación
     const registroData = {
@@ -41,19 +41,22 @@ const Registro = () => {
       Tipo_Usuario,
     };
 
-    handleAltaUsuario(registroData);
+    handleAltaUsuario(registroData);// LLamar a la funcion para registrar el usuario en el backend
 
-    navigation.push('Login', { registroData }); // Pasa los datos de registro como parámetro
+    navigation.push('Login', { registroData }); // Navegar a la pantalla de inicio de sesion y pasar los datos de registro como parametros
   };
 
+  // Funcion para manejar la navegacion a la pantalla de inicio de sesion
   const handleLogin = () => {
     navigation.push('Login');
   };
 
+  // Funcion para manejar el cambio de tipo de usuario
   const handleTipoUsuarioChange = (value) => {
     setTipo_Usuario(value);
   };
 
+  // Funcion para verificar si el registro esta completo
   const verificarRegistroCompleto = () => {
     if (Nombre && Apellidos && Correo && Codigo && password && Tipo_Usuario) {
       setRegistroCompleto(true);
@@ -62,6 +65,7 @@ const Registro = () => {
     }
   };
 
+  // Retorno del JSX que representa la interfaz del componente
   return (
     <ImageBackground
       source={require('./img/backgroundReg.jpg')}
@@ -130,6 +134,7 @@ const Registro = () => {
   );
 };
 
+// Estilos del componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -189,6 +194,7 @@ const styles = StyleSheet.create({
   }
 });
 
+// Estilos especificos para el componente Picker
 const pickerSelectStyles = StyleSheet.create({
   estilo: {
     marginLeft: -15,
@@ -197,4 +203,5 @@ const pickerSelectStyles = StyleSheet.create({
   },
 });
 
+// Exportar el componente Registro
 export default Registro;
