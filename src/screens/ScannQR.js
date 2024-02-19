@@ -1,10 +1,8 @@
 // Importamos los modulos y las librerías necesarias
-
-import { BarCodeScanner } from 'expo-barcode-scanner';
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View, ImageBackground} from 'react-native';
+import { TouchableOpacity, Button, StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { Camera } from 'expo-camera';
 import { registrarHoraLlegada } from '../backend/altaHora';
-
 
 /**
  * Componente funcional para escanear códigos QR.
@@ -16,19 +14,16 @@ export default function ScannQR() {
   // Estado para rastrear si el código QR ha sido escaneado
   const [scanned, setScanned] = useState(false);
   // Estado para almacenar el texto scanneado del codigo QR
-  const [text, setText] = useState('')
-  // Estado para almacenar el texto scanneado del código QR
+  const [text, setText] = useState('');
 
   /**
    * Función asincrónica para solicitar permisos de la cámara.
    * @function
    */
-  const askForCameraPermission = () => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })()
-  }
+  const askForCameraPermission = async () => {
+    const { status } = await Camera.requestCameraPermissionsAsync();
+    setHasPermission(status === 'granted');
+  };
 
   // Request Camera Permission
   useEffect(() => {
@@ -49,53 +44,60 @@ export default function ScannQR() {
   // What happens when we scan the bar code
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    setText(data)
+    setText(data);
     registrarLlegada(data);
-    console.log('Tipo: ' + type + '\nDato: ' + data)
+    console.log('Tipo: ' + type + '\nDato: ' + data);
   };
 
   // Check permissions and return the screens
   if (hasPermission === null) {
     return (
       <View style={styles.container}>
-        <Text>Se requiere el permiso de camara</Text>
-      </View>)
+        <Text>Se requiere el permiso de cámara</Text>
+      </View>
+    );
   }
 
   // is not allow ???
   if (hasPermission === false) {
     return (
       <View style={styles.container}>
-        <Text style={{ margin: 10 }}>No se tiene acceso a la camara</Text>
-        <Button title={'Permiso de camara'} onPress={() => askForCameraPermission()} />
-      </View>)
+        <Text style={{ margin: 10 }}>No se tiene acceso a la cámara</Text>
+        <Button title={'Permiso de cámara'} onPress={() => askForCameraPermission()} />
+      </View>
+    );
   }
 
   // Return the View
   return (
     <ImageBackground
-        source={require('../../img/background_crearLista.jpg')}
-        style={styles.backgroundImage}
+      source={require('../../img/background_crearLista.jpg')}
+      style={styles.backgroundImage}
     >
       <View style={styles.container}>
         <View style={styles.barcodebox}>
-          <BarCodeScanner
+          <Camera
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={{ height: 400, width: 400 }} />
+            style={{ height: 400, width: 400 }} 
+            type={Camera.Constants.Type.back}
+          />
         </View>
         <Text style={styles.maintext}>{text}</Text>
 
-        {scanned && <Button title={'Escanear nuevamente?'} onPress={() => setScanned(false)} color='#3D2788' />}
+        {scanned && (
+          <TouchableOpacity onPress={() => setScanned(false)} style={styles.customButton}>
+            <Text style={styles.customButtonText}>¿Escanear nuevamente?</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </ImageBackground>
   );
 }
 
-// Estilos asociados al componente 
+// Estilos asociados al componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //backgroundColor: '#D4BDFA',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -116,5 +118,26 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     justifyContent: 'center',
+  },
+  customButton: {
+    width: '55%',
+    height: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3D2788',
+    borderRadius: 10,
+    marginBottom: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 5,
+  },
+  customButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

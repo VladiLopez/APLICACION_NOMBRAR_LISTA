@@ -75,7 +75,7 @@ const PerfilProfesor = () => {
         </Text>
       </View>
       <View style={styles.containerButton}>
-        <TouchableOpacity style={styles.Button} onPress={handleEditarPerfil}>
+        <TouchableOpacity style={styles.customButton} onPress={handleEditarPerfil}>
           <Text style={styles.TextButton}>Editar perfil</Text>
         </TouchableOpacity>
       </View>
@@ -128,18 +128,26 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '30%',
   },
-  Button:{
+  customButton: {
+    width: 160,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#3D2788',
-    marginTop: '10%',
-    width: 200,
-    height: 50,
-    borderRadius: 10
+    borderRadius: 10,
+    marginBottom: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 5,
   },
   TextButton:{
     fontSize: 25,
     fontWeight: "bold",
     textAlign: 'center', 
-    marginTop: 7,
     color: 'white'
   }
 });

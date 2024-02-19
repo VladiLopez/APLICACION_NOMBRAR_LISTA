@@ -124,9 +124,14 @@ const Alumnos = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tabla de asistencia {clases[0]?.nombreDeLaClase}</Text>
-      <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-        <Text>Seleccionar Fecha</Text>
-      </TouchableOpacity>
+
+      <TouchableOpacity 
+            style={[styles.customButton]} 
+            onPress={() => setShowDatePicker(true)} 
+          >
+          <Text style={styles.customButtonText}>Seleccionar Fecha</Text>
+        </TouchableOpacity>
+
       {showDatePicker && (
         <DateTimePicker
           value={selectedDate}
@@ -159,6 +164,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: 'white',
+    alignItems: 'center'
   },
   title: {
     fontSize: 24,
@@ -183,6 +189,27 @@ const styles = StyleSheet.create({
   name: {
     flex: 1,
     fontSize: 16,
+  },
+  customButton: {
+    width: '40%',
+    height: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3D2788',
+    borderRadius: 10,
+    marginBottom: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 5,
+  },
+  customButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

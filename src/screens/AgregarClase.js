@@ -38,7 +38,7 @@ const AgregarClase = () => {
   // Estado local para el código ingresaso por el usuario
   const [NRC, setNRC] = useState('');
   // Validar si el código ingresado tiene una longitud de 6 caracteres
-  const isCodigoValid = NRC.length === 6;
+  const isCodigoValid = NRC;
 
   /**
    * Manejador de evento para unirse a la clase
