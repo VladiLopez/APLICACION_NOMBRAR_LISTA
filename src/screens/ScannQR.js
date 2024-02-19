@@ -1,19 +1,39 @@
 // Importamos los modulos y las librerías necesarias
+
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import React, { useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, StyleSheet, Text, View, ImageBackground} from 'react-native';
 import { registrarHoraLlegada } from '../backend/altaHora';
+
 
 /**
  * Componente funcional para escanear códigos QR.
  * @returns {JSX.Element}
  */
 export default function ScannQR() {
+  // Estado para almacenar la información sobre los permisos de la cámara
+  const [hasPermission, setHasPermission] = useState(null);
   // Estado para rastrear si el código QR ha sido escaneado
   const [scanned, setScanned] = useState(false);
-
   // Estado para almacenar el texto scanneado del codigo QR
-  const [codigoQR, setCodigoQR] = useState('');
+  const [text, setText] = useState('')
+  // Estado para almacenar el texto scanneado del código QR
+
+  /**
+   * Función asincrónica para solicitar permisos de la cámara.
+   * @function
+   */
+  const askForCameraPermission = () => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })()
+  }
+
+  // Request Camera Permission
+  useEffect(() => {
+    askForCameraPermission();
+  }, []);
 
   // Función para registrar la hora de llegada en Supabase
   const registrarLlegada = async (codigoQR) => {
@@ -27,25 +47,47 @@ export default function ScannQR() {
   };
 
   // What happens when we scan the bar code
-  const handleBarCodeScanned = ({ data }) => {
+  const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    setCodigoQR(data);
+    setText(data)
     registrarLlegada(data);
-    console.log('Código QR escaneado:', data);
+    console.log('Tipo: ' + type + '\nDato: ' + data)
   };
+
+  // Check permissions and return the screens
+  if (hasPermission === null) {
+    return (
+      <View style={styles.container}>
+        <Text>Se requiere el permiso de camara</Text>
+      </View>)
+  }
+
+  // is not allow ???
+  if (hasPermission === false) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ margin: 10 }}>No se tiene acceso a la camara</Text>
+        <Button title={'Permiso de camara'} onPress={() => askForCameraPermission()} />
+      </View>)
+  }
 
   // Return the View
   return (
-    <View style={styles.container}>
-      <View style={styles.barcodebox}>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{ height: 400, width: 400 }} />
-      </View>
-      <Text style={styles.maintext}>{codigoQR}</Text>
+    <ImageBackground
+        source={require('../../img/background_crearLista.jpg')}
+        style={styles.backgroundImage}
+    >
+      <View style={styles.container}>
+        <View style={styles.barcodebox}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={{ height: 400, width: 400 }} />
+        </View>
+        <Text style={styles.maintext}>{text}</Text>
 
-      {scanned && <Button title={'Escanear nuevamente?'} onPress={() => setScanned(false)} color='#3D2788' />}
-    </View>
+        {scanned && <Button title={'Escanear nuevamente?'} onPress={() => setScanned(false)} color='#3D2788' />}
+      </View>
+    </ImageBackground>
   );
 }
 
@@ -53,7 +95,7 @@ export default function ScannQR() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D4BDFA',
+    //backgroundColor: '#D4BDFA',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -69,5 +111,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 30,
     backgroundColor: '#D3D7DB'
-  }
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
 });

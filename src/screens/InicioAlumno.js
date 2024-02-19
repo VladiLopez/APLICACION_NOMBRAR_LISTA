@@ -44,14 +44,9 @@ const Inicio = () => {
   };
 
   const handleOpcionesClase = (item) => {
-    if (item) {
-      setModalVisible(true);
-      setSelectedClass(item);
-    } else {
-      console.error("No se ha seleccionado ninguna clase.");
-    }
+    setModalVisible(true);
+    setSelectedClass(item);
   };
-
 
   // Funcion para manejar la accion de dar de baja una clase
   const handleDarDeBajaClase = () => {
@@ -111,7 +106,7 @@ const Inicio = () => {
               />
             </TouchableOpacity>
             <Text>{'\n'}</Text>
-            <Text style={styles.textoClase}>Clase: {item.NombreClase}</Text>
+            <Text style={styles.textoClase}>{item.NombreClase}</Text>
             <Text style={styles.textoClase}>Seccion: {item.Seccion}</Text>
             <Text style={styles.textoClase}>Aula: {item.Aula}</Text>
             <Text style={styles.textoClase}>NRC: {item.NRC}</Text>

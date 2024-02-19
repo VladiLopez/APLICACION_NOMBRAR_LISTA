@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ImageBackground} from "react-native";
 import QRCode from 'react-native-qrcode-svg';
 import { useRoute } from '@react-navigation/native';
 import { obtenerDatosUsuarioPorCodigo } from "../backend/getRegistrosClases";
@@ -28,25 +28,33 @@ const ListadoProfesor = () => {
 
   // Renderiza la interfaz de usuario
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#D4BDFA',}}>
-      {datosUsuario && nrcClase && (
-        <>
-          {/* Renderiza el código QR */}
-          <QRCode
-            value={`${datosUsuario.Codigo}-${nrcClase}`}
-            size={200}
-            color="black"
-          />
-          {/* Renderiza los datos */}
-          <Text style={styles.datos}>
-            {`${datosUsuario.Nombre} ${datosUsuario.Apellidos} ${datosUsuario.Codigo}`}
-          </Text>
-          <Text style={styles.datos}>
-            {`NRC: ${nrcClase}`}
-          </Text>
-        </>
-      )}
-    </View>
+    <ImageBackground
+        source={require('../../img/background_crearLista.jpg')}
+        style={styles.backgroundImage}
+    >
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',}}>
+        {datosUsuario && (
+          <>
+            {/* Renderiza el código QR */}
+            <QRCode
+              value={`${datosUsuario.Codigo}-${nrcClase}`}
+              size={200} // Tamaño del código QR
+              color="black" // Color del código QR
+            />
+            {/* Renderiza los datos */}
+            <Text style={styles.datos}>
+              {`${datosUsuario.Nombre} ${datosUsuario.Apellidos}`}
+            </Text>
+            <Text style={styles.datos}>
+              {`${datosUsuario.Codigo}`}
+            </Text>
+            <Text style={styles.datos}>
+              {`NRC: ${nrcClase}`}
+            </Text>
+          </>
+        )}
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -58,6 +66,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
   },
 });
 

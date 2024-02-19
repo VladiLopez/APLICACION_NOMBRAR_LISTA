@@ -43,9 +43,6 @@ const Registro = () => {
 
     handleAltaUsuario(registroData);
 
-    Alert.alert('DATOS REGISTRADOS!!');
-    // Aquí puedes realizar la autenticación o guardar los datos en un servicio
-
     navigation.push('Login', { registroData }); // Pasa los datos de registro como parámetro
   };
 

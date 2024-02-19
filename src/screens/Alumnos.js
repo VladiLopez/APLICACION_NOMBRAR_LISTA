@@ -63,6 +63,7 @@ const Row = ({ name, horaAsistencia, horaInicio }) => {
     return <ActivityIndicator />;
   }
 
+
   return (
     <View style={styles.row}>
       <Text style={styles.name}>{name}</Text>

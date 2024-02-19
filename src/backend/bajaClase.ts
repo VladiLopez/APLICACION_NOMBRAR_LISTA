@@ -17,6 +17,20 @@ const handleBajaClase = async (bajaNRC) => {
 
       console.log('Referencias en clases_usuario eliminadas correctamente', deleteUsuarioData);
 
+      // Eliminar referencias en asistencia (ajusta el esquema si es diferente)
+      const { data: deleteAsistenciaData, error: deleteAsistenciaError } = await supabase
+      .from('asistencias') // ajusta el esquema si es diferente
+      .delete()
+      .eq('nrc_asis_fk', bajaNRC);
+
+      if (deleteAsistenciaError) {
+        console.error('Error al eliminar referencias en asistencia:', deleteAsistenciaError);
+        return;
+      }
+
+      console.log('Referencias en asistencia eliminadas correctamente', deleteAsistenciaData);
+
+
       // Luego, elimina la clase en la tabla clases
       console.log('Eliminando la clase con NRC:', bajaNRC);
       const { data, error } = await supabase

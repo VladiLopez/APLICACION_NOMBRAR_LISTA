@@ -1,5 +1,5 @@
 //los backs que avance este es del alta a la clase
-
+import { Alert } from 'react-native';
 import {supabase} from "../../Lib/supabase";
 
 const handleAltaClase = async (nuevaClase) => {

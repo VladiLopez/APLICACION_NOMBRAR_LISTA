@@ -1,11 +1,7 @@
 // ClasesContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
-import {
-  obtenerNRCsPorProfesor,
-  obtenerDatosDeClasesPorNRCs,
-  obtenerDatosDeClasePorId,
-  obtenerUsuariosPorNRC,
-} from "../backend/getRegistrosClases";
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importar AsyncStorage
+import { obtenerNRCsPorProfesor, obtenerDatosDeClasesPorNRCs, obtenerDatosDeClasePorId, obtenerUsuariosPorNRC } from "../backend/getRegistrosClases";
 
 export const ClasesContext = createContext();
 
@@ -14,6 +10,7 @@ export const ClasesProvider = ({ children }) => {
   const [datosClase, setDatosClase] = useState(null);
   const [tipoUsuario, setTipoUsuario] = useState("");
   const [codigoProfesor, setCodigoProfesor] = useState(null);
+  const [perfilImagen, setPerfilImagen] = useState(null); // Nuevo estado para la imagen de perfil
 
   const obtenerClasesProfesor = async () => {
     try {
@@ -57,21 +54,41 @@ export const ClasesProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    obtenerClases();
-  }, [codigoProfesor]);
-
   const cerrarSesion = () => {
     // Resetea todos los valores a sus estados iniciales al cerrar sesión
     setTipoUsuario("");
     setCodigoProfesor("");
     setClases([]);
     setDatosClase(null);
+    setPerfilImagen(null); // Resetear la imagen de perfil al cerrar sesión
   };
 
   const setCodigoUsuario = (codigoProfesor) => {
     setCodigoProfesor(codigoProfesor);
   };
+
+  const setPerfilImage = async (imageUri) => {
+    try {
+      await AsyncStorage.setItem(`selectedImage_${codigoProfesor}`, imageUri); // Guardar la nueva imagen de perfil en AsyncStorage
+      setPerfilImagen(imageUri); // Actualizar la imagen de perfil en el estado
+    } catch (error) {
+      console.error('Error al guardar la imagen de perfil:', error);
+    }
+  };
+
+  const getPerfilImage = async () => {
+    try {
+      const imageUri = await AsyncStorage.getItem(`selectedImage_${codigoProfesor}`); // Obtener la imagen de perfil desde AsyncStorage
+      setPerfilImagen(imageUri); // Actualizar la imagen de perfil en el estado
+    } catch (error) {
+      console.error('Error al obtener la imagen de perfil:', error);
+    }
+  };
+
+  useEffect(() => {
+    obtenerClases();
+    getPerfilImage(); // Obtener la imagen de perfil al cargar el contexto
+  }, [codigoProfesor]); // Solo codigoProfesor en la lista de dependencias
 
   const value = {
     clases,
@@ -86,6 +103,8 @@ export const ClasesProvider = ({ children }) => {
     obtenerUsuarios,
     codigoProfesor,
     cerrarSesion,
+    setPerfilImage, // Agregar el método para establecer la imagen de perfil
+    perfilImagen, // Agregar la imagen de perfil al contexto
   };
 
   return (
@@ -104,4 +123,3 @@ export const useClases = () => {
 
   return context;
 };
-      

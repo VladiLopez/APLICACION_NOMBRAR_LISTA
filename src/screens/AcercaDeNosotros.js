@@ -27,11 +27,15 @@ const AcercaDeNosotros = ()=> {
 const styles = StyleSheet.create({
   container:{
     flex: 1,
+    //backgroundColor: '#D4BDFA',
   },
   container_text:{
+    flex: 1,
+    //backgroundColor: '#D4BDFA',
     fontSize: 25,
     color: 'black',
     textAlign: 'center',
+    //alignItems:'center',
     marginLeft: 10,
     marginRight: 10,
   }
