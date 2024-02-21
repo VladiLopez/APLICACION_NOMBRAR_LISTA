@@ -10,11 +10,11 @@ export async function altaFoto(codigoProfesor, rutaFoto) {
       }]);
     
     if (error) {
-      
+      throw error;
     }
 
     return data;
   } catch (error) {
-    
+    throw error;
   }
 }
