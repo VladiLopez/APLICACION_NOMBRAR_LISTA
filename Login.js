@@ -1,26 +1,33 @@
-import React, { useState, useEffect } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import {
-  Text,
-  View,
+  Alert,
+  Button,
   Image,
   StyleSheet,
+  Text,
   TextInput,
-  Button,
-  Alert,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import logo from './assets/LOGO.png'
-import { useNavigation, useRoute } from "@react-navigation/native";
+import logo from './assets/LOGO.png';
 
+/**
+ * Componente funcional que representa la pantalla de inicio de sesion. 
+ * Permite a los usuarios ingresar su correo electronico y contraseña para acceder a la aplicion.
+ */
 const Login = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
+  const navigation = useNavigation(); // Hook de React Navigation para acceder a la navegacion
+  const route = useRoute();// Hook de React Navigation para acceder a la ruta actual
 
+  // Estado local para el correo electronico y la contraseña
   const [Correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
 
+  // Estado local para almacenar los datos de registro pasados por la ruta de navegacion
   const [registroData, setRegistroData] = useState(null);
 
+  // Efecto que se ejecuta cuando cambia la ruta para obtener los datos de registro de la ruta
   useEffect(() => {
     // Obtén los datos de registro de la ruta
     const data = route.params ? route.params.registroData : null;
@@ -29,29 +36,17 @@ const Login = () => {
     }
   }, [route.params]);
 
-  //const handleLogin = () => {
-    //if (registroData) {
-      //if (Correo === registroData.Correo && password === registroData.password) {
-        //console.log('Credenciales correctas');
-        //navigation.push('Home');
-      //} else {
-        //Alert.alert('Correo y/o contraseña incorrecta');
-      //}
-    //} else {
-      //Alert.alert('No se encontraron datos de registro. Regístrate primero.');
-    //}
-  //};
-
+  //Funcion para manejar el evento de inicio de sesion
   const handleLogin = () => {
     if (Correo === 'admin' && password === '12345') {
       console.log('Credenciales correctas');
       navigation.push('Home'); // Navegar a la pantalla HomeScreen
     } else {
-      Alert.alert('Correo y/o contraseña incorrecta!!');
+      Alert.alert('Correo y/o contraseña incorrecta!!');//Mostrar una alerta si las credenciales son incorrectas
     }
   };
 
-
+  // Renderizado de la interfaz de usuario
   const handleRegistro = () => {
     navigation.push('Registro');
   };
@@ -85,6 +80,7 @@ const Login = () => {
   );
 };
 
+// Estilos para la interfaz de usuario
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -121,5 +117,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exportamos el componente para que pueda ser usado en otras partes de la app.
 export default Login;
-

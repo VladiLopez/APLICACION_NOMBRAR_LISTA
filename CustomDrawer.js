@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, ImageBackground, Image, PixelRatio } from 'react-native'
-import React from 'react'
-import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
-import Icon from 'react-native-vector-icons/Ionicons';
+import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import React from 'react';
+import { Image, ImageBackground, PixelRatio, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Ionicons';
 /*
     Se requiere obtener de la base de datos la foto de perfil del usuario
     Su usuario y apellidos para mostrarse en la navegacion
@@ -25,6 +25,7 @@ const CustomDrawer = (props) => {
   const fotoHeightResponsive = PixelRatio.getPixelSizeForLayoutSize(25);
   const fotoWidthResponsive = PixelRatio.getPixelSizeForLayoutSize(25);
 
+  // Renderizamos el componente
   return (
     <View style={{flex:1}}>
         <DrawerContentScrollView
@@ -53,6 +54,7 @@ const CustomDrawer = (props) => {
   )
 }
 
+// exportamos los estilos definidos por las clases para desplegar los elementos visuales.
 export default CustomDrawer
 const styles = StyleSheet.create({
     textLogout:{

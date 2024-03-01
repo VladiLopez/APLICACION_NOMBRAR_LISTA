@@ -1,18 +1,22 @@
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 import 'react-native-gesture-handler';
-import Login from './Login.js';
-import Registro from './Registro.js';
-import Home from './src/screens/Home.js'; //HOME.JS HACE LA CONEXIÓN DEL MENÚ DESPLEGABLE
-import CrearClase from './src/screens/CrearClase.js'; 
-import Clase from './src/screens/Listado.js'; 
-import Listado from './src/screens/Listado.js'; 
-import ScannQR from './src/screens/ScannQR.js'; 
-import { ClasesProvider } from "./src/screens/ClasesContext";
+import Login from './Login.js'; // Importar el componente de inicio de sesion
+import Registro from './Registro.js'; // importa el componente de registro
+import { ClasesProvider } from "./src/screens/ClasesContext"; // Importa el proveedor de contexto para las clases 
+import CrearClase from './src/screens/CrearClase.js'; // Importa el componente para crear una clase
+import Home from './src/screens/Home.js'; // importa el componente de inicio
+import { default as Clase, default as Listado } from './src/screens/Listado.js'; // Importa el componente de detalle de clase
+import ScannQR from './src/screens/ScannQR.js'; // Importa el componente para escanear codigos QR
 
+// Crea un stack navigatior para gestionar la navegacion
 const Stack = createStackNavigator();
 
+/**
+ * Componente principal de la aplicacion que establece la estructura de navegacion.
+ * Utiliza React Navigation para gestionar la navegacion entre pantallas.
+ */
 const App = () => {
   return (
     <NavigationContainer>
@@ -31,4 +35,5 @@ const App = () => {
   );
 };
 
+// Exporta el componente principal de la aplicacion
 export default App;
