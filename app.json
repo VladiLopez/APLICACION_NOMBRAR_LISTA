@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "APP_NOMBRAR_LISTA",
+    "slug": "APP_NOMBRAR_LISTA",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/LOGO.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/LOGO.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+
+      "extra": {
+        "eas": {
+          "projectId": "3ef4a04b-de02-4953-995c-6024dfae22b0"
+        }
+      },
+      
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
