@@ -7,7 +7,7 @@
  * 
  * Espero puedas programarla y mejorarla
  * 
- * Si no puedes incrementa el contador de horas: 1 hrs
+ * Sí no puedes, incrementa el contador de horas: [ 18 ] hrs.
  */
 
 
@@ -31,10 +31,13 @@ import Listado from './src/screens/Listado.js';
 import ModificarClase from './src/screens/ModificarClase.js';
 import ScannQR from './src/screens/ScannQR.js';
 
+// Creación del navegador de pila ( Stack navigator )
 const Stack = createStackNavigator();
 
+// Definición del componente funcional App
 const App = () => {
   return (
+    // Envoltura de la navegación con el contenedor de navegación
     <NavigationContainer>
       <ClasesProvider>
         <Stack.Navigator initialRouteName="Login">
@@ -55,4 +58,5 @@ const App = () => {
   );
 };
 
+// Exportación del componente App
 export default App;

@@ -1,3 +1,4 @@
+// Importación de componentes y librerías necesarias desde React Native
 import { registerRootComponent } from 'expo';
 
 import App from './App';
