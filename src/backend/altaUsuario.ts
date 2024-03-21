@@ -1,15 +1,19 @@
+// Importar Supabase Alert de react-native
 import { supabase } from "../../Lib/supabase";
 import { Alert } from 'react-native';
 
+// Función para manejar el alta de un usuario
 const handleAltaUsuario = async (registroData) => {
       try {
-
+        // variable para manejar el alta de un nuevo usuario
         let verificar = false;
+        // Consultar la base de datos para verificar si ya existe un usuario con el mismo código
         const { data: verificarusuario, error } = await supabase
           .from('usuarios')
           .select('Codigo')
           .eq('Codigo', registroData.Codigo);
 
+        //
         if (error) {
           Alert.alert("Alerta","Hubo un problema al verificar la existencia del usuario.");
         }

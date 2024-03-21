@@ -1,6 +1,12 @@
+/**
+ * Importamos Supabase y Alert de react-native
+ */
 import { supabase } from "../../Lib/supabase";
 import { Alert } from 'react-native';
 
+/**
+ * Función para registrar la hora de llegada de un alumno a una clase
+ */
 const registrarHoraLlegada = async (codigoAlumno, nrcClase) => {
   try {
     // Obtener la fecha y hora actual
@@ -19,6 +25,7 @@ const registrarHoraLlegada = async (codigoAlumno, nrcClase) => {
       .eq('fecha', fecha)
       .eq('nrc_asis_fk', nrcClase);
 
+    // Manejar errores en la consulta
     if (error) {
       throw new Error("Hubo un problema al verificar la existencia del alumno.");
     }
@@ -38,15 +45,19 @@ const registrarHoraLlegada = async (codigoAlumno, nrcClase) => {
         { codigo_asis_fk: codigoAlumno, fecha: fecha, hora: hora, nrc_asis_fk: nrcClase },
       ]);
 
+      // Manejar errores en la inserción
       if (insertError) {
         throw new Error("Hubo un problema al registrar la asistencia.");
       }
 
+      // Mostrar una alerta de éxito
       Alert.alert("Éxito", "La asistencia se registró correctamente.");
     }
   } catch (error) {
+    // mostrar un mensaje de error
     Alert.alert("Error", error.message);
   }
 };
 
+// Exportar la función para registrar la hora de llegada
 export { registrarHoraLlegada };
