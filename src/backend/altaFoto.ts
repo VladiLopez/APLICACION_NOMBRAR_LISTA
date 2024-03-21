@@ -1,3 +1,8 @@
+/**
+ * Este archivo altaFoto.ts define una función que inserta
+ * la ruta de una foto en la base de datos.
+ */
+
 import { supabase } from "../../Lib/supabase";
 
 // Función para almacenar la ruta de una foto en la base de datos

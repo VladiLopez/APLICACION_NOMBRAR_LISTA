@@ -1,3 +1,14 @@
+/**
+ * Este archivo App.Context.js define un contexto de 
+ * aplicación y un proveedor de contexto que permite 
+ * compartir estado y funciones entre componentes de 
+ * la aplicación. También proporciona un gancho 
+ * personalizado useAppContext para acceder fácilmente 
+ * al contexto en los componentes. Los comentarios 
+ * explican cada parte del código y su función en el 
+ * contexto de la aplicación. 
+ */
+
 // Importación de los componentes desde React Native
 import React, { createContext, useContext, useState } from 'react';
 

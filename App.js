@@ -10,6 +10,11 @@
  * Sí no puedes, incrementa el contador de horas: [ 18 ] hrs.
  */
 
+/**
+ * Este archivo App.js define la estructura de navegación 
+ * de la aplicación y cómo se relacionan las diferentes 
+ * pantallas entre sí. 
+ */
 
 // Importamos los modulos y las liberías necesarias
 import { NavigationContainer } from '@react-navigation/native';

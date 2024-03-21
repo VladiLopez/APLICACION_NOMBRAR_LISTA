@@ -1,4 +1,10 @@
 /**
+ * Este código utiliza la API de Supabase para realizar operaciones
+ * de consulta e inserción en la tabla de asistencias. Luego, muestra
+ * alertas de éxito o error según el resultado de la operación.
+ * 
+ * 
+ * 
  * Importamos Supabase y Alert de react-native
  */
 import { supabase } from "../../Lib/supabase";
