@@ -21,4 +21,5 @@ const Listado = () => {
   );
 };
 
+// Exportar el componente para que sea utilizado en otras partes de la app
 export default Listado;

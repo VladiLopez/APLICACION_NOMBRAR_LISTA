@@ -2,21 +2,30 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, FlatList, Modal, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
-import { useClases } from "./ClasesContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useClases } from "./ClasesContext"; // Importar el contexto de las clases
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Importar Asyncstorage para almacenar el token de sesión.
 
+/**
+ * Componente Inicio: Muestra una lista de clases con opciones para editar, eliminar y agregar nuevas clases
+ */
 const Inicio = () => {
-  const route = useRoute();
-  const navigation = useNavigation();
-  const { clases } = useClases();
+  const route = useRoute(); // Obtiene la ruta actual
+  const navigation = useNavigation(); // Obtiene la navegación
+  const { clases } = useClases();// Obtiene las clases del contexto
 
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [selectedClass, setSelectedClass] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);// Estado para controlar la visibilidad del modal
+  const [selectedClass, setSelectedClass] = useState(null);// Estado para almacenar la clase seleccionada
 
+  /**
+   * Navega a la pantalla de CrearClase
+   */
   const handlePress = () => {
     navigation.push("CrearClase");
   };
 
+  /**
+   * Navega a la pantalla de ScannQR
+   */
   const handlePressLogOut = async () => {
     try {
       await AsyncStorage.removeItem('token');
@@ -26,30 +35,48 @@ const Inicio = () => {
     }
   };
 
+  /**
+   * Navega a la pantalla ScannQR
+   */
   const handlePressCamara = () => {
     navigation.push("ScannQR");
   };
 
+  /**
+   * Navega a la pantalla de Listado al hacer click en una clase-
+   * @param {Object} item - Datos de la clase seleccionada. 
+   */
   const handleClase = (item) => {
     navigation.push('Listado');
   };
 
+  /**
+   * Establece la clase seleccionada para eliminación y muestra el modal de confirmación.
+   * @param {Object} item - Datos de la clase seleccionada.
+   */
   const handleEliminarClase = (item) => {
     setSelectedClass(item);
     setModalVisible(true);
   };
 
+  /**
+   * Muestra el modal para modificar la clase seleccionada
+   */
   const handleModificarClase = () => {
     // Lógica para modificar la clase seleccionada (selectedClass)
     setModalVisible(true);
   };
 
+  /**
+   * Componente para agregar un espacio entre la lista y el encabezado.
+   */
   const HeaderSpacer = () => {
     return <View style={{ marginBottom: 15 }} />;
   };
-
+  // Colores para las clases
   const colors = ["#83C809", "#099AC8", "#F73A5D", "#F7D53A", "#D796F3", "#96F3E9", "#F6A554", "#7D64FA", "#FFA6F4", "#F8FA64"];
 
+  // Renderizamos el componente
   return (
     <View style={styles.contenido}>
       <FlatList
@@ -107,8 +134,10 @@ const Inicio = () => {
   );
 }
 
+// Obtiene el ancho y el alto de la pantalla
 const { width, height } = Dimensions.get('window');
 
+// Estilos para los componentes
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
@@ -180,4 +209,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// exportamos el componete para que sea utilizado en otras partes de la app
 export default Inicio;

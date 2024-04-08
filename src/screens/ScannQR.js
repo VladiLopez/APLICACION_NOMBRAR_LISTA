@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
+// Componente funcional para escanear códigos QR
 export default function ScannQR() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [text, setText] = useState('Not yet scanned')
 
+  // Función para solicitar permiso de acceso a la cámara
   const askForCameraPermission = () => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -56,6 +58,7 @@ export default function ScannQR() {
   );
 }
 
+// Estilo para el componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
