@@ -1,22 +1,34 @@
+/**
+ * Importamos los modulos y componentes necesarios para desplegar las pantallas y los elementos gráficos
+ */
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { useClases } from "./ClasesContext";
 
+/**
+ * Componente funcional para la creación de una nueva clase
+ */
 const CrearClase = () => {
+    // Utiliza el hook de navegación de React Navigation
     const navigation = useNavigation();
+    // Utiliza el contexto de clases para acceder a la función setClases
     const { setClases } = useClases();
 
+    // Estados para los campos del formulario de creación de clases
     const [NombreClase, setNombreClase] = useState('');
     const [Seccion, setSeccion] = useState('');
     const [Aula, setAula] = useState('');
     const [NRC, setNRC] = useState('');
+    // Estado para verificar si el registro del formulario esta completo
     const [registroCompleto, setRegistroCompleto] = useState(false);
 
+    // funcion para manejar el evento de navegación al presionar un boton
     const handlePress = () => {
       navigation.navigate('Inicio');
     };
 
+    // Funcion para crear una nueva clase
     const handleRegistroMateria = () => {
       const nuevaClase = { NombreClase, Seccion, Aula, NRC };
       setClases(prevClases => [...prevClases, nuevaClase]);
@@ -24,6 +36,7 @@ const CrearClase = () => {
       navigation.navigate('Inicio', { NombreClase, Seccion, Aula, NRC });
     };
 
+    // funcion para verificar si el registro del formulario esta completo
     const verificarRegistroCompleto = () => {
       if (NombreClase && Seccion && Aula && NRC) {
         setRegistroCompleto(true);
@@ -32,10 +45,12 @@ const CrearClase = () => {
       }
     };
 
+    // Efecto para verificar el registro del formulario al cambiar los campos
     useEffect(() => {
       verificarRegistroCompleto();
     }, [NombreClase, Seccion, Aula, NRC]);
 
+    // renderizamos el componente para que pueda ser visualmente
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -78,6 +93,7 @@ const CrearClase = () => {
     );
 };
 
+// Estilos del componente
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -127,4 +143,5 @@ const styles = StyleSheet.create({
     },
 });
 
+// Exportamos el componente para que pueda ser utilizado en otras partes de la aplicación
 export default CrearClase;

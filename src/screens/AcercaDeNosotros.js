@@ -1,6 +1,10 @@
+/**
+ * importamos los modulos y las librerias necesarias para poder crear los elementos visuales
+ */
 import React from "react";
 import {View, Text, StyleSheet} from 'react-native'
 
+// Componente que muestra información sobre el equipo de desarrollo
 const AcercaDeNosotros = ()=> {
   return(
     <View style={styles.container}>
@@ -12,6 +16,7 @@ const AcercaDeNosotros = ()=> {
   )
 };
 
+// Estilos del componente
 const styles = StyleSheet.create({
   container:{
     flex: 1,
@@ -29,4 +34,5 @@ const styles = StyleSheet.create({
   }
 });
 
+// Exportamos el componente para que pueda ser utilizado en otras partes de la app
 export default AcercaDeNosotros;
