@@ -1,3 +1,10 @@
+/**
+ * Importamos los modulos y librerías para poder desplegar los componentes visuales
+ * 
+ * Componente para mostrar el perfil del profesor.
+ * 
+ * Este componente muestra el perfil del profesor
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -6,22 +13,27 @@ import { supabase } from "../../Lib/supabase";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importar AsyncStorage
 
+
 const PerfilProfesor = () => {
+  // Obtenemos el codigo del profesor del contexto
   const { codigoProfesor } = useContext(ClasesContext);
   const [usuario, setUsuario] = useState(null);
   const [fotoPerfil, setFotoPerfil] = useState(null);
   const navigation = useNavigation();
 
+  // Función para obtener los datos del usuario al cargar el componente 
   useEffect(() => {
     const obtenerDatosUsuario = async () => {
       try {
         if (!codigoProfesor) return;
 
+        // SQL sentences
         const { data, error } = await supabase
           .from('usuarios')
           .select('*')
           .eq('Codigo', codigoProfesor);
 
+        // Agregamos un poco de tolerancia a fallos mostrando mensajes de alerta
         if (error) {
           console.error('Error al obtener los datos del usuario:', error);
           return;
@@ -45,6 +57,7 @@ const PerfilProfesor = () => {
     obtenerDatosUsuario();
   }, [codigoProfesor]); // Solo codigoProfesor en la lista de dependencias
 
+  // Función para manejar la acción de editar el perfil del profesor
   const handleEditarPerfil = async () => {
     // Aquí deberías tener la lógica para editar el perfil
     console.log('Editar perfil');
@@ -56,6 +69,7 @@ const PerfilProfesor = () => {
     }
   };
 
+  // Renderizamos el componente
   return (
     <View style={styles.contenido}>
       <View style={styles.header}>
@@ -83,6 +97,7 @@ const PerfilProfesor = () => {
   );
 };
 
+// Definición de los estilos
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
@@ -144,4 +159,5 @@ const styles = StyleSheet.create({
   }
 });
 
+// Exportamos el componente para que pueda ser utilizado en otras partes de la aplicación
 export default PerfilProfesor;

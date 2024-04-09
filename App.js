@@ -1,16 +1,4 @@
 /**
- *  Querido programador
- * 
- * En el momento en el que estamos programando esto solo 
- * nosotros y diosito saben cómo lo hicimos, ahora solo 
- * diosito lo sabe.
- * 
- * Espero puedas programarla y mejorarla
- * 
- * Sí no puedes, incrementa el contador de horas: [ 18 ] hrs.
- */
-
-/**
  * Este archivo App.js define la estructura de navegación 
  * de la aplicación y cómo se relacionan las diferentes 
  * pantallas entre sí. 

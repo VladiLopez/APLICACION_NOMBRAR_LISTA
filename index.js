@@ -1,6 +1,7 @@
 // Importación de componentes y librerías necesarias desde React Native
 import { registerRootComponent } from 'expo';
 
+// Importamos el modulo de ./App
 import App from './App';
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
