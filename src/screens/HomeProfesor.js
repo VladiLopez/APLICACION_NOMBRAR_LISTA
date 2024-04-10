@@ -1,3 +1,7 @@
+/**
+ * Importamos los modulos y componentes necesarios para poder desplegar los elementos visuales
+ */
+
 import React from "react";
 import DrawerNavigation from "./../Navigation/DrawerNavigationProfesor.js";
 

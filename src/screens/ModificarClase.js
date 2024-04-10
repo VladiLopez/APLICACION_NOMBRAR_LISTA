@@ -1,3 +1,6 @@
+/**
+ * Importamos los modulos y los componentes ya programados
+ */
 import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, ImageBackground, TouchableOpacity } from "react-native";
 import { useClases } from "./ClasesContext";

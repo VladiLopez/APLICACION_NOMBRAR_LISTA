@@ -1,5 +1,4 @@
 // Importamos react native y todas las librerias y dependencias necesarias para poder darle estilos y hacer una interfaz más amigable
-
 import React from "react";
 import { StyleSheet, Text, View } from 'react-native';
 

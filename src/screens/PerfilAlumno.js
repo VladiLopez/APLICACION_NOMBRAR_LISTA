@@ -1,3 +1,9 @@
+/**
+ * Componente para mostrar el perfil del alumno.
+ * 
+ * Este componente muestra la información del perfil del alumno, incluyendo su nombre, código y foto de perfil.
+ * Permite al alumno editar su perfil.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -7,11 +13,13 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importar AsyncStorage
 
 const PerfilAlumno = () => {
+  // Obtener el código del profesor del contexto
   const { codigoProfesor } = useContext(ClasesContext);
   const [usuario, setUsuario] = useState(null);
   const [fotoPerfil, setFotoPerfil] = useState(null);
   const navigation = useNavigation();
 
+  // Función para obtener los datos del usuario al cargar el componente
   useEffect(() => {
     const obtenerDatosUsuario = async () => {
       try {
@@ -45,6 +53,7 @@ const PerfilAlumno = () => {
     obtenerDatosUsuario();
   }, [codigoProfesor]); // Solo codigoProfesor en la lista de dependencias
 
+  // Función para manejar la acción de editar el perfil del alumno
   const handleEditarPerfil = async () => {
     // Aquí deberías tener la lógica para editar el perfil
     console.log('Editar perfil');
@@ -56,6 +65,7 @@ const PerfilAlumno = () => {
     }
   };
 
+  // Renderizar el componente
   return (
     <View style={styles.contenido}>
       <View style={styles.header}>
@@ -83,6 +93,7 @@ const PerfilAlumno = () => {
   );
 };
 
+// Estilos de la pantalla
 const styles = StyleSheet.create({
   contenido: {
     flex: 1,
@@ -144,4 +155,5 @@ const styles = StyleSheet.create({
   }
 });
 
+// Exportamos el componente para que pueda ser utilizado en otras partes de la aplicación
 export default PerfilAlumno;

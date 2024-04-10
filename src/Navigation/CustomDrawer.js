@@ -11,15 +11,36 @@ import * as FileSystem from 'expo-file-system';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from "../../Lib/supabase";
 
+/**
+ * Custom drawer component for the application.
+ * 
+ * This component renders the content displayed within the navigation drawer
+ * It includes user profile information, a profile picture selection option
+ * 
+ * @param {object} props -React component properties passed from the parent component. 
+ * @returns -The JSX element representing the custom drawer content
+ */
 const CustomDrawer = (props) => {
+  // Access navigation object for programmatic navigation
   const navigation = useNavigation();
+
+  // Access context data related to classes (implementation not shown)
   const { resetTipoUsuario, codigoProfesor } = useClases();
+
+  // State variables for managing component behavior
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [usuario, setUsuario] = useState(null);
 
+  // Function to log out the user, obtained from ClassesContext
   const { cerrarSesion } = useClases();
 
+  /**
+   * Saves the selected image URI to AsyncStorage with a key based on the user code.
+   * 
+   * @param {string} uri - The URI of the selected image 
+   * @param {string} codigo - The user code. 
+   */
   const saveSelectedImage = async (uri, codigo) => {
     try {
       await AsyncStorage.setItem(`selectedImage_${codigo}`, uri);
@@ -29,6 +50,11 @@ const CustomDrawer = (props) => {
     }
   };
 
+  /**
+   * Retrieves the stored image URI from AsyncStorage based on the user code.
+   * 
+   * @param {string} codigo - The user code. 
+   */
   const getSelectedImage = async (codigo) => {
     try {
       const uri = await AsyncStorage.getItem(`selectedImage_${codigo}`);
@@ -40,7 +66,12 @@ const CustomDrawer = (props) => {
     }
   };
 
+  /**
+   * handles opening the image picker, processing the selected image,
+   * and uploading it to the database.
+   */
   const openImagePickerAsync = async () => {
+    // Request media library permissions
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (permissionResult.granted === false) {
@@ -60,19 +91,23 @@ const CustomDrawer = (props) => {
       const filename = localUri.split('/').pop();
       const newUri = FileSystem.documentDirectory + filename;
 
+      // Copy the image to the app's document directory
       await FileSystem.copyAsync({
         from: localUri,
         to: newUri,
       });
 
+      // Update component state with the new image
       setSelectedImage({ localUri: newUri });
 
+      // Check for existing profile picture in the databases 
       const { data: previousImage, error: previousImageError } = await supabase
         .from('usuario_foto')
         .select('id, path')
         .eq('codigo_foto_fk', codigoProfesor)
         .single();
 
+      // Fault tolerant, manage mistakes
       if (previousImageError) {
       } else if (previousImage) {
         await supabase
@@ -84,6 +119,7 @@ const CustomDrawer = (props) => {
         console.log('No hay imagen anterior para este usuario');
       }
 
+      // succesfull case
       await altaFoto(codigoProfesor, newUri);
       console.log('Foto insertada correctamente en la base de datos');
 
@@ -93,6 +129,12 @@ const CustomDrawer = (props) => {
     }
   };
 
+  /**
+   * Handles loggin the user out by:
+   * - Setting the isAuthenticated state to false.
+   * Calling cerrarSesion from ClassContext to perform any loggout-related task there.
+   * navigation to the Login screen.
+   */
   const handleSignOut = () => {
     setIsAuthenticated(false);
     cerrarSesion();
@@ -100,26 +142,35 @@ const CustomDrawer = (props) => {
   };
 
   useEffect(() => {
+    // If user is not authenticated, redirect to Login screen
     if (!isAuthenticated) {
       props.navigation.navigate('Login');
     }
     
+    /**
+     * Fetches user data and retrieves the storage profile picture URI.
+     * This effect runs once on component mount and whenever
+     * isAuthenticated or codigoProfesor changes.
+     */
     const obtenerDatosUsuario = async () => {
       try {
         if (!codigoProfesor) {
           return;
         }
         
+        // fetch user data from Supabase using codigoProfesor
         const { data, error } = await supabase
           .from('usuarios')
           .select('*')
           .eq('Codigo', codigoProfesor);
   
+        // fault-tolerant, manages errors
         if (error) {
           console.error('Error al obtener los datos del usuario:', error);
           return;
         }
   
+        // Update component state with user data if fetched successfully
         if (data && data.length > 0) {
           setUsuario(data[0]);
         }
@@ -129,9 +180,10 @@ const CustomDrawer = (props) => {
     };
   
     obtenerDatosUsuario();
-    getSelectedImage(codigoProfesor);
+    getSelectedImage(codigoProfesor);// Get stored profile picture URI
   }, [isAuthenticated, codigoProfesor]);
 
+  // Render the component
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: '#8200d6' }}>
@@ -165,4 +217,5 @@ const CustomDrawer = (props) => {
   );
 };
 
+// Export the file to be available to use in another part of the app
 export default CustomDrawer;

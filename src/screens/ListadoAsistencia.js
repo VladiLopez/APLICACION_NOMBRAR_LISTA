@@ -1,3 +1,6 @@
+/**
+ * Importamos los modulos y los componentes exportados de otras partes de la aplicación
+ */
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";

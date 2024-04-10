@@ -1,3 +1,7 @@
+/**
+ * Importamos el modulo de React-native y el DrawerComponent para poder desplegar los elementos visuales
+ */
+
 import React from "react";
 import DrawerNavigation from "./../Navigation/DrawerNavigationaAlumno.js";
 

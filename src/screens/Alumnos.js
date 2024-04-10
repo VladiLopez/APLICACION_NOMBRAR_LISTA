@@ -1,3 +1,19 @@
+/**
+ * Este componente renderiza una tabla de asistencia para una clase especifica, permitiendo al usuario seleccionar una fecha y ver la lista de alumnos que asistieron a esa clase en esa fechs.
+ * 
+ * Cada fila de la tabla muestra el nombre del alumno y la hora en que registraron su asistencia, con colores diferentes según su puntualidad.
+ */
+
+/**
+ * Componente funcional Alumnos.
+ * 
+ * @description Este componente muestra una tabla de asistencia para una clase especifica.
+ * 
+ * Permite al usuario seleccionar una fecha y ver la lista de alumnos que asistieron a esa clase en esa fecha.
+ * La tabla muestra el nombre del alumno y la hora en que registraron su asistencia, con colores diferentes según la puntualidad.
+ * 
+ * @returns {JSX.Element} Elemento JSX que renderiza la tabla de asistencia de los alumnos.
+ */
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
 import { useRoute } from '@react-navigation/native';
@@ -5,6 +21,7 @@ import { useClases } from './ClasesContext';
 import { getCodigos, getAsistencias, getDatosAsistencias } from "../backend/getRegistrosAsistencias";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+// Función para formatear la hora en formato de 24 horas
 const formatHora = (horaString) => {
   try {
     const [hour, minute] = horaString.split(":").map(part => parseInt(part));
@@ -20,8 +37,7 @@ const formatHora = (horaString) => {
   }
 };
 
-
-
+// Componente funcional para cada fila de la tabla asistencia
 const Row = ({ name, horaAsistencia, horaInicio }) => {
   const [color, setColor] = useState(null);
 
@@ -44,7 +60,6 @@ const Row = ({ name, horaAsistencia, horaInicio }) => {
       }
     };
 
-
     const color = calcularColor();
     setColor(color);
   }, [horaAsistencia, horaInicio]);
@@ -54,7 +69,7 @@ const Row = ({ name, horaAsistencia, horaInicio }) => {
     return <ActivityIndicator />;
   }
 
-
+  // Renderiza el componente
   return (
     <View style={styles.row}>
       <Text style={styles.name}>{name}</Text>
@@ -63,7 +78,7 @@ const Row = ({ name, horaAsistencia, horaInicio }) => {
   );
 };
 
-
+// Componente funcional para el circulo que indica la puntualidad
 const Circle = ({color}) => {
   return (
     <View
@@ -79,14 +94,16 @@ const Circle = ({color}) => {
 
 const Alumnos = () => {
   const { clases } = useClases(); 
-  const [nombresApellidos, setNombresApellidos] = useState([]);
+  const [nombresApellidos, setNombresApellidos] = useState([]); // Estado para almacenar los nombres y apellidos de los alumnos
   const [horas, setHoras] = useState([]); // Nuevo estado para almacenar las horas de llegada de los alumnos
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);// Estado para mostrar el selector de fecha
+  const [selectedDate, setSelectedDate] = useState(new Date()); // Estado para almacenar la fecha seleccionada
   const route = useRoute();
 
+  // Obtener la hora de inicio de la clase desde las rutas
   const hora_inicio = route.params.hora;
 
+  // Función para formatear la fecha en el formato YYYY-MM-DD
   const formatDate = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -94,24 +111,26 @@ const Alumnos = () => {
     return `${year}-${month}-${day}`;
   };
 
+// Efecto secundario para cargar los datos de asistencia por fecha al cargar el componente o al cambiar la fecha seleccionada
  useEffect(() => {
     const cargarDatosPorFecha = async () => {
       try {
-        const nrc = route.params.claseNRC;
-        const fecha = formatDate(selectedDate);
-        const asistencias = await getAsistencias(fecha, nrc);
-        setNombresApellidos(asistencias);
+        const nrc = route.params.claseNRC;// Obtener el NRC de la clase desde las rutas
+        const fecha = formatDate(selectedDate);// Formatear la fecha seleccionada
+        const asistencias = await getAsistencias(fecha, nrc);// Obtener los datos de asistencia para la fecha y el NRC especificos
+        setNombresApellidos(asistencias);// Establecer los nombres y apellidos de los alumnos
 
-        const horasAsistencias = await getCodigos(fecha, nrc);
+        const horasAsistencias = await getCodigos(fecha, nrc);// Obtener las horas de llegada de los alumnos
         setHoras(horasAsistencias); // Asegúrate de que se pasen correctamente las horas al estado 'horas'
       } catch (error) {
         console.error('Ocurrió un error al obtener asistencias:', error);
       }
     };
 
-    cargarDatosPorFecha();
-  }, [selectedDate]);
+    cargarDatosPorFecha();// Llamar a la función para cargar los datos de asistencia por fecha
+  }, [selectedDate]); // Dependencia: la fecha seleccionada
 
+  // Renderizamos el componente
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tabla de asistencia {clases[0]?.nombreDeLaClase}</Text>
@@ -150,6 +169,7 @@ const Alumnos = () => {
   );
 };
 
+// Estilos asociados al componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -204,4 +224,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exportar el componente para que pueda ser utilizado en otras partes de la app
 export default Alumnos;

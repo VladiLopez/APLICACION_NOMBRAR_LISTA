@@ -46,17 +46,29 @@ const Inicio = () => {
     setSelectedClass(item);
   };
 
-  // Funcion para manejar la accion de dar de baja una clase
+  /**
+   * Funcion para manejar la accion de dar de baja una clase
+   * 
+   * Esta funcion se encarga de dar de baja una clase seleccionada por el usuario.
+   * Verifica si hay una clase seleccionada ('selectedClass'), y si es  así, realiza
+   * la accion de dar de baja la clase para el usuario identificado por 'codigoUsuario'
+   * Despues de dar de baja la clase, actualiza el estado de las clases ('clases') para
+   * reflejar los cambios, eliminando la clase seleccionada de la lista.
+   * Si no hay clase seleccionada, muestra un mensaje de registro en la consola.
+   *
+   * */
   const handleDarDeBajaClase = () => {
     if (selectedClass) {
   
     const bajaNRC = selectedClass.NRC;
-    handleBajaClaseAlumno(codigoUsuario, bajaNRC);
+    handleBajaClaseAlumno(codigoUsuario, bajaNRC); // Logica para dar de baja la clase para el usuario
    
+    // Ocultar el modal despues de dar de baja la clase
     setModalVisible(false);
 
+    // Filtrar las clases para eliminar la clase dada de baja de la lista.
     const nuevasClases = clases.filter((clase) => clase.NRC !== bajaNRC);
-    setClases(nuevasClases);
+    setClases(nuevasClases);// Actualizar el estado de las clases
 
   } else {
     console.log("No se ha seleccionado ninguna clase para eliminar.");

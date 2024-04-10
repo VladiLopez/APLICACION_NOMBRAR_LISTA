@@ -8,14 +8,11 @@ export const obtenerClasesPorProfesor = async (codigoProfesor) => {
       .eq('codigo_fk', codigoProfesor);
 
     if (error) {
-      
       return [];
     } else {
-      
       return data;
     }
   } catch (error) {
-  
     return [];
   }
 };

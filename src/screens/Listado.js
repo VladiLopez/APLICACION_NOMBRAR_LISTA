@@ -1,3 +1,11 @@
+/**
+ * Componente para generar un listado de profesor.
+ * 
+ * Este componente genera un listado con el código QR del profesor y sus datos asociados,
+ * incluyendo nombre, código y NRC de la clase. Utilizando la librería react-native-qrcode-svg
+ * para generar el código QR a partir del código del profesor y el NRC de la clase.
+ * Los datos del profesor se obtienen mediante una llamada a la función obtenerDatosUsuarioPorCódigocdel backend
+ */
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ImageBackground} from "react-native";
 import QRCode from 'react-native-qrcode-svg';
@@ -5,13 +13,16 @@ import { useRoute } from '@react-navigation/native';
 import { obtenerDatosUsuarioPorCodigo } from "../backend/getRegistrosClases";
 
 const ListadoProfesor = () => {
+  // Obtiene los parámetros de la ruta
   const route = useRoute();
   const codigo = route.params.codigo;
   const nrc = route.params.nrc;
 
+  // Estado para lamacenar los datos del usuario y el NRC de la clase
   const [datosUsuario, setDatosUsuario] = useState(null);
   const [nrcClase, setNrcClase] = useState(null);
 
+  // Cargar los datos del usuario al montar el componente
   useEffect(() => {
     const cargarDatosUsuario = async () => {
       try {
@@ -23,6 +34,7 @@ const ListadoProfesor = () => {
       }
     };
 
+    // Se ejecuta cuando el código del usuario cambia
     cargarDatosUsuario();
   }, [codigo]);
 
@@ -74,4 +86,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exportamos el componente para que pueda ser utilizado en otras partes de la aplicación mediante la importación de los modulos
 export default ListadoProfesor;

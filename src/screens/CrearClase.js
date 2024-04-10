@@ -28,12 +28,11 @@ import{handleAltaRelacion} from "../backend/altaClase";
  * La información se guarda a través del contexto de Clases para su gestión global.
  * 
  * @returns {JSX.Element} Elemento JSX que renderiza la pantalla de la creación de clases.
- */
-
+*/
 const CrearClase = () => {
   // función de navegación proporcionada por React Navigation
   const navigation = useNavigation();
-
+  
   // Funciones y estado del contexto de Clases
   const { agregarClase, codigoProfesor } = useClases();  // Cambié setClases por agregarClase
 
@@ -73,6 +72,7 @@ const CrearClase = () => {
     }
   };
     
+  // Función para registrar una nueva clase
   const handleRegistroMateria = async () => {
     const nuevaClase = {NRC, NombreClase, Seccion, Aula, Hora_inicio, Hora_fin};
   
@@ -106,6 +106,7 @@ const CrearClase = () => {
     verificarRegistroCompleto();
   }, [NombreClase, Seccion, Aula, NRC, Hora_inicio, Hora_fin]);
 
+    // Renderizamos el componente
     return (
       <ImageBackground
         source={require('../../img/background_crearLista.jpg')}
@@ -164,6 +165,7 @@ const CrearClase = () => {
     );
 };
 
+// Estilos asociados al componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -225,4 +227,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exportamos el componente para que pueda ser utilizado en otras partes de la aplicación
 export default CrearClase;
